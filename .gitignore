@@ -1,0 +1,17 @@
+
+*.env
+.VSCodeCounter
+
+
+/mysql_data/
+/wordpress
+/wp-themes
+/wp-uploads
+/wp-logs
+
+# node modules
+wp-plugins/antraktor/node_modules
+
+# dist
+wp-plugins/antraktor/admin/dist
+wp-plugins/antraktor/public/dist

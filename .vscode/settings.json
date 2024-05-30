@@ -1,0 +1,15 @@
+{
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.git": true
+  },
+  "cSpell.words": [
+    "ABSPATH",
+    "antrakt",
+    "ANTRAKTOR",
+    "Kodi",
+    "shortcode",
+    "shortcodes",
+    "wpdb"
+  ]
+}

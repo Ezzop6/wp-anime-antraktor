@@ -1,0 +1,71 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    environment:
+      PGID: 1000
+      PUID: 1000
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+    ports:
+      - ${PORT_MYSQL}:3306
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    depends_on:
+      - mysql
+    environment:
+      PGID: 1000
+      PUID: 1000
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+      - ${PORT_PHP_MY_ADMIN}:80
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    ports:
+      - ${PORT_PG_ADMIN}:80
+    environment:
+      PGID: 1000
+      PUID: 1000
+      PGADMIN_DEFAULT_EMAIL: ee@ee.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    restart: unless-stopped
+
+  wordpress:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wordpress
+    depends_on:
+      - mysql
+    ports:
+      - ${PORT_WORDPRESS}:80
+    environment:
+      PGID: 1000
+      PUID: 1000
+      WORDPRESS_DB_HOST: mysql:${PORT_MYSQL}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      WORDPRESS_DEBUG: ${WORDPRESS_DEBUG}
+
+    volumes:
+      - ./wordpress:/var/www/html
+      - ./wp-uplods:/var/www/html/wp-content/uploads
+      - ./wp-themes:/var/www/html/wp-content/themes
+      - ./wp-plugins:/var/www/html/wp-content/plugins
+
+    restart: unless-stopped
