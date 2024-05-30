@@ -23,11 +23,14 @@ if (isset($_POST['delete_all'])) {
   echo 'All pages deleted!';
 }
 ?>
-<!-- <?php echo do_shortcode('[antraktor_show_api_data api_target=kodi api_query_name=Player.GetActivePlayers]') ?>
-<?php echo '<br>'; ?>
-<?php echo do_shortcode('[antraktor_show_api_data api_target=kodi api_query_name=Player.GetProperties]') ?>
-<?php echo '<br>'; ?>
-<?php echo do_shortcode('[antraktor_show_api_data api_target=kodi api_query_name=Player.GetItemCurrentlyPlaying]') ?> -->
+
+<?php
+$api = do_shortcode('[antraktor_show_api_data api_target=iss_tracking]');
+
+echo '<pre>';
+print_r(json_decode($api));
+echo '</pre>';
+?>
 
 
 </div>

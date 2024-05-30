@@ -51,6 +51,7 @@ class Antraktor {
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/class_antraktor_api_query_loader.php';
 
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/api_variables/class_api_kodi_variables.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'global/query/class_query_kodi.php';
 
 		// Short code loader
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_shortcode_loader.php';

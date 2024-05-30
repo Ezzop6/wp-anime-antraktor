@@ -1,11 +1,11 @@
 <?php
 class AntraktApiCommunicator {
-  public static $targets = array(
-    'kodi' => 'http://10.0.1.100:3333/jsonrpc',
-    'iss_tracking' => 'http://api.open-notify.org/iss-now.json',
-  );
+  public static $kodi_api_url;
+  public static $iss_tracking_url;
 
   public static function init() {
+    self::$kodi_api_url = ApiKodiVariables::$kodi_api_url;
+    self::$iss_tracking_url = 'http://api.open-notify.org/iss-now.json';
   }
 
   public static function send($api_target, $api_query_name) {
@@ -32,28 +32,25 @@ class AntraktApiCommunicator {
   }
 
   public static function send_to_iss_tracking() {
-    $response = wp_remote_get(self::$targets['iss_tracking']);
+    self::init();
+    $response = wp_remote_get(self::$iss_tracking_url);
     return self::validate_response($response);
   }
 
   public static function send_kodi($api_query_name) {
+    self::init();
     //https://kodi.wiki/view/JSON-RPC_API/Examples
     $query = AntraktorApiQueryLoader::get_query('kodi', $api_query_name);
-    $username = 'user'; // 'kodi
-    $password = 'passs'; // 'kodi'
-    $auth = base64_encode("$username:$password");
-
     $response = wp_remote_post(
-      self::$targets['kodi'],
+      self::$kodi_api_url,
       array(
         'body' => $query,
         'headers' => array(
           'Content-Type' => 'application/json',
-          'Authorization' => 'Basic ' . $auth,
+          'Authorization' => 'Basic ' . ApiKodiVariables::$kodi_basic_auth,
         ),
       )
     );
-
     return self::validate_response($response);
   }
 }
