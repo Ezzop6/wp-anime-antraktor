@@ -1,7 +1,7 @@
-<h3>Required vars</h3>
+<h3>Kodi Variables</h3>
 
 
-<?php if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+<?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_type']) && $_POST['form_type'] === 'kodi') {
   ApiKodiVariables::$kodi_user = $_POST['kodi_user'];
   ApiKodiVariables::$kodi_pass = $_POST['kodi_pass'];
   ApiKodiVariables::$kodi_port = $_POST['kodi_port'];
@@ -10,13 +10,13 @@
   AntraktorVariableManager::set_variable(ApiKodiVariables::$db_key_kodi_pass, ApiKodiVariables::$kodi_pass);
   AntraktorVariableManager::set_variable(ApiKodiVariables::$db_key_kodi_port, ApiKodiVariables::$kodi_port);
   AntraktorVariableManager::set_variable(ApiKodiVariables::$db_key_kodi_host, ApiKodiVariables::$kodi_host);
-
+} else {
   ApiKodiVariables::init();
-  echo 'Saved';
 } ?>
 
 
 <form method="post">
+  <input type="hidden" name="form_type" value="kodi" />
   <label for='<?php echo ApiKodiVariables::$db_key_kodi_user; ?>'>Kodi user</label>
   <input type="text" name="kodi_user" value="<?php echo ApiKodiVariables::$kodi_user; ?>" />
   <br />

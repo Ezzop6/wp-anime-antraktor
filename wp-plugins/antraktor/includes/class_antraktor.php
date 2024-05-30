@@ -27,6 +27,7 @@ class Antraktor {
 		echo '<div id="' . ANTRAKTOR_PUBLIC_REACT_DIV . '"></div>';
 		include_once plugin_dir_path(dirname(__FILE__)) . 'public/' . $file_path;
 	}
+
 	private function define_shortcode_hooks() {
 		$shortcode_loader = new AntraktorShortcodeLoader();
 		$this->loader->add_action('init', $shortcode_loader, 'register_shortcodes');
@@ -49,9 +50,13 @@ class Antraktor {
 		// API communicator
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/class_antraktor_api_communicator.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/class_antraktor_api_query_loader.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'global/class_antraktor_api_data_parser.php';
 
+		// API variables classes
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/api_variables/class_api_kodi_variables.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'global/api_variables/class_api_tmdb_variables.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/query/class_query_kodi.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'global/query/class_query_tmdb.php';
 
 		// Short code loader
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_shortcode_loader.php';

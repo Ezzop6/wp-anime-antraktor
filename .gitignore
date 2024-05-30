@@ -2,7 +2,7 @@
 *.env
 .VSCodeCounter
 
-
+**scrap**
 /mysql_data/
 /wordpress
 /wp-themes

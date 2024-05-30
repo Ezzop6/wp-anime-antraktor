@@ -25,10 +25,27 @@ if (isset($_POST['delete_all'])) {
 ?>
 
 <?php
-$api = do_shortcode('[antraktor_show_api_data api_target=iss_tracking]');
 
-echo '<pre>';
-print_r(json_decode($api));
+$api = do_shortcode('[antraktor_show_api_data api_target=kodi api_query_name=' . QueryKodi::$currently_playing . ']');
+
+$data = ApiDataParser::parse_kodi_data($api, QueryKodi::$currently_playing);
+if ($data === false) {
+  echo 'No data';
+  return;
+} else {
+  echo 'Data found';
+  $file = $data->result->item->file;
+  echo "File: $file\n";
+
+  $label = $data->result->item->label;
+  echo "Label: $label\n";
+
+  $videoCodec = $data->result->item->streamdetails->video[0]->codec;
+  echo "Video Codec: $videoCodec\n";
+
+  echo '<pre>';
+}
+
 echo '</pre>';
 ?>
 

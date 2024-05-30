@@ -14,7 +14,7 @@ class AntraktorPageCreator {
   }
 
   public static function create_all_pages() {
-    require_once plugin_dir_path(__FILE__) . 'template/antrakt_template_map.php';
+    require_once plugin_dir_path(__FILE__) . 'page_creator/template/antrakt_template_map.php';
     foreach ($templates as $template) {
       AntraktorPageCreator::create_page(
         $template['file_name'],
@@ -28,7 +28,7 @@ class AntraktorPageCreator {
   }
 
   public static function load_page_template(string $name) {
-    $path = plugin_dir_path(__FILE__) . 'template/' . $name;
+    $path = plugin_dir_path(__FILE__) . 'page_creator/template/' . $name;
     if (!file_exists($path)) {
       throw new Exception('Template not found path: ' . $path);
     } else {

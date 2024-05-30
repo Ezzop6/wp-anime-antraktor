@@ -40,8 +40,7 @@ function activate_antraktor() {
 
 function deactivate_antraktor() {
 	require_once plugin_dir_path(__FILE__) . 'includes/class_antraktor_deactivator.php';
-	$deactivator = new AntraktorDeactivator();
-	$deactivator->deactivate();
+	AntraktorDeactivator::deactivate();
 }
 
 register_activation_hook(__FILE__, 'activate_antraktor');

@@ -2,8 +2,8 @@
 // TODO: better name
 class QueryKodi {
   public static $active_players = 'get_active_players';
-  public static $currently_playing = 'get_item_currently_playing';
-  public static $properties = 'player_get_properties';
+  public static $currently_playing = 'get_currently_playing';
+  public static $properties = 'get_properties';
   public static $api = 'get_api';
 
   public static function get_active_players() {

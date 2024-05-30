@@ -2,7 +2,8 @@
 <?php
 $db_manager = new AntraktorVariableManager();
 
-require_once plugin_dir_path(__FILE__) . 'antraktor_admin_default_variables_page.php';
+require_once plugin_dir_path(__FILE__) . 'antraktor_admin_default_kodi_variables_page.php';
+require_once plugin_dir_path(__FILE__) . 'antraktor_admin_default_tmdb_variables_page.php';
 
 if (isset($_POST['update'])) {
   $db_manager->update_variable($_POST['key'], $_POST['value'], $_POST['id']);
