@@ -15,3 +15,7 @@ wp-plugins/antraktor/node_modules
 # dist
 wp-plugins/antraktor/admin/dist
 wp-plugins/antraktor/public/dist
+
+# plugins 
+wp-plugins/*
+!wp-plugins/antraktor

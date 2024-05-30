@@ -46,11 +46,10 @@ function deactivate_antraktor() {
 register_activation_hook(__FILE__, 'activate_antraktor');
 register_deactivation_hook(__FILE__, 'deactivate_antraktor');
 
-require plugin_dir_path(__FILE__) . 'includes/class_antraktor.php';
+require_once plugin_dir_path(__FILE__) . 'includes/class_antraktor.php';
 
 
 function run_antraktor() {
-
 	$plugin = new Antraktor();
 	$plugin->run();
 }

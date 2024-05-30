@@ -17,15 +17,18 @@ class Antraktor {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 		$this->define_shortcode_hooks();
+		$this->add_rewrite_rules();
 	}
 	public static function admin_react_wrapper(string $file_path) {
-		echo '<div id="' . ANTRAKTOR_ADMIN_REACT_DIV . '"></div>';
+		echo '<div id="' . ANTRAKTOR_ADMIN_REACT_DIV . '">';
 		include_once plugin_dir_path(dirname(__FILE__)) . 'admin/' . $file_path;
+		echo '</div>';
 	}
 
 	public static function public_react_wrapper(string $file_path) {
-		echo '<div id="' . ANTRAKTOR_PUBLIC_REACT_DIV . '"></div>';
+		echo '<div id="' . ANTRAKTOR_PUBLIC_REACT_DIV . '">';
 		include_once plugin_dir_path(dirname(__FILE__)) . 'public/' . $file_path;
+		echo '</div>';
 	}
 
 	private function define_shortcode_hooks() {
@@ -76,8 +79,6 @@ class Antraktor {
 		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
 
 		$this->loader->add_action('admin_menu', $plugin_admin, 'add_admin_menu');
-		$this->loader->add_action('wp_ajax_create_antrakt_movie_db', $plugin_admin, 'create_antrakt_movie_db');
-		$this->loader->add_action('wp_ajax_delete_antrakt_movie_db', $plugin_admin, 'delete_antrakt_movie_db');
 	}
 
 	private function define_public_hooks() {
@@ -85,6 +86,25 @@ class Antraktor {
 		$plugin_public = new AntraktorPublic($this->get_plugin_name(), $this->get_version());
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
+	}
+
+	private function add_rewrite_rules() {
+		add_action('init', function () {
+			add_rewrite_rule('^antraktor?$', 'index.php?antraktor=1', 'top');
+		});
+
+		add_filter('query_vars', function ($query_vars) {
+			$query_vars[] = 'antraktor';
+			return $query_vars;
+		});
+
+		add_action('template_redirect', function () {
+			if (get_query_var('antraktor') == 1) {
+				status_header(200);
+				$this->public_react_wrapper('templates/antraktor_main_page.php');
+				exit;
+			}
+		});
 	}
 
 	public function run() {

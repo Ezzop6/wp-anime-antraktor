@@ -30,6 +30,7 @@ class ApiDataParser {
     if (empty($query)) {
       throw new Exception('No query provided');
     }
+    echo $api_data;
     throw new Exception('Not implemented yet!');
   }
 }

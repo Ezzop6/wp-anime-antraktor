@@ -5,6 +5,7 @@ import "./sass/style.scss";
 
 const container = document.getElementById("antraktor-admin-react-div");
 const root = createRoot(container);
+console.log("Admin Part");
 console.log("Current path: ", window.location.pathname);
 console.log("Full path: ", window.location.href);
 console.log("Root", root);

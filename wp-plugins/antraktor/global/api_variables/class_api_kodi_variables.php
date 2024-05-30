@@ -31,8 +31,10 @@ class ApiKodiVariables {
       'kodi_api_url' => self::$kodi_api_url,
       'kodi_basic_auth' => self::$kodi_basic_auth,
     ];
-    if (in_array(null, $values)) {
-      throw new Exception('Some values are null');
+    foreach ($values as $key => $value) {
+      if ($value === '') {
+        throw new Exception("Kodi variable $key is empty");
+      }
     }
   }
 }

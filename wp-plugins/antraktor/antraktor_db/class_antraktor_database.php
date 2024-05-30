@@ -1,23 +1,23 @@
 <?php
 
 class AntraktorDatabase {
-
-  private $DB;
-  public function __construct() {
+  private static $DB;
+  public static  function init() {
     global $wpdb;
-    $this->DB = $wpdb;
+    self::$DB = $wpdb;
     if (ANTRAKTOR_DEBUG) {
-      $this->DB->show_errors();
+      self::$DB->show_errors();
     }
   }
-  public function load_table_file(string $file_name, string $collate) {
+  public static function load_table_file(string $file_name, string $collate) {
     $file = file_get_contents(plugin_dir_path(__FILE__) . 'schemas/' . $file_name . '.sql');
     $file = str_replace('|DB_PREFIX|',  ANTRAKTOR_DB_PREFIX, $file);
     $file = str_replace('|DB_COLLATE|',  $collate, $file);
     return $file;
   }
-  public function create_antrakt_movie_db() {
-    $charset_collate = $this->DB->get_charset_collate();
+  public static function create_antrakt_movie_db() {
+    self::init();
+    $charset_collate = self::$DB->get_charset_collate();
     $sql_registered_pages = self::load_table_file('registered_pages', $charset_collate);
     $sql_variables =  self::load_table_file('variables', $charset_collate);
     $sql_movies =  self::load_table_file('movies', $charset_collate);
@@ -44,7 +44,8 @@ class AntraktorDatabase {
       echo "Tables created: " . count($all_tables) . "<br>";
     }
   }
-  public function delete_antrakt_movie_db() {
+  public static function delete_antrakt_movie_db() {
+    self::init();
     $all_tables = [
       ANTRAKTOR_DB_PREFIX . 'registered_pages',
       ANTRAKTOR_DB_PREFIX . 'variables',
@@ -57,12 +58,12 @@ class AntraktorDatabase {
 
     foreach ($all_tables as $table) {
       $table_name = array_values((array)$table)[0];
-      $this->DB->query('DROP TABLE ' . $table_name);
+      self::$DB->query('DROP TABLE ' . $table_name);
     }
     if (!ANTRAKTOR_DEBUG) {
       return;
     }
-    $existing_tables = $this->DB->get_results("SHOW TABLES LIKE '" . ANTRAKTOR_DB_PREFIX . "%'");
+    $existing_tables = self::$DB->get_results("SHOW TABLES LIKE '" . ANTRAKTOR_DB_PREFIX . "%'");
     if (empty($existing_tables)) {
       echo "Tables deleted successfully.";
     } else {

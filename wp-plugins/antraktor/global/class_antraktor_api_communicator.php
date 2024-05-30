@@ -12,6 +12,7 @@ class AntraktApiCommunicator {
   }
 
   public static function send($api_target, $api_query_name, $atts) {
+    self::init();
     return match ($api_target) {
       'iss_tracking' => self::send_to_iss_tracking(),
       'kodi' => self::send_to_kodi($api_query_name),
