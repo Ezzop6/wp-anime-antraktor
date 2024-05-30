@@ -2,6 +2,7 @@
 class ParserKodi {
   public static function parse($Kodi_data, $query_name, $debug_print) {
     $Kodi_data = json_decode($Kodi_data, true);
+    self::validate_input($Kodi_data, $query_name);
     return match ($query_name) {
       QueryKodi::$currently_playing => self::get_currently_playing($Kodi_data, $debug_print),
       QueryKodi::$properties => self::get_properties($Kodi_data, $debug_print),
@@ -27,6 +28,15 @@ class ParserKodi {
       self::debug_print($parsed_data);
     }
     return $parsed_data;
+  }
+
+  public static function validate_input($Kodi_data, $query_name) {
+    if (empty($Kodi_data)) {
+      throw new Exception('Empty data in ParserKodi::validate_input() method');
+    }
+    if (empty($query_name)) {
+      throw new Exception('Empty query name in ParserKodi::validate_input() method');
+    }
   }
 
   public static function debug_print($result) {

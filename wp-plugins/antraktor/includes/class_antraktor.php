@@ -19,15 +19,6 @@ class Antraktor {
 		$this->define_shortcode_hooks();
 		$this->add_rewrite_rules();
 	}
-	public static function admin_react_wrapper(string $file_path) {
-		echo '<div id="' . ANTRAKTOR_ADMIN_REACT_DIV . '"></div>';
-		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/' . $file_path;
-	}
-
-	public static function public_react_wrapper(string $file_path) {
-		echo '<div id="' . ANTRAKTOR_PUBLIC_REACT_DIV . '"></div>';
-		require_once plugin_dir_path(dirname(__FILE__)) . 'public/' . $file_path;
-	}
 
 	private function define_shortcode_hooks() {
 		$shortcode_loader = new AntraktorShortcodeLoader();
@@ -104,7 +95,7 @@ class Antraktor {
 			}
 			status_header(200);
 			// require_once plugin_dir_path(dirname(__FILE__)) . 'public/templates/antraktor_main_page.php';
-			$this->public_react_wrapper('templates/antraktor_main_page.php');
+			HelperScripts::public_react_wrapper('templates/antraktor_main_page.php');
 			exit;
 		});
 	}

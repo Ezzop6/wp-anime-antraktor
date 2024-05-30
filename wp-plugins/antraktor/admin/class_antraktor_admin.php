@@ -36,20 +36,20 @@ class AntraktorAdmin {
 	}
 
 	public function antraktor_admin_display_page() {
-		Antraktor::admin_react_wrapper('partials/antraktor_admin_react_div.php');
+		HelperScripts::admin_react_wrapper('partials/antraktor_admin_react_div.php');
 	}
 
 
 	public function antraktor_variables_page() {
-		Antraktor::admin_react_wrapper('partials/antraktor_admin_variables_page.php');
+		HelperScripts::admin_react_wrapper('partials/antraktor_admin_variables_page.php');
 	}
 
 	public function antraktor_db_page() {
-		Antraktor::admin_react_wrapper('partials/antraktor_admin_db_page.php');
+		HelperScripts::admin_react_wrapper('partials/antraktor_admin_db_page.php');
 	}
 
 	public function antraktor_testing_playground_page() {
-		Antraktor::admin_react_wrapper('partials/antraktor_admin_testing_playground_page.php');
+		HelperScripts::admin_react_wrapper('partials/antraktor_admin_testing_playground_page.php');
 	}
 
 	public function delete_antrakt_movie_db() {
