@@ -20,15 +20,13 @@ class Antraktor {
 		$this->add_rewrite_rules();
 	}
 	public static function admin_react_wrapper(string $file_path) {
-		echo '<div id="' . ANTRAKTOR_ADMIN_REACT_DIV . '">';
-		include_once plugin_dir_path(dirname(__FILE__)) . 'admin/' . $file_path;
-		echo '</div>';
+		echo '<div id="' . ANTRAKTOR_ADMIN_REACT_DIV . '"></div>';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/' . $file_path;
 	}
 
 	public static function public_react_wrapper(string $file_path) {
-		echo '<div id="' . ANTRAKTOR_PUBLIC_REACT_DIV . '">';
-		include_once plugin_dir_path(dirname(__FILE__)) . 'public/' . $file_path;
-		echo '</div>';
+		echo '<div id="' . ANTRAKTOR_PUBLIC_REACT_DIV . '"></div>';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'public/' . $file_path;
 	}
 
 	private function define_shortcode_hooks() {
@@ -37,6 +35,8 @@ class Antraktor {
 	}
 
 	private function load_dependencies() {
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_helper_scripts.php';
+
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_loader.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_i18n.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'admin/class_antraktor_admin.php';
@@ -90,7 +90,7 @@ class Antraktor {
 
 	private function add_rewrite_rules() {
 		add_action('init', function () {
-			add_rewrite_rule('^antraktor?$', 'index.php?antraktor=1', 'top');
+			add_rewrite_rule('antraktor/([a-z0-9-]+)[/]?$', 'index.php?antraktor=$matches[1]', 'top');
 		});
 
 		add_filter('query_vars', function ($query_vars) {
@@ -98,12 +98,14 @@ class Antraktor {
 			return $query_vars;
 		});
 
-		add_action('template_redirect', function () {
-			if (get_query_var('antraktor') == 1) {
-				status_header(200);
-				$this->public_react_wrapper('templates/antraktor_main_page.php');
-				exit;
+		add_action('template_redirect', function ($template) {
+			if (get_query_var('antraktor') == false || get_query_var('antraktor') == '') {
+				return $template;
 			}
+			status_header(200);
+			// require_once plugin_dir_path(dirname(__FILE__)) . 'public/templates/antraktor_main_page.php';
+			$this->public_react_wrapper('templates/antraktor_main_page.php');
+			exit;
 		});
 	}
 

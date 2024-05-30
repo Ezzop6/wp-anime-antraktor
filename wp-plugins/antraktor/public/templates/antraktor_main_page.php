@@ -1,6 +1,6 @@
 <?php
-echo '<div class="wrap"><h1>Currently Playing</h1>';
 get_header();
+echo '<div class="wrap"><h1>Currently Playing</h1>';
 try {
   $api_data_kodi = do_shortcode('[antraktor_show_api_data api_target=kodi api_query_name=' . QueryKodi::$currently_playing . ']');
   $data = ApiDataParser::parse_kodi_data($api_data_kodi, QueryKodi::$currently_playing);

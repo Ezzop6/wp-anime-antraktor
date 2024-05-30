@@ -9,14 +9,19 @@ class AntraktorAdmin {
 	}
 
 	public function enqueue_styles() {
-		wp_enqueue_style($this->plugin_name . '-admin-css', plugin_dir_url(__FILE__) . 'dist/style.css', array(), $this->version, 'all');
-		wp_enqueue_style($this->plugin_name . '-admin-dist-css', plugin_dir_url(__FILE__) . 'css/antraktor_admin.css', array(), $this->version, 'all');
+
+		$version_dist = HelperScripts::get_file_version(plugin_dir_path(__FILE__) . 'dist/style.css');
+		$version_css = HelperScripts::get_file_version(plugin_dir_path(__FILE__) . 'css/antraktor_admin.css');
+		wp_enqueue_style($this->plugin_name . '-admin-css', plugin_dir_url(__FILE__) . 'css/antraktor_admin.css', array(), $version_css, 'all');
+		wp_enqueue_style($this->plugin_name . '-admin-dist-css', plugin_dir_url(__FILE__) . 'dist/style.css', array(), $version_dist, 'all');
 	}
 
 
 	public function enqueue_scripts() {
-		wp_enqueue_script($this->plugin_name . '-admin-dist-js', plugin_dir_url(__FILE__) . 'dist/bundle.js', array('jquery'), $this->version, true);
-		wp_enqueue_script($this->plugin_name . '-admin-js', plugin_dir_url(__FILE__) . 'js/antraktor_admin.js', array('jquery'), $this->version, true);
+		$version_dist = HelperScripts::get_file_version(plugin_dir_path(__FILE__) . 'dist/bundle.js');
+		$version_js = HelperScripts::get_file_version(plugin_dir_path(__FILE__) . 'js/antraktor_admin.js');
+		wp_enqueue_script($this->plugin_name . '-admin-dist-js', plugin_dir_url(__FILE__) . 'dist/bundle.js', array(), $version_dist, true);
+		wp_enqueue_script($this->plugin_name . '-admin-js', plugin_dir_url(__FILE__) . 'js/antraktor_admin.js', array('jquery'), $version_js, true);
 	}
 
 

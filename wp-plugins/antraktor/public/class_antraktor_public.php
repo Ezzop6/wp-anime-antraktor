@@ -14,11 +14,16 @@ class AntraktorPublic {
 	}
 
 	public function enqueue_styles() {
-		wp_enqueue_style($this->plugin_name . '-public-dist-css', plugin_dir_url(__FILE__) . 'dist/style.css', array(), $this->version, 'all');
-		wp_enqueue_style($this->plugin_name . '-public-css', plugin_dir_url(__FILE__) . 'css/antraktor_public.css', array(), $this->version, 'all');
+		$file_dist = HelperScripts::get_file_version(plugin_dir_path(__FILE__) . 'dist/style.css');
+		$file_css = HelperScripts::get_file_version(plugin_dir_path(__FILE__) . 'css/antraktor_public.css');
+		wp_enqueue_style($this->plugin_name . '-public-dist-css', plugin_dir_url(__FILE__) . 'dist/style.css', array(), $file_dist, 'all');
+		wp_enqueue_style($this->plugin_name . '-public-css', plugin_dir_url(__FILE__) . 'css/antraktor_public.css', array(), $file_css, 'all');
 	}
+
 	public function enqueue_scripts() {
-		wp_enqueue_script($this->plugin_name . '-public-dist-js', plugin_dir_url(__FILE__) . 'dist/bundle.js', array(), $this->version, true);
-		wp_enqueue_script($this->plugin_name . '-public-js', plugin_dir_url(__FILE__) . 'js/antraktor_public.js', array('jquery'), $this->version, true);
+		$file_dist = HelperScripts::get_file_version(plugin_dir_path(__FILE__) . 'dist/bundle.js');
+		$file_js = HelperScripts::get_file_version(plugin_dir_path(__FILE__) . 'js/antraktor_public.js');
+		wp_enqueue_script($this->plugin_name . '-public-dist-js', plugin_dir_url(__FILE__) . 'dist/bundle.js', array(), $file_dist, true);
+		wp_enqueue_script($this->plugin_name . '-public-js', plugin_dir_url(__FILE__) . 'js/antraktor_public.js', array('jquery'), $file_js, true);
 	}
 }
