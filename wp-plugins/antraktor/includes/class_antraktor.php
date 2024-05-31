@@ -45,6 +45,8 @@ class Antraktor {
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/class_antraktor_api_communicator.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/class_antraktor_api_query_loader.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/class_antraktor_api_data_parser.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'global/class_antraktor_image_downloader.php';
+
 
 		// API variables classes
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/api_variables/class_api_kodi_variables.php';

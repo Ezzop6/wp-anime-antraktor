@@ -8,8 +8,8 @@
     }
     $api_data = json_decode($api_data);
     return match ($query_name) {
-      QueryTmdb::$get_movie => self::get_movie($api_data, $debug_print),
-      QueryTmdb::$get_movie_details => self::get_movie_details($api_data, $debug_print),
+      QueryTmdb::$get_movie_by_name => self::get_movie($api_data, $debug_print),
+      QueryTmdb::$get_movie_details_by_id => self::get_movie_details($api_data, $debug_print),
       default => throw new Exception('Query name not found : ' . $query_name . ' in ParserTmdb::parse() method'),
     };
   }

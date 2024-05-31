@@ -20,8 +20,8 @@ class AntraktorApiQueryLoader {
   }
   public static function tmdb_query(string $api_query_name, $atts) {
     return match ($api_query_name) {
-      QueryTmdb::$get_movie => QueryTmdb::get_movie($atts),
-      QueryTmdb::$get_movie_details => QueryTmdb::get_movie_details($atts),
+      QueryTmdb::$get_movie_by_name => QueryTmdb::get_movie_by_name($atts),
+      QueryTmdb::$get_movie_details_by_id => QueryTmdb::get_movie_details_by_id($atts),
       default => throw new Exception('Invalid Tmdb query name: ' . $api_query_name . ' ' . $atts['movie_name']),
     };
   }
