@@ -51,10 +51,13 @@ class Antraktor {
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/api_variables/class_api_tmdb_variables.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/query/class_query_kodi.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/query/class_query_tmdb.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'global/query/class_query_iss.php';
 
 		// Short code loader
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_shortcode_loader.php';
 
+		// Rewrite rule
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_rewrite_rule.php';
 		$this->loader = new AntraktorLoader();
 	}
 
@@ -79,25 +82,11 @@ class Antraktor {
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
 	}
 
+	// Add rewrite rules for the public paths /antraktor/...
 	private function add_rewrite_rules() {
-		add_action('init', function () {
-			add_rewrite_rule('antraktor/([a-z0-9-]+)[/]?$', 'index.php?antraktor=$matches[1]', 'top');
-		});
-
-		add_filter('query_vars', function ($query_vars) {
-			$query_vars[] = 'antraktor';
-			return $query_vars;
-		});
-
-		add_action('template_redirect', function ($template) {
-			if (get_query_var('antraktor') == false || get_query_var('antraktor') == '') {
-				return $template;
-			}
-			status_header(200);
-			// require_once plugin_dir_path(dirname(__FILE__)) . 'public/templates/antraktor_main_page.php';
-			HelperScripts::public_react_wrapper('templates/antraktor_main_page.php');
-			exit;
-		});
+		AntraktorRewriteRule::add_rewrite_rules();
+		AntraktorRewriteRule::add_new_redirection('index', 'templates/antraktor_index.php');
+		AntraktorRewriteRule::add_new_redirection('now-playing', 'templates/antraktor_now_playing.php');
 	}
 
 	public function run() {

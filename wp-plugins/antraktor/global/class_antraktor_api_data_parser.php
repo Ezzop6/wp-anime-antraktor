@@ -1,36 +1,26 @@
 <?php
 
 class ApiDataParser {
-  public static function parse_iss_tracking_data($api_data,  $debug_print = false) {
-    if (empty($api_data)) {
-      throw new Exception('No data provided');
-    }
+  public static function parse($query_type, $api_data, $query_name, $debug_print = false) {
+    return match ($query_type) {
+      QueryIss::class => self::parse_iss_data($api_data, $debug_print),
+      QueryKodi::class => self::parse_kodi_data($api_data, $query_name, $debug_print),
+      QueryTmdb::class => self::parse_tmdb_data($api_data, $query_name, $debug_print),
+      default => throw new Exception('Query type not found : ' . $query_type . ' in ApiDataParser::parse() method'),
+    };
+  }
+  public static function parse_iss_data($api_data,  $debug_print = false): IssCurrentLocation {
     require_once 'parser/class_parser_iss_tracking.php';
-    return ParserIssTracking::parse($api_data, $debug_print, $debug_print);
+    return ParserIss::parse($api_data, $debug_print);
   }
 
   public static function parse_kodi_data($api_data, $query_name, $debug_print = false) {
-    if (empty($api_data)) {
-      throw new Exception('No data provided');
-    }
-    if (empty($query_name)) {
-      throw new Exception('No query name provided');
-    }
     require_once 'parser/class_parser_kodi.php';
     return ParserKodi::parse($api_data, $query_name, $debug_print);
   }
 
-  public static function parse_tmdb_data($api_data, $query_name, $query, $debug_print = false) {
-    if (empty($api_data)) {
-      throw new Exception('No data provided');
-    }
-    if (empty($query_name)) {
-      throw new Exception('No query name provided');
-    }
-    if (empty($query)) {
-      throw new Exception('No query provided');
-    }
-    echo $api_data;
-    throw new Exception('Not implemented yet!');
+  public static function parse_tmdb_data($api_data, $query_name, $debug_print = false) {
+    require_once 'parser/class_parser_tmdb.php';
+    return ParserTmdb::parse($api_data, $query_name,  $debug_print);
   }
 }

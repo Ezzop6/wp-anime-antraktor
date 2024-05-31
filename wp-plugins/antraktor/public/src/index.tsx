@@ -10,5 +10,9 @@ if (container) {
   console.log("Current path: ", window.location.pathname);
   console.log("Full path: ", window.location.href);
   console.log("Root", root);
-  root.render(<App />);
+  // const originalContent = container.innerHTML;
+  // const dangerouslySetInnerHTML = (content: string) => ({ __html: content });
+  // root.render(
+  //   <div dangerouslySetInnerHTML={dangerouslySetInnerHTML(originalContent)} />
+  // );
 }

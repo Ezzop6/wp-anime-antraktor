@@ -1,10 +1,10 @@
 <?php
 // TODO: better name
 class QueryKodi {
-  public static $active_players = 'get_active_players';
-  public static $currently_playing = 'get_currently_playing';
-  public static $properties = 'get_properties';
-  public static $api = 'get_api';
+  public static $player_get_active_players = 'Player.GetActivePlayers';
+  public static $player_get_item = 'Player.GetItem';
+  public static $player_get_properties = 'Player.GetProperties';
+  public static $JSONRPC_INTROSPECT = 'JSONRPC.Introspect';
 
   public static function get_active_players() {
     return json_encode(array(
@@ -14,14 +14,14 @@ class QueryKodi {
     ));
   }
 
-  public static function get_item_currently_playing(int $player_id = 1) {
+  public static function player_get_item(int $player_id = 1) {
     return json_encode(array(
       'id' => 1,
       'jsonrpc' => '2.0',
       'method' => 'Player.GetItem',
       'params' => array(
         'playerid' => $player_id,
-        'properties' => array('title', 'album', 'artist', 'season', 'episode', 'duration', 'showtitle', 'tvshowid', 'thumbnail', 'file', 'fanart', 'streamdetails')
+        'properties' => array('title',  'season', 'episode', 'duration', 'showtitle', 'file', 'fanart')
       )
     ));
   }
@@ -33,7 +33,7 @@ class QueryKodi {
       'method' => 'Player.GetProperties',
       'params' => array(
         'playerid' => $player_id,
-        'properties' => array('time', 'percentage')
+        'properties' => array('time', 'percentage', 'totaltime', 'subtitles', 'videostreams')
       )
     ));
   }

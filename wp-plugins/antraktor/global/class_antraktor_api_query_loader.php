@@ -10,18 +10,18 @@ class AntraktorApiQueryLoader {
 
   public static function kodi_query(string $api_query_name) {
     return match ($api_query_name) {
-      QueryKodi::$currently_playing => QueryKodi::get_item_currently_playing(),
-      QueryKodi::$active_players => QueryKodi::get_active_players(),
-      QueryKodi::$properties => QueryKodi::player_get_properties(),
-      QueryKodi::$api => QueryKodi::get_api(),
-      default => throw new Exception('Invalid Kodi query name'),
+      QueryKodi::$player_get_item => QueryKodi::player_get_item(),
+      QueryKodi::$player_get_active_players => QueryKodi::get_active_players(),
+      QueryKodi::$player_get_properties => QueryKodi::player_get_properties(),
+      QueryKodi::$JSONRPC_INTROSPECT => QueryKodi::get_api(),
+      default => throw new Exception('Invalid Kodi query name: ' . $api_query_name ?? 'null'),
     };
   }
   public static function tmdb_query(string $api_query_name, $atts) {
     return match ($api_query_name) {
-      QueryTmdb::$movie => QueryTmdb::get_movie($atts),
-      QueryTmdb::$movie_details => QueryTmdb::get_movie_details($atts),
-      default => throw new Exception('Invalid Tmdb query name'),
+      QueryTmdb::$get_movie => QueryTmdb::get_movie($atts),
+      QueryTmdb::$get_movie_details => QueryTmdb::get_movie_details($atts),
+      default => throw new Exception('Invalid Tmdb query name: ' . $api_query_name . ' ' . $atts['movie_name']),
     };
   }
 }

@@ -4,6 +4,9 @@ class AntraktApiCommunicator {
   public static $iss_tracking_url;
   public static $tmdb_api_url;
 
+  public static $target_iss = 'iss_tracking';
+  public static $target_kodi = 'kodi';
+  public static $target_tmdb = 'tmdb';
 
   public static function init() {
     self::$kodi_api_url = ApiKodiVariables::$kodi_api_url;
@@ -14,14 +17,14 @@ class AntraktApiCommunicator {
   public static function send($api_target, $api_query_name, $atts) {
     self::init();
     return match ($api_target) {
-      'iss_tracking' => self::send_to_iss_tracking(),
-      'kodi' => self::send_to_kodi($api_query_name),
-      'tmdb' => self::send_to_tmdb($api_query_name, $atts),
-      default => false,
+      self::$target_iss => self::send_to_iss_tracking(),
+      self::$target_kodi => self::send_to_kodi($api_query_name),
+      self::$target_tmdb => self::send_to_tmdb($api_query_name, $atts),
+      default => throw new Exception('Invalid API target'),
     };
   }
 
-  public static function validate_response($response) {
+  public static function validate_response($response): string {
     if (is_wp_error($response)) {
       return $response->get_error_message();
     }
@@ -37,7 +40,6 @@ class AntraktApiCommunicator {
       );
       throw new Exception(json_encode($error));
     }
-
     return wp_remote_retrieve_body($response);
   }
 
@@ -47,7 +49,7 @@ class AntraktApiCommunicator {
     return self::validate_response($response);
   }
 
-  public static function send_to_kodi($api_query_name) {
+  public static function send_to_kodi($api_query_name): string {
     self::init();
     //https://kodi.wiki/view/JSON-RPC_API/Examples
     $query = AntraktorApiQueryLoader::get_query('kodi', $api_query_name);
@@ -63,7 +65,7 @@ class AntraktApiCommunicator {
     );
     return self::validate_response($response);
   }
-  public static function send_to_tmdb($api_query_name, $atts) {
+  public static function send_to_tmdb($api_query_name, $atts): string {
     // https://developer.themoviedb.org/reference/intro/getting-started
     self::init();
     $query = AntraktorApiQueryLoader::get_query('tmdb', $api_query_name, $atts);

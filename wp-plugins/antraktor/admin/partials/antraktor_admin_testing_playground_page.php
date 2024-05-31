@@ -26,10 +26,9 @@ if (isset($_POST['delete_all'])) {
 
 <?php
 
-$api = do_shortcode('[antraktor_show_api_data api_target=kodi api_query_name=' . QueryKodi::$currently_playing . ']');
+// $api = do_shortcode('[antraktor_show_api_data api_target=kodi api_query_name=' . QueryKodi::$player_get_item . ']');
 // echo json_decode($api);
 // $data = ApiDataParser::parse_kodi_data($api, QueryKodi::$currently_playing);
-echo '<pre>';
 // print_r($data);
 // var_dump($data);
 // if ($data === false) {
