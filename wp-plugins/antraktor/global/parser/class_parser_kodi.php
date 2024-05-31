@@ -1,13 +1,13 @@
 <?php
 class ParserKodi {
-  public static function parse($Kodi_data, $query_name, $debug_print) {
+  public static function parse($api_data, $query_name, $debug_print) {
     if (empty($api_data)) {
-      throw new Exception('No data provided');
+      throw new Exception('No data provided in ParserKodi::parse() method');
     }
     if (empty($query_name)) {
       throw new Exception('No query name provided');
     }
-    $Kodi_data = json_decode($Kodi_data);
+    $Kodi_data = json_decode($api_data);
     self::validate_input($Kodi_data, $query_name);
     return match ($query_name) {
       QueryKodi::$player_get_item => self::player_get_item($Kodi_data, $debug_print),

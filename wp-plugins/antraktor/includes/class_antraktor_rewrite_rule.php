@@ -30,8 +30,8 @@ class AntraktorRewriteRule {
       }
     });
   }
-  public static function add_new_redirection($url_path, $template, $react = false) {
+  public static function add_new_redirection($url_path, $template, $react_wrapper = false) {
     self::$registered_paths[$url_path] = $template;
-    self::$registered_paths_react_div[$url_path] = $react;
+    self::$registered_paths_react_div[$url_path] = $react_wrapper;
   }
 }

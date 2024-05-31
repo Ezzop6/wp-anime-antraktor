@@ -15,4 +15,23 @@ class HelperScripts {
     echo '<div id="' . ANTRAKTOR_PUBLIC_REACT_DIV . '"></div>';
     require_once plugin_dir_path(dirname(__FILE__)) . 'public/' . $file_path;
   }
+
+  public static function print_json($json) {
+    echo '<pre>';
+    print_r($json);
+    echo '</pre>';
+  }
+
+  public static function print_all_object_attributes($object) {
+    $reflectionClass = new ReflectionClass(get_class($object));
+    $properties = $reflectionClass->getProperties();
+
+    echo "Attributes of " . get_class($object) . ":<br>";
+    foreach ($properties as $property) {
+      $property->setAccessible(true);
+
+      $value = $property->getValue($property->isStatic() ? null : $object);
+      echo $property->getName() . ": " . $value . "<br>";
+    }
+  }
 }

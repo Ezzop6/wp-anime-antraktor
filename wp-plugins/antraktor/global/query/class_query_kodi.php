@@ -6,7 +6,7 @@ class QueryKodi {
   public static $player_get_properties = 'Player.GetProperties';
   public static $JSONRPC_INTROSPECT = 'JSONRPC.Introspect';
 
-  public static function get_active_players() {
+  public static function player_get_active_players() {
     return json_encode(array(
       'id' => 1,
       'jsonrpc' => '2.0',

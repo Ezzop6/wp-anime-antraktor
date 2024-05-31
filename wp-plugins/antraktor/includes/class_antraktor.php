@@ -49,9 +49,13 @@ class Antraktor {
 		// API variables classes
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/api_variables/class_api_kodi_variables.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/api_variables/class_api_tmdb_variables.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'global/api_variables/class_api_anilist_variables.php';
+
+		// API query classes
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/query/class_query_kodi.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/query/class_query_tmdb.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/query/class_query_iss.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'global/query/class_query_anilist.php';
 
 		// Short code loader
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_shortcode_loader.php';

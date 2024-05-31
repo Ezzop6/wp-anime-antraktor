@@ -1,25 +1,29 @@
 <?php
-class AntraktApiCommunicator {
+class ApiCommunicator {
   public static $kodi_api_url;
   public static $iss_tracking_url;
   public static $tmdb_api_url;
+  public static $anilist_api_url;
 
   public static $target_iss = 'iss_tracking';
   public static $target_kodi = 'kodi';
   public static $target_tmdb = 'tmdb';
+  public static $target_anilist = 'anilist';
 
   public static function init() {
     self::$kodi_api_url = ApiKodiVariables::$kodi_api_url;
     self::$iss_tracking_url = 'http://api.open-notify.org/iss-now.json';
     self::$tmdb_api_url = 'https://api.themoviedb.org/3';
+    self::$anilist_api_url = 'https://graphql.anilist.co';
   }
 
-  public static function send($api_target, $api_query_name, $atts) {
+  public static function send($api_target, $api_query_name, $atts = array()) {
     self::init();
     return match ($api_target) {
       self::$target_iss => self::send_to_iss_tracking(),
       self::$target_kodi => self::send_to_kodi($api_query_name),
       self::$target_tmdb => self::send_to_tmdb($api_query_name, $atts),
+      self::$target_anilist => self::send_to_anilist($api_query_name, $atts),
       default => throw new Exception('Invalid API target'),
     };
   }
@@ -74,6 +78,24 @@ class AntraktApiCommunicator {
       array(
         'headers' => array(
           'Authorization' => 'Bearer ' . ApiTmdbVariables::$access_token,
+        ),
+      )
+    );
+    return self::validate_response($response);
+  }
+
+  public static function send_to_anilist($api_query_name, $atts): string {
+    // https://anilist.gitbook.io/anilist-apiv2-docs/
+    self::init();
+    $query = AntraktorApiQueryLoader::get_query('anilist', $api_query_name, $atts);
+    $response = wp_remote_post(
+      self::$anilist_api_url,
+      array(
+        'body' => $query,
+        'headers' => array(
+          'Content-Type' => 'application/json',
+          'Accept' => 'application/json',
+          'Authorization' => 'Bearer ' . ApiAnilistVariables::$client_acc_token,
         ),
       )
     );

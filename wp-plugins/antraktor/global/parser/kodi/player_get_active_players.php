@@ -12,4 +12,8 @@ class PlayerGetActivePlayers {
   public static function init($data) {
     return new self($data);
   }
+
+  public static function is_playing(): bool {
+    return self::$player_id !== null;
+  }
 }
