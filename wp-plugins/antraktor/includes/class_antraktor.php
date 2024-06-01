@@ -20,11 +20,11 @@ class Antraktor {
 		$this->add_rewrite_rules();
 		$this->define_api_hooks();
 	}
-
 	private function define_shortcode_hooks() {
 		ShortcodeLoader::register_shortcodes('antraktor_show_api_data', [ShortcodeLoader::class, 'antraktor_show_api_data']);
 		ShortcodeLoader::register_shortcodes('get_progress_bar_html', [ShortcodeLoader::class, 'get_progress_bar_html']);
 		ShortcodeLoader::register_shortcodes('get_currently_playing_html', [ShortcodeLoader::class, 'get_currently_playing_html']);
+		ShortcodeLoader::register_shortcodes('debug_currently_played_info', [ShortcodeLoader::class, 'debug_currently_played_info']);
 	}
 
 	private function load_dependencies() {
@@ -39,6 +39,7 @@ class Antraktor {
 		require_once plugin_dir_path(dirname(__FILE__)) . 'antraktor_db/class_antraktor_database.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'antraktor_db/database_parts/class_antraktor_variable_manager.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'antraktor_db/database_parts/class_antraktor_page_manager.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'antraktor_db/database_parts/class_antraktor_movie_manager.php';
 
 		// Page creator
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_page_creator.php';

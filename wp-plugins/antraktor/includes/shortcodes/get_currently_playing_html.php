@@ -50,6 +50,9 @@ function get_currently_playing_html() {
   $backdrop_image = ImageDownloader::get_url(ImageDownloader::$target_tmdb_thumbnail, $details::$backdrop_path, 500);
   $poster_image = ImageDownloader::get_url(ImageDownloader::$target_tmdb_thumbnail, $details::$poster_path, 500);
 
+  $full_backdrop_image = ImageDownloader::get_url(ImageDownloader::$target_tmdb_original, $get_series::$backdrop_path);
+  $full_poster_image = ImageDownloader::get_url(ImageDownloader::$target_tmdb_original, $get_series::$poster_path);
+
   return <<<HTML
   <section class="antrakt-currently-playing">
       <h3>Playing: $show_title </h3>
@@ -59,9 +62,13 @@ function get_currently_playing_html() {
       </div>
         <p>$overview</p>
         <p>Rating: $vote_average ($vote_count votes)</p>
-      <div>
-        <img src="$backdrop_image" alt="backdrop">
-        <img src="$poster_image" alt="poster">
+        <div>
+        <a href="$full_backdrop_image">
+          <img src="$backdrop_image" alt="backdrop">
+        </a>
+        <a href="$full_poster_image">
+          <img src="$poster_image" alt="poster">
+        </a>
       </div>
   </section>
   HTML;

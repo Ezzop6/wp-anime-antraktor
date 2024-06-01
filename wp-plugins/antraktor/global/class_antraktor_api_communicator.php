@@ -48,6 +48,7 @@ class ApiCommunicator {
 
   public static function send_to_kodi($api_query_name): string {
     //https://kodi.wiki/view/JSON-RPC_API/Examples
+    ApiKodiVariables::check_kodi_variables();
     $response = wp_remote_post(
       self::$kodi_api_url,
       array(

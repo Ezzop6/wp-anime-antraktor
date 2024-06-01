@@ -28,7 +28,6 @@ class ApiKodiVariables {
       'kodi_pass' => self::$kodi_pass,
       'kodi_port' => self::$kodi_port,
       'kodi_host' => self::$kodi_host,
-      'kodi_api_url' => self::$kodi_api_url,
       'kodi_basic_auth' => self::$kodi_basic_auth,
     ];
     foreach ($values as $key => $value) {
