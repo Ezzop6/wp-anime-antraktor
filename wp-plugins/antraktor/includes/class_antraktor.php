@@ -22,8 +22,9 @@ class Antraktor {
 	}
 
 	private function define_shortcode_hooks() {
-		$shortcode_loader = new AntraktorShortcodeLoader();
-		$this->loader->add_action('init', $shortcode_loader, 'register_shortcodes');
+		ShortcodeLoader::register_shortcodes('antraktor_show_api_data', [ShortcodeLoader::class, 'antraktor_show_api_data']);
+		ShortcodeLoader::register_shortcodes('get_progress_bar_html', [ShortcodeLoader::class, 'get_progress_bar_html']);
+		ShortcodeLoader::register_shortcodes('get_currently_playing_html', [ShortcodeLoader::class, 'get_currently_playing_html']);
 	}
 
 	private function load_dependencies() {
@@ -99,6 +100,7 @@ class Antraktor {
 		AntraktorRewriteRule::add_rewrite_rules();
 		AntraktorRewriteRule::add_new_redirection('index', 'templates/antraktor_index.php');
 		AntraktorRewriteRule::add_new_redirection('now-playing', 'templates/antraktor_now_playing.php');
+		AntraktorRewriteRule::add_new_redirection('find-movie', 'templates/antraktor_find_movie_info.php');
 	}
 
 	public function run() {

@@ -36,10 +36,10 @@ class HelperScripts {
         $value = json_encode($value);
       }
       echo $property->getName() . ": " . htmlspecialchars($value) . "<br>";
-
-      if ($die) {
-        die();
-      }
+    }
+    echo "<br><br>";
+    if ($die) {
+      die();
     }
   }
 }

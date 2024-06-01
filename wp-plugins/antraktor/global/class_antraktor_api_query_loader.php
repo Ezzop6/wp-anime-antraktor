@@ -1,4 +1,7 @@
 <?php
+
+use GuzzleHttp\Psr7\Query;
+
 class AntraktorApiQueryLoader {
   public static function get_query(string $api_target, string $api_query_name, $atts = null) {
     return match ($api_target) {
@@ -22,6 +25,8 @@ class AntraktorApiQueryLoader {
     return match ($api_query_name) {
       QueryTmdb::$get_movie_by_name => QueryTmdb::get_movie_by_name($atts),
       QueryTmdb::$get_movie_details_by_id => QueryTmdb::get_movie_details_by_id($atts),
+      QueryTmdb::$get_series_by_name => QueryTmdb::get_series_by_name($atts),
+      QueryTmdb::$get_series_details_by_id => QueryTmdb::get_series_details_by_id($atts),
       default => throw new Exception('Invalid Tmdb query name: ' . $api_query_name . ' ' . $atts['movie_name']),
     };
   }

@@ -1,38 +1,34 @@
 <?php
-class GetMovie {
-  public static $similar_movies;
-  public static $page;
+class GetSeries {
   public static $adult;
   public static $backdrop_path;
   public static $genre_ids;
   public static $id;
+  public static $origin_country;
   public static $original_language;
-  public static $original_title;
   public static $overview;
+  public static $original_name;
   public static $popularity;
   public static $poster_path;
-  public static $release_date;
-  public static $title;
-  public static $video;
+  public static $first_air_date;
+  public static $name;
   public static $vote_average;
   public static $vote_count;
 
   public function __construct($data, $index = 0) {
-    self::$similar_movies = count($data->results);
-    self::$page = $data->page;
     $result = $data->results[$index];
     self::$adult = $result->adult ? 'true' : 'false';
     self::$backdrop_path = $result->backdrop_path;
     self::$genre_ids = $result->genre_ids;
     self::$id = $result->id;
+    self::$origin_country = $result->origin_country;
     self::$original_language = $result->original_language;
-    self::$original_title = $result->original_title;
     self::$overview = $result->overview;
+    self::$original_name = $result->original_name;
     self::$popularity = $result->popularity;
     self::$poster_path = $result->poster_path;
-    self::$release_date = $result->release_date;
-    self::$title = $result->title;
-    self::$video = $result->video;
+    self::$first_air_date = $result->first_air_date;
+    self::$name = $result->name;
     self::$vote_average = $result->vote_average;
     self::$vote_count = $result->vote_count;
   }
