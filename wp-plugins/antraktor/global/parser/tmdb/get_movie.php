@@ -18,6 +18,8 @@ class GetMovie {
   public static $vote_count;
 
   public function __construct($api_data, $index = 0) {
+    echo 'GetMovie::__construct';
+    HelperScripts::print_all_object_attributes($api_data);
     self::$similar_movies = count($api_data->results);
     self::$page = $api_data->page;
     $result = $api_data->results[$index];

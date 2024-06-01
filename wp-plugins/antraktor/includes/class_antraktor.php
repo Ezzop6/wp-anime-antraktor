@@ -18,6 +18,7 @@ class Antraktor {
 		$this->define_public_hooks();
 		$this->define_shortcode_hooks();
 		$this->add_rewrite_rules();
+		$this->define_api_hooks();
 	}
 
 	private function define_shortcode_hooks() {
@@ -54,6 +55,7 @@ class Antraktor {
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/api_variables/class_api_anilist_variables.php';
 
 		// API query classes
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_api.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/query/class_query_kodi.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/query/class_query_tmdb.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'global/query/class_query_iss.php';
@@ -65,6 +67,10 @@ class Antraktor {
 		// Rewrite rule
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_rewrite_rule.php';
 		$this->loader = new AntraktorLoader();
+	}
+
+	private function define_api_hooks() {
+		AntraktorApi::register_readable_endpoint('/now-playing', [AntraktorApi::class, 'get_now_playing']);
 	}
 
 	private function set_locale() {

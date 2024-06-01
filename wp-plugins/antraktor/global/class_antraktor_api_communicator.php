@@ -30,37 +30,28 @@ class ApiCommunicator {
 
   public static function validate_response($response): string {
     if (is_wp_error($response)) {
-      return $response->get_error_message();
+      throw new Exception('HTTP request failed: ' . $response->get_error_message());
     }
     if (wp_remote_retrieve_response_code($response) === 204) {
-      return 'No content found';
+      throw new Exception('No content found');
     }
-
     if (wp_remote_retrieve_response_code($response) !== 200) {
-      $error =  array(
-        'code' => wp_remote_retrieve_response_code($response),
-        'message' => wp_remote_retrieve_response_message($response),
-        'body' => wp_remote_retrieve_body($response)
-      );
-      throw new Exception(json_encode($error));
+      throw new Exception('Invalid response code: ' . wp_remote_retrieve_response_code($response));
     }
     return wp_remote_retrieve_body($response);
   }
 
   public static function send_to_iss_tracking() {
-    self::init();
     $response = wp_remote_get(self::$iss_tracking_url);
     return self::validate_response($response);
   }
 
   public static function send_to_kodi($api_query_name): string {
-    self::init();
     //https://kodi.wiki/view/JSON-RPC_API/Examples
-    $query = AntraktorApiQueryLoader::get_query('kodi', $api_query_name);
     $response = wp_remote_post(
       self::$kodi_api_url,
       array(
-        'body' => $query,
+        'body' => AntraktorApiQueryLoader::get_query('kodi', $api_query_name),
         'headers' => array(
           'Content-Type' => 'application/json',
           'Authorization' => 'Basic ' . ApiKodiVariables::$kodi_basic_auth,
@@ -71,10 +62,8 @@ class ApiCommunicator {
   }
   public static function send_to_tmdb($api_query_name, $atts): string {
     // https://developer.themoviedb.org/reference/intro/getting-started
-    self::init();
-    $query = AntraktorApiQueryLoader::get_query('tmdb', $api_query_name, $atts);
     $response = wp_remote_get(
-      self::$tmdb_api_url . '/' . $query,
+      self::$tmdb_api_url . '/' . AntraktorApiQueryLoader::get_query('tmdb', $api_query_name, $atts),
       array(
         'headers' => array(
           'Authorization' => 'Bearer ' . ApiTmdbVariables::$access_token,
@@ -86,12 +75,10 @@ class ApiCommunicator {
 
   public static function send_to_anilist($api_query_name, $atts): string {
     // https://anilist.gitbook.io/anilist-apiv2-docs/
-    self::init();
-    $query = AntraktorApiQueryLoader::get_query('anilist', $api_query_name, $atts);
     $response = wp_remote_post(
       self::$anilist_api_url,
       array(
-        'body' => $query,
+        'body' =>  AntraktorApiQueryLoader::get_query('anilist', $api_query_name, $atts),
         'headers' => array(
           'Content-Type' => 'application/json',
           'Accept' => 'application/json',
