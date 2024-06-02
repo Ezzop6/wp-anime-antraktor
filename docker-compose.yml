@@ -32,23 +32,12 @@ services:
       - ${PORT_PHP_MY_ADMIN}:80
     restart: unless-stopped
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    ports:
-      - ${PORT_PG_ADMIN}:80
-    environment:
-      PGID: 1000
-      PUID: 1000
-      PGADMIN_DEFAULT_EMAIL: ee@ee.com
-      PGADMIN_DEFAULT_PASSWORD: root
-    restart: unless-stopped
-
   wordpress:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: wordpress
+    env_file: .env
     depends_on:
       - mysql
     ports:

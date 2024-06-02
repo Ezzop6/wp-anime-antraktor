@@ -50,7 +50,6 @@ class PlayerGetItem {
   public static $trailer;
   public static $tvshowid;
   public static $type;
-  public static $uniqueid;
   public static $userrating;
   public static $votes;
   public static $writer;
@@ -97,8 +96,8 @@ class PlayerGetItem {
     self::$specialsortepisode = $data->result->item->specialsortepisode;
     self::$specialsortseason = $data->result->item->specialsortseason;
     self::$streamdetails = $data->result->item->streamdetails;
-    self::$subtitle = $data->result->item->subtitle;
-    self::$video = $data->result->item->video;
+    self::$subtitle = $data->result->item->streamdetails->subtitle;
+    self::$video = $data->result->item->streamdetails->video;
     self::$studio = $data->result->item->studio;
     self::$tag = $data->result->item->tag;
     self::$tagline = $data->result->item->tagline;
@@ -109,7 +108,6 @@ class PlayerGetItem {
     self::$trailer = $data->result->item->trailer;
     self::$tvshowid = $data->result->item->tvshowid;
     self::$type = self::get_type($data->result->item->type);
-    self::$uniqueid = $data->result->item->uniqueid;
     self::$userrating = $data->result->item->userrating;
     self::$votes = $data->result->item->votes;
     self::$writer = $data->result->item->writer;

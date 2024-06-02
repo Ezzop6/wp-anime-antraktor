@@ -13,5 +13,3 @@ class ApiTmdbVariables {
     self::$access_token =  AntraktorVariableManager::get_key_value(self::$db_key_access_token) ?? '';
   }
 }
-
-ApiTmdbVariables::init();

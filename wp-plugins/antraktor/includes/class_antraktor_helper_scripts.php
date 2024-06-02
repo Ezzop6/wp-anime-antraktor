@@ -17,9 +17,21 @@ class HelperScripts {
     require_once plugin_dir_path(dirname(__FILE__)) . 'public/' . $file_path;
   }
 
+  public static function print(object | string $data) {
+    echo '<div style="background-color: #f1f1f1; padding: 10px; margin: 10px;">';
+    echo '<h3>Debug print type : ' . gettype($data) . '</h3>';
+    match (gettype($data)) {
+      'object' => self::print_all_object_attributes($data),
+      'string' => self::print_json($data),
+      default => print_r($data),
+    };
+    echo '</div>';
+  }
+
   public static function print_json($json) {
+    echo '<br>';
     echo '<pre>';
-    print_r($json);
+    print_r(json_decode($json));
     echo '</pre>';
   }
 

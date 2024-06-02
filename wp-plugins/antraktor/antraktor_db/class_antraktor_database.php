@@ -37,12 +37,6 @@ class AntraktorDatabase {
 
 
     $all_tables = $wpdb->get_results("SHOW TABLES LIKE '" . ANTRAKTOR_DB_PREFIX . "%'");
-
-    if (ANTRAKTOR_DEBUG) {
-      $fi = new FilesystemIterator(__DIR__ . '/schemas', FilesystemIterator::SKIP_DOTS);
-      printf("There were %d Files", iterator_count($fi)) . "<br>";
-      echo "Tables created: " . count($all_tables) . "<br>";
-    }
   }
   public static function delete_antrakt_movie_db() {
     self::init();
@@ -59,21 +53,6 @@ class AntraktorDatabase {
     foreach ($all_tables as $table) {
       $table_name = array_values((array)$table)[0];
       self::$DB->query('DROP TABLE ' . $table_name);
-    }
-    if (!ANTRAKTOR_DEBUG) {
-      return;
-    }
-    $existing_tables = self::$DB->get_results("SHOW TABLES LIKE '" . ANTRAKTOR_DB_PREFIX . "%'");
-    if (empty($existing_tables)) {
-      echo "Tables deleted successfully.";
-    } else {
-      $table_count = count($existing_tables);
-      echo "Tables not deleted successfully." . "<br>";
-      echo "Tables left: " . $table_count . "<br>";
-      foreach ($existing_tables as $table) {
-        $table_name = array_values((array)$table)[0];
-        echo "Table: " . $table_name . "<br>";
-      }
     }
   }
 }

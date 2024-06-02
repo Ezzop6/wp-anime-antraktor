@@ -29,6 +29,7 @@ class Antraktor {
 
 	private function load_dependencies() {
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_helper_scripts.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_exception.php';
 
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_loader.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_i18n.php';
