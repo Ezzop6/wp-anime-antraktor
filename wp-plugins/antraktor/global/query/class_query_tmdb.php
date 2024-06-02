@@ -6,7 +6,7 @@ class QueryTmdb {
   public static $get_series_details_by_id = 'get_series_details_by_id';
 
   public static function get_movie_by_name($atts) {
-    $movie = $atts['get_movie'];
+    $movie = $atts['get_movie_by_name'];
     if (!isset($movie)) {
       throw new Exception('Movie name not set');
     }

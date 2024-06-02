@@ -21,7 +21,7 @@ class GetMovie {
     self::$similar_movies = count($data->results);
     self::$page = $data->page;
     $result = $data->results[$index];
-    self::$adult = $result->adult ? 'true' : 'false';
+    self::$adult = $result->adult ? 'yes' : 'no';
     self::$backdrop_path = $result->backdrop_path;
     self::$genre_ids = $result->genre_ids;
     self::$id = $result->id;

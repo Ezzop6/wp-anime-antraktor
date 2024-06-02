@@ -20,12 +20,6 @@ class Antraktor {
 		$this->add_rewrite_rules();
 		$this->define_api_hooks();
 	}
-	private function define_shortcode_hooks() {
-		ShortcodeLoader::register_shortcodes('antraktor_show_api_data', [ShortcodeLoader::class, 'antraktor_show_api_data']);
-		ShortcodeLoader::register_shortcodes('get_progress_bar_html', [ShortcodeLoader::class, 'get_progress_bar_html']);
-		ShortcodeLoader::register_shortcodes('get_currently_playing_html', [ShortcodeLoader::class, 'get_currently_playing_html']);
-		ShortcodeLoader::register_shortcodes('debug_currently_played_info', [ShortcodeLoader::class, 'debug_currently_played_info']);
-	}
 
 	private function load_dependencies() {
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_helper_scripts.php';
@@ -41,6 +35,7 @@ class Antraktor {
 		require_once plugin_dir_path(dirname(__FILE__)) . 'antraktor_db/database_parts/class_antraktor_variable_manager.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'antraktor_db/database_parts/class_antraktor_page_manager.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'antraktor_db/database_parts/class_antraktor_movie_manager.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'antraktor_db/database_parts/class_antraktor_kodi_manager.php';
 
 		// Page creator
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_page_creator.php';
@@ -69,6 +64,9 @@ class Antraktor {
 
 		// Rewrite rule
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_rewrite_rule.php';
+
+		// Custom functions
+		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_functions.php';
 		$this->loader = new AntraktorLoader();
 	}
 
@@ -95,6 +93,13 @@ class Antraktor {
 		$plugin_public = new AntraktorPublic($this->get_plugin_name(), $this->get_version());
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
+	}
+
+	private function define_shortcode_hooks() {
+		ShortcodeLoader::register_shortcodes('antraktor_show_api_data', [ShortcodeLoader::class, 'antraktor_show_api_data']);
+		ShortcodeLoader::register_shortcodes('get_progress_bar_html', [ShortcodeLoader::class, 'get_progress_bar_html']);
+		ShortcodeLoader::register_shortcodes('get_currently_playing_html', [ShortcodeLoader::class, 'get_currently_playing_html']);
+		ShortcodeLoader::register_shortcodes('debug_currently_played_info', [ShortcodeLoader::class, 'debug_currently_played_info']);
 	}
 
 	// Add rewrite rules for the public paths /antraktor/...

@@ -1,6 +1,5 @@
 <?php
 
-echo '<h1>Now Playing</h1>';
 try {
   echo do_shortcode('[get_currently_playing_html]');
 } catch (Exception $e) {

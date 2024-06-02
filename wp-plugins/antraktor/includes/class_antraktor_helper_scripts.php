@@ -17,12 +17,14 @@ class HelperScripts {
     require_once plugin_dir_path(dirname(__FILE__)) . 'public/' . $file_path;
   }
 
-  public static function print(object | string $data) {
+  public static function print(object | string | array | null $data) {
     echo '<div style="background-color: #f1f1f1; padding: 10px; margin: 10px;">';
     echo '<h3>Debug print type : ' . gettype($data) . '</h3>';
     match (gettype($data)) {
-      'object' => self::print_all_object_attributes($data),
+      'array' => self::print_array($data),
+      'object' => self::print_object_attributes($data),
       'string' => self::print_json($data),
+      'NULL' => '<h3>NULL</h3>',
       default => print_r($data),
     };
     echo '</div>';
@@ -34,12 +36,41 @@ class HelperScripts {
     print_r(json_decode($json));
     echo '</pre>';
   }
+  public static function print_array($array) {
+    for ($i = 0; $i < count($array); $i++) {
+      echo '<div style="background-color: #e1e9e9; padding: 10px; margin: 10px;">';
+      echo '<h3> Element ' . $i . '</h3>';
+      echo '<pre>';
+      match (gettype($array[$i])) {
+        'array' => self::print_array($array[$i]),
+        'object' => self::print_object_attributes($array[$i]),
+        'string' => self::print_json($array[$i]),
+        'NULL' => '<h3>NULL</h3>',
+        default => print_r($array[$i]),
+      };
+      echo '</pre>';
+      echo '</div>';
+    }
+  }
 
-  public static function print_all_object_attributes($object, $die = false) {
+  public static function print_object_attributes($object) {
     $reflectionClass = new ReflectionClass(get_class($object));
     $properties = $reflectionClass->getProperties();
+    $class = get_class($object);
+    echo "Attributes of " . $class . ":<br>";
+    match ($class) {
+      'stdClass' => self::print_stdClass($object, $properties),
+      default => self::print_custom_object($object, $properties),
+    };
+  }
 
-    echo "Attributes of " . get_class($object) . ":<br>";
+  public static function print_stdClass($object, $properties) {
+    echo '<pre>';
+    print_r($object);
+    echo '</pre>';
+  }
+
+  public static function print_custom_object($object, $properties) {
     foreach ($properties as $property) {
       $property->setAccessible(true);
 
@@ -50,8 +81,5 @@ class HelperScripts {
       echo $property->getName() . ": " . htmlspecialchars($value) . "<br>";
     }
     echo "<br><br>";
-    if ($die) {
-      die();
-    }
   }
 }

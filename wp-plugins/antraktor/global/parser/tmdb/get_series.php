@@ -1,5 +1,6 @@
 <?php
 class GetSeries {
+  public static $pages;
   public static $adult;
   public static $backdrop_path;
   public static $genre_ids;
@@ -16,6 +17,7 @@ class GetSeries {
   public static $vote_count;
 
   public function __construct($data, $index = 0) {
+    self::$pages = $data->total_pages;
     $result = $data->results[$index];
     self::$adult = $result->adult ? 'true' : 'false';
     self::$backdrop_path = $result->backdrop_path;

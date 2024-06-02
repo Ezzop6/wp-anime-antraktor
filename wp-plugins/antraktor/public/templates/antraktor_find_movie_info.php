@@ -16,11 +16,9 @@
 <?php
 
 if (isset($_POST['movie_name']) && !empty($_POST['movie_name'])) {
-  // escape special characters in a string for use in an SQL statement $_POST['movie_name'];
   $movie_name = htmlspecialchars($_POST['movie_name']);
   $get_movie = ApiCommunicator::send(ApiCommunicator::$target_tmdb, QueryTmdb::$get_movie_by_name, array('get_movie' => $movie_name));
   $get_movie = ApiDataParser::parse(QueryTmdb::class, $get_movie, QueryTmdb::$get_movie_by_name);
-  // HelperScripts::print_all_object_attributes($get_movie);
 
   $overview = $get_movie::$overview ?? 'No overview available';
   $vote_average = $get_movie::$vote_average ?? 'No rating available';
@@ -31,7 +29,6 @@ if (isset($_POST['movie_name']) && !empty($_POST['movie_name'])) {
 
   $full_backdrop_image = ImageDownloader::get_url(ImageDownloader::$target_tmdb_original, $get_movie::$backdrop_path);
   $full_poster_image = ImageDownloader::get_url(ImageDownloader::$target_tmdb_original, $get_movie::$poster_path);
-  // HelperScripts::print_all_object_attributes($get_movie);
 
   echo <<<HTML
   <section class="antrakt-find-movie">
