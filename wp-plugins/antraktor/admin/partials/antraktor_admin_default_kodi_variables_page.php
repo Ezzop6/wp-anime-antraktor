@@ -2,10 +2,10 @@
 
 
 <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_type']) && $_POST['form_type'] === 'kodi') {
-  ApiKodiVariables::$kodi_user = $_POST['kodi_user'];
-  ApiKodiVariables::$kodi_pass = $_POST['kodi_pass'];
-  ApiKodiVariables::$kodi_port = $_POST['kodi_port'];
-  ApiKodiVariables::$kodi_host = $_POST['kodi_host'];
+  ApiKodiVariables::$kodi_user = htmlspecialchars($_POST['kodi_user']);
+  ApiKodiVariables::$kodi_pass = htmlspecialchars($_POST['kodi_pass']);
+  ApiKodiVariables::$kodi_port = htmlspecialchars($_POST['kodi_port']);
+  ApiKodiVariables::$kodi_host = htmlspecialchars($_POST['kodi_host']);
   AntraktorVariableManager::set_variable(ApiKodiVariables::$db_key_kodi_user, ApiKodiVariables::$kodi_user);
   AntraktorVariableManager::set_variable(ApiKodiVariables::$db_key_kodi_pass, ApiKodiVariables::$kodi_pass);
   AntraktorVariableManager::set_variable(ApiKodiVariables::$db_key_kodi_port, ApiKodiVariables::$kodi_port);

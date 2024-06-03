@@ -1,13 +1,12 @@
 <?php
 
-use GuzzleHttp\Psr7\Query;
-
 class AntraktorApiQueryLoader {
   public static function get_query($class, string $api_query_name, $atts = null) {
     return match ($class) {
       QueryKodi::class => self::kodi_query($api_query_name),
       QueryTmdb::class => self::tmdb_query($api_query_name, $atts),
       QueryAnilist::class => self::anilist_query($api_query_name, $atts),
+      QuerySpotify::class => self::spotify_query($api_query_name, $atts),
       default => throw new Exception('Invalid API target'),
     };
   }
@@ -21,6 +20,7 @@ class AntraktorApiQueryLoader {
       default => throw new Exception('Invalid Kodi query name: ' . $api_query_name ?? 'null'),
     };
   }
+
   public static function tmdb_query(string $api_query_name, $atts) {
     return match ($api_query_name) {
       QueryTmdb::$get_movie_by_name => QueryTmdb::get_movie_by_name($atts),
@@ -30,10 +30,19 @@ class AntraktorApiQueryLoader {
       default => throw new Exception('Invalid Tmdb query name: ' . $api_query_name . ' ' . $atts['movie_name']),
     };
   }
+
   public static function anilist_query(string $api_query_name, $atts) {
     return match ($api_query_name) {
       QueryAnilist::$test => QueryAnilist::test($atts),
       default => throw new Exception('Invalid Anilist query name: ' . $api_query_name),
+    };
+  }
+
+  public static function spotify_query(string $api_query_name, $atts) {
+    return match ($api_query_name) {
+      QuerySpotify::$get_artist_by_name => QuerySpotify::get_artist_by_name($atts),
+      QuerySpotify::$get_recently_played => QuerySpotify::get_recently_played($atts),
+      default => throw new Exception('Invalid Spotify query name: ' . $api_query_name),
     };
   }
 }

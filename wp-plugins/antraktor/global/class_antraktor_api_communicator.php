@@ -1,7 +1,5 @@
 <?php
 
-use GuzzleHttp\Psr7\Query;
-
 class ApiCommunicator {
 
   public static function send($class_name, $api_query_name, $atts = array()) {
@@ -9,6 +7,7 @@ class ApiCommunicator {
       QueryIss::class => self::send_to_iss_tracking(),
       QueryKodi::class => self::send_to_kodi($api_query_name),
       QueryTmdb::class => self::send_to_tmdb($api_query_name, $atts),
+      QuerySpotify::class => self::send_to_spotify($api_query_name, $atts),
       QueryAnilist::class => self::send_to_anilist($api_query_name, $atts),
       default => throw new Exception('Invalid API target'),
     };
@@ -21,15 +20,17 @@ class ApiCommunicator {
       }
       throw new Exception('HTTP request error: ' . $response->get_error_message());
     }
-    if (wp_remote_retrieve_response_code($response) === 401) {
-      throw new Exception('Unauthorized access: ' . wp_remote_retrieve_body($response));
+    $response_code = wp_remote_retrieve_response_code($response);
+    $response_body = wp_remote_retrieve_body($response);
+    if (wp_remote_retrieve_response_code($response_code) === 401) {
+      throw new Exception('Unauthorized access: ' . wp_remote_retrieve_body($response_body));
     }
 
-    if (wp_remote_retrieve_response_code($response) === 204) {
+    if (wp_remote_retrieve_response_code($response_code) === 204) {
       throw new Exception('No content found');
     }
-    if (wp_remote_retrieve_response_code($response) !== 200) {
-      throw new Exception('Invalid response code: ' . wp_remote_retrieve_response_code($response));
+    if (wp_remote_retrieve_response_code($response_code) !== 200) {
+      throw new Exception('Invalid response code: ' . $response_code . ' ' . $response_body);
     }
     return wp_remote_retrieve_body($response);
   }
@@ -78,6 +79,19 @@ class ApiCommunicator {
           'Content-Type' => 'application/json',
           'Accept' => 'application/json',
           'Authorization' => 'Bearer ' . ApiAnilistVariables::$client_acc_token,
+        ),
+      )
+    );
+    return self::validate_response($response);
+  }
+  static function send_to_spotify($api_query_name, $atts): string {
+    // https://developer.spotify.com/documentation/web-api/reference/
+    ApiSpotifyVariables::init();
+    $response = wp_remote_get(
+      'https://api.spotify.com/v1/' . AntraktorApiQueryLoader::get_query(QuerySpotify::class, $api_query_name, $atts),
+      array(
+        'headers' => array(
+          'Authorization' => 'Bearer ' . ApiSpotifyVariables::$spotify_token,
         ),
       )
     );

@@ -10,5 +10,10 @@ class AntraktorActivator {
 		AntraktorVariableManager::set_variable('kodi_port', $_ENV['ANTRAKT_KODI_PORT']);
 		AntraktorVariableManager::set_variable('kodi_host', $_ENV['ANTRAKT_KODI_HOST']);
 		AntraktorVariableManager::set_variable('tmdb_access_token', $_ENV['ANTRAKT_TMBD_API_KEY']);
+		AntraktorVariableManager::set_variable('spotify_client_id', $_ENV['SPOTIFY_CLIENT_ID']);
+		AntraktorVariableManager::set_variable('spotify_client_secret', $_ENV['SPOTIFY_CLIENT_SECRET']);
+		AntraktorVariableManager::set_variable('spotify_token', null);
+		AntraktorVariableManager::set_variable('anilist_client_id', $_ENV['ANILIST_CLIENT_ID']);
+		AntraktorVariableManager::set_variable('anilist_client_secret', $_ENV['ANILIST_CLIENT_SECRET']);
 	}
 }

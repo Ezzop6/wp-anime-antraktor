@@ -1,10 +1,10 @@
 <h3>Anilist Variables</h3>
 
 <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_type']) && $_POST['form_type'] === 'anilist') {
-  ApiAnilistVariables::$client_id = $_POST['anilist_client_id'];
-  ApiAnilistVariables::$client_secret = $_POST['anilist_client_secret'];
-  ApiAnilistVariables::$client_acc_token = $_POST['anilist_client_acc_token'];
-  ApiAnilistVariables::$client_auth_token = $_POST['anilist_client_auth_token'];
+  ApiAnilistVariables::$client_id = htmlspecialchars($_POST['anilist_client_id']);
+  ApiAnilistVariables::$client_secret = htmlspecialchars($_POST['anilist_client_secret']);
+  ApiAnilistVariables::$client_acc_token = htmlspecialchars($_POST['anilist_client_acc_token']);
+  ApiAnilistVariables::$client_auth_token = htmlspecialchars($_POST['anilist_client_auth_token']);
   AntraktorVariableManager::set_variable(ApiAnilistVariables::$db_key_id, ApiAnilistVariables::$client_id);
   AntraktorVariableManager::set_variable(ApiAnilistVariables::$db_key_secret, ApiAnilistVariables::$client_secret);
   AntraktorVariableManager::set_variable(ApiAnilistVariables::$db_key_access_token, ApiAnilistVariables::$client_acc_token);
