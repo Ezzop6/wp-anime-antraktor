@@ -1,5 +1,6 @@
 <?php
 class HelperScripts {
+  public static $log_file = 'antraktor_log.txt';
   public static function get_file_version($file) {
     if (file_exists($file)) {
       return filemtime($file);
@@ -81,5 +82,10 @@ class HelperScripts {
       echo $property->getName() . ": " . htmlspecialchars($value) . "<br>";
     }
     echo "<br><br>";
+  }
+  public static function log($data) {
+    $log_file = fopen(self::$log_file, 'a');
+    fwrite($log_file, $data);
+    fclose($log_file);
   }
 }

@@ -1,6 +1,5 @@
 <?php
 class GetMovie {
-  public static $similar_movies;
   public static $page;
   public static $adult;
   public static $backdrop_path;
@@ -16,25 +15,26 @@ class GetMovie {
   public static $video;
   public static $vote_average;
   public static $vote_count;
+  public static $similar_movies;
 
   public function __construct($data, $index = 0) {
-    self::$similar_movies = count($data->results);
-    self::$page = $data->page;
-    $result = $data->results[$index];
-    self::$adult = $result->adult ? 'yes' : 'no';
-    self::$backdrop_path = $result->backdrop_path;
-    self::$genre_ids = $result->genre_ids;
-    self::$id = $result->id;
-    self::$original_language = $result->original_language;
-    self::$original_title = $result->original_title;
-    self::$overview = $result->overview;
-    self::$popularity = $result->popularity;
-    self::$poster_path = $result->poster_path;
-    self::$release_date = $result->release_date;
-    self::$title = $result->title;
-    self::$video = $result->video;
-    self::$vote_average = $result->vote_average;
-    self::$vote_count = $result->vote_count;
+    self::$page = $data->page; // int
+    $result = $data->results[$index]; // object
+    self::$adult = $result->adult; // bool
+    self::$backdrop_path = $result->backdrop_path; // string
+    self::$genre_ids = $result->genre_ids; // array
+    self::$id = $result->id; // int
+    self::$original_language = $result->original_language; // string
+    self::$original_title = $result->original_title; // string
+    self::$overview = $result->overview; // string
+    self::$popularity = $result->popularity; // float
+    self::$poster_path = $result->poster_path; // string
+    self::$release_date = $result->release_date; // date
+    self::$title = $result->title; // string
+    self::$video = $result->video; // ??
+    self::$vote_average = $result->vote_average; // float
+    self::$vote_count = $result->vote_count; // int
+    self::$similar_movies = count($data->results) > 1 ? $data->results : null;
   }
 
   public static function init($data) {

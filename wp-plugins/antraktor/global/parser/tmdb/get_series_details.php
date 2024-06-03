@@ -1,5 +1,9 @@
 <?php
 
+require_once 'class_tmdb_last_episode_to_air.php';
+require_once 'class_tmdb_next_episode_to_air.php';
+require_once 'class_tmdb_seasons_data.php';
+
 class GetSeriesDetails {
   public static $adult;
   public static $backdrop_path;
@@ -35,7 +39,7 @@ class GetSeriesDetails {
   public static $vote_count;
 
   public function __construct($data) {
-    self::$adult = $data->adult ? 'true' : 'false';
+    self::$adult = $data->adult ? true : false;
     self::$backdrop_path = $data->backdrop_path;
     self::$created_by = $data->created_by;
     self::$episode_run_time = $data->episode_run_time;
@@ -43,7 +47,7 @@ class GetSeriesDetails {
     self::$genres = $data->genres;
     self::$homepage = $data->homepage;
     self::$id = $data->id;
-    self::$in_production = $data->in_production ? 'true' : 'false';
+    self::$in_production = $data->in_production ? true : false;
     self::$languages = $data->languages;
     self::$last_air_date = $data->last_air_date;
     self::$last_episode_to_air = LastEpisodeToAir::init($data->last_episode_to_air);
@@ -69,113 +73,6 @@ class GetSeriesDetails {
     self::$vote_count = $data->vote_count;
   }
 
-  public static function init($data) {
-    return new self($data);
-  }
-}
-
-class NextEpisodeToAir {
-  public static $id;
-  public static $overview;
-  public static $name;
-  public static $vote_average;
-  public static $vote_count;
-  public static $air_date;
-  public static $episode_number;
-  public static $episode_type;
-  public static $production_code;
-  public static $runtime;
-  public static $season_number;
-  public static $show_id;
-  public static $still_path;
-
-  public  function __construct($data) {
-    self::$id = $data->id;
-    self::$overview = $data->overview;
-    self::$name = $data->name;
-    self::$vote_average = $data->vote_average;
-    self::$vote_count = $data->vote_count;
-    self::$air_date = $data->air_date;
-    self::$episode_number = $data->episode_number;
-    self::$episode_type = $data->episode_type;
-    self::$production_code = $data->production_code;
-    self::$runtime = $data->runtime;
-    self::$season_number = $data->season_number;
-    self::$show_id = $data->show_id;
-    self::$still_path = $data->still_path;
-  }
-  public static function init($data) {
-    return new self($data);
-  }
-}
-
-class Season {
-  public $air_date;
-  public $episode_count;
-  public $id;
-  public $name;
-  public $overview;
-  public $poster_path;
-  public $season_number;
-  public $vote_average;
-
-  public function __construct($data) {
-    $this->air_date = $data->air_date;
-    $this->episode_count = $data->episode_count;
-    $this->id = $data->id;
-    $this->name = $data->name;
-    $this->overview = $data->overview;
-    $this->poster_path = $data->poster_path;
-    $this->season_number = $data->season_number;
-    $this->vote_average = $data->vote_average;
-  }
-}
-
-class SeasonsData {
-  public static $seasons = [];
-
-  public function __construct($data) {
-    foreach ($data as $season) {
-      $new_season = new Season($season);
-      array_push(self::$seasons, $new_season);
-    }
-  }
-
-  public static function init($data) {
-    return new self($data);
-  }
-}
-
-class LastEpisodeToAir {
-  public static $id;
-  public static $overview;
-  public static $name;
-  public static $vote_average;
-  public static $vote_count;
-  public static $air_date;
-  public static $episode_number;
-  public static $episode_type;
-  public static $production_code;
-  public static $runtime;
-  public static $season_number;
-  public static $show_id;
-  public static $still_path;
-
-  public function __construct($data) {
-    self::$id = $data->id;
-    self::$overview = $data->overview;
-    self::$name = $data->name;
-    self::$vote_average = $data->vote_average;
-    self::$vote_count = $data->vote_count;
-    self::$air_date = $data->air_date;
-    self::$episode_number = $data->episode_number;
-    self::$episode_type = $data->episode_type;
-    self::$production_code = $data->production_code;
-    self::$runtime = $data->runtime;
-    self::$season_number = $data->season_number;
-    self::$show_id = $data->show_id;
-    self::$still_path = $data->still_path;
-  }
   public static function init($data) {
     return new self($data);
   }

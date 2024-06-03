@@ -15,7 +15,6 @@
 
 <?php
 
-use GuzzleHttp\Psr7\Query;
 
 if (isset($_POST['movie_name']) && !empty($_POST['movie_name'])) {
   $movie_name = htmlspecialchars($_POST['movie_name']);

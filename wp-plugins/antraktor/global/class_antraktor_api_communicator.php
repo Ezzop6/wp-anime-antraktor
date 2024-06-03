@@ -22,14 +22,13 @@ class ApiCommunicator {
     }
     $response_code = wp_remote_retrieve_response_code($response);
     $response_body = wp_remote_retrieve_body($response);
-    if (wp_remote_retrieve_response_code($response_code) === 401) {
+    if ($response_code === 401) {
       throw new Exception('Unauthorized access: ' . wp_remote_retrieve_body($response_body));
     }
-
-    if (wp_remote_retrieve_response_code($response_code) === 204) {
+    if ($response_code === 204) {
       throw new Exception('No content found');
     }
-    if (wp_remote_retrieve_response_code($response_code) !== 200) {
+    if ($response_code !== 200) {
       throw new Exception('Invalid response code: ' . $response_code . ' ' . $response_body);
     }
     return wp_remote_retrieve_body($response);

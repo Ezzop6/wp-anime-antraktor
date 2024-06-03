@@ -116,7 +116,7 @@ class PlayerGetItem {
     self::$trailer = $data->result->item->trailer; // ??
     self::$tvshowid = (int)$data->result->item->tvshowid; // int
     self::$type = self::get_show_type($data->result->item->type); // string
-    self::$uniqueid = new UniqueId($data->result->item->uniqueid) ?? null; // object
+    self::$uniqueid = new UniqueId($data->result->item->uniqueid ?? ['', '', '']); // object
     self::$userrating = $data->result->item->userrating; // ??
     self::$votes = (int)$data->result->item->votes; // int
     self::$writer = $data->result->item->writer; // array

@@ -12,10 +12,10 @@ class ApiSpotifyVariables {
     self::$spotify_client_id =  AntraktorVariableManager::get_key_value(self::$db_key_spotify_client_id) ?? '';
     self::$spotify_client_secret =  AntraktorVariableManager::get_key_value(self::$db_key_spotify_client_secret) ?? '';
     self::$spotify_token =  AntraktorVariableManager::get_key_value(self::$db_key_spotify_token) ?? '';
-    if (self::$spotify_token === '' && self::$spotify_client_id !== '' && self::$spotify_client_secret !== '') {
+    if (!self::$spotify_token  && self::$spotify_client_id  && self::$spotify_client_secret) {
       self::generate_token();
     }
-    if ($regenerate) {
+    if ($regenerate && self::$spotify_token) {
       self::regenerate_token();
     }
   }
@@ -40,7 +40,7 @@ class ApiSpotifyVariables {
     $response_body = wp_remote_retrieve_body($response);
     $data = json_decode($response_body);
     if (isset($data->error)) {
-      throw new Exception($data->error_description);
+      throw new Exception($data->error . ' ' . $data->error_description);
     }
     self::$spotify_token = $data->access_token;
     AntraktorVariableManager::set_variable(self::$db_key_spotify_token, self::$spotify_token);
@@ -59,7 +59,7 @@ class ApiSpotifyVariables {
   }
 
   public static function check_token_validaty() {
-    if (self::$spotify_token === '') {
+    if (!self::$spotify_token) {
       return false;
     }
     $spotify_token_expires_in = AntraktorVariableManager::get_key_value('spotify_token_expires_in');

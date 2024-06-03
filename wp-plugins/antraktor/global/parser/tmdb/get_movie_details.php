@@ -1,4 +1,11 @@
 <?php
+
+require_once 'class_tmdb_belongs_to_collection.php';
+require_once 'class_tmdb_genres.php';
+require_once 'class_tmdb_production_companies.php';
+require_once 'class_tmdb_production_countries.php';
+require_once 'class_tmdb_spoken_languages.php';
+
 class GetMovieDetails {
   public static $adult;
   public static $backdrop_path;
@@ -28,32 +35,32 @@ class GetMovieDetails {
   public static $vote_count;
 
   public function __construct($api_data) {
-    self::$adult = $api_data->adult;
-    self::$backdrop_path = $api_data->backdrop_path;
-    self::$belongs_to_collection = $api_data->belongs_to_collection;
-    self::$budget = $api_data->budget;
-    self::$genres = $api_data->genres;
-    self::$homepage = $api_data->homepage;
-    self::$id = $api_data->id;
-    self::$imdb_id = $api_data->imdb_id;
-    self::$origin_country = $api_data->origin_country;
-    self::$original_language = $api_data->original_language;
-    self::$original_title = $api_data->original_title;
-    self::$overview = $api_data->overview;
-    self::$popularity = $api_data->popularity;
-    self::$poster_path = $api_data->poster_path;
-    self::$production_companies = $api_data->production_companies;
-    self::$production_countries = $api_data->production_countries;
-    self::$release_date = $api_data->release_date;
-    self::$revenue = $api_data->revenue;
-    self::$runtime = $api_data->runtime;
-    self::$spoken_languages = $api_data->spoken_languages;
-    self::$status = $api_data->status;
-    self::$tagline = $api_data->tagline;
-    self::$title = $api_data->title;
-    self::$video = $api_data->video;
-    self::$vote_average = $api_data->vote_average;
-    self::$vote_count = $api_data->vote_count;
+    self::$adult = $api_data->adult; // bool
+    self::$backdrop_path = $api_data->backdrop_path; // string
+    self::$belongs_to_collection = BelongsToCollection::init($api_data->belongs_to_collection); // object
+    self::$budget = $api_data->budget; // int
+    self::$genres = Genres::init($api_data->genres); // array
+    self::$homepage = $api_data->homepage; // string
+    self::$id = $api_data->id; // int
+    self::$imdb_id = $api_data->imdb_id; // string
+    self::$origin_country = $api_data->origin_country; // array
+    self::$original_language = $api_data->original_language; // string
+    self::$original_title = $api_data->original_title; // string
+    self::$overview = $api_data->overview; // string
+    self::$popularity = $api_data->popularity; // float
+    self::$poster_path = $api_data->poster_path; // string
+    self::$production_companies = ProductionCompanies::init($api_data->production_companies); // array
+    self::$production_countries = ProductionCountries::init($api_data->production_countries); // array
+    self::$release_date = $api_data->release_date; // string
+    self::$revenue = $api_data->revenue; // int
+    self::$runtime = $api_data->runtime; // int
+    self::$spoken_languages = SpokenLanguages::init($api_data->spoken_languages); // array
+    self::$status = $api_data->status; // string
+    self::$tagline = $api_data->tagline; // string
+    self::$title = $api_data->title; // string
+    self::$video = $api_data->video; // ??
+    self::$vote_average = $api_data->vote_average; // float
+    self::$vote_count = $api_data->vote_count; // int
   }
 
   public static function init($api_data) {
