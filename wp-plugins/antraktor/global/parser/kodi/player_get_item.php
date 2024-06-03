@@ -95,7 +95,7 @@ class PlayerGetItem {
     self::$premiered = $data->result->item->premiered; // string / date
     self::$productioncode = $data->result->item->productioncode; // ??
     self::$rating = (float)$data->result->item->rating; // float
-    self::$resume = $data->result->item->resume; // stdClass
+    self::$resume = Resume::init($data->result->item->resume); // object
     self::$runtime = (int)$data->result->item->runtime; // int
     self::$season = self::parse_integer($data->result->item->season); // int
     self::$set = $data->result->item->set; // ??
@@ -116,7 +116,7 @@ class PlayerGetItem {
     self::$trailer = $data->result->item->trailer; // ??
     self::$tvshowid = (int)$data->result->item->tvshowid; // int
     self::$type = self::get_show_type($data->result->item->type); // string
-    self::$uniqueid = new UniqueId($data->result->item->uniqueid); // stdClass[imdb, tvdb, tmdb]
+    self::$uniqueid = new UniqueId($data->result->item->uniqueid) ?? null; // object
     self::$userrating = $data->result->item->userrating; // ??
     self::$votes = (int)$data->result->item->votes; // int
     self::$writer = $data->result->item->writer; // array
@@ -177,6 +177,19 @@ class UniqueId {
     self::$imdb = $data->imdb ?? '';
     self::$tvdb = $data->tvdb ?? '';
     self::$tmdb = $data->tmdb ?? '';
+  }
+  public static function init($data) {
+    return new self($data);
+  }
+}
+
+class Resume {
+  public static $position;
+  public static $total;
+
+  public function __construct($data) {
+    self::$position = (int)$data->position;
+    self::$total = (int)$data->total;
   }
   public static function init($data) {
     return new self($data);

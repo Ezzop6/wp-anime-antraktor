@@ -1,4 +1,7 @@
 <?php
+
+use GuzzleHttp\Psr7\Query;
+
 class AntraktorApi {
   public static $route_name_space = 'antraktor/v1';
 
@@ -13,7 +16,7 @@ class AntraktorApi {
   }
 
   public static function get_now_playing(WP_REST_Request $request) {
-    $result = ApiCommunicator::send(ApiCommunicator::$target_kodi, QueryKodi::$player_get_properties);
+    $result = ApiCommunicator::send(QueryKodi::class, QueryKodi::$player_get_properties);
     $result = self::validate($result);
     if ($result instanceof WP_Error) {
       throw new Exception($result->get_error_message());

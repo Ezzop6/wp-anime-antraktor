@@ -2,7 +2,7 @@
 class AF {
   public static function get_tmdb_movie_details_by_id($movie_id, $parsed_object = true): GetMovieDetails|string {
     $tmdb_details_data = ApiCommunicator::send(
-      ApiCommunicator::$target_tmdb,
+      QueryTmdb::class,
       QueryTmdb::$get_movie_details_by_id,
       array('get_movie_details_by_id' => $movie_id)
     );
@@ -19,7 +19,7 @@ class AF {
 
   public static function get_tmdb_series_details_by_id($series_id, $parsed_object = true): GetSeriesDetails|string {
     $tmdb_details_data = ApiCommunicator::send(
-      ApiCommunicator::$target_tmdb,
+      QueryTmdb::class,
       QueryTmdb::$get_series_details_by_id,
       array('get_series_details_by_id' => $series_id)
     );
@@ -36,7 +36,7 @@ class AF {
 
   public static function get_tmdb_series_by_name($name, $parsed_object = true): GetSeries|string {
     $tmdb_data = ApiCommunicator::send(
-      ApiCommunicator::$target_tmdb,
+      QueryTmdb::class,
       QueryTmdb::$get_series_by_name,
       array('get_series_by_name' => $name)
     );
@@ -53,7 +53,7 @@ class AF {
 
   public static function get_tmdb_movie_by_name($name, $parsed_object = true): GetMovie|string {
     $tmdb_data = ApiCommunicator::send(
-      ApiCommunicator::$target_tmdb,
+      QueryTmdb::class,
       QueryTmdb::$get_movie_by_name,
       array('get_movie_by_name' => $name)
     );
@@ -70,7 +70,7 @@ class AF {
   public static function get_kodi_status($parsed_object = true): PlayerGetActivePlayers|string {
     try {
       $kodi_status_data = ApiCommunicator::send(
-        ApiCommunicator::$target_kodi,
+        QueryKodi::class,
         QueryKodi::$player_get_active_players
       );
       if (!$parsed_object) {
@@ -89,7 +89,7 @@ class AF {
   public static function get_kodi_now_playing($parsed_object = true): PlayerGetItem|string {
     try {
       $kodi_now_playing_data = ApiCommunicator::send(
-        ApiCommunicator::$target_kodi,
+        QueryKodi::class,
         QueryKodi::$player_get_item
       );
       if (strlen($kodi_now_playing_data) < ANTRAKTOR_KODI_BLANK_RESPONSE_LENGTH) {

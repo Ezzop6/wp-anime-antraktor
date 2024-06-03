@@ -1,21 +1,15 @@
 <?php
+
+use GuzzleHttp\Psr7\Query;
+
 class ApiCommunicator {
-  public static $kodi_api_url;
-  public static $iss_tracking_url;
-  public static $tmdb_api_url;
-  public static $anilist_api_url;
 
-  public static $target_iss = 'iss_tracking';
-  public static $target_kodi = 'kodi';
-  public static $target_tmdb = 'tmdb';
-  public static $target_anilist = 'anilist';
-
-  public static function send($api_target, $api_query_name, $atts = array()) {
-    return match ($api_target) {
-      self::$target_iss => self::send_to_iss_tracking(),
-      self::$target_kodi => self::send_to_kodi($api_query_name),
-      self::$target_tmdb => self::send_to_tmdb($api_query_name, $atts),
-      self::$target_anilist => self::send_to_anilist($api_query_name, $atts),
+  public static function send($class_name, $api_query_name, $atts = array()) {
+    return match ($class_name) {
+      QueryIss::class => self::send_to_iss_tracking(),
+      QueryKodi::class => self::send_to_kodi($api_query_name),
+      QueryTmdb::class => self::send_to_tmdb($api_query_name, $atts),
+      QueryAnilist::class => self::send_to_anilist($api_query_name, $atts),
       default => throw new Exception('Invalid API target'),
     };
   }
@@ -41,19 +35,17 @@ class ApiCommunicator {
   }
 
   public static function send_to_iss_tracking() {
-    self::$iss_tracking_url = 'http://api.open-notify.org/iss-now.json';
-    $response = wp_remote_get(self::$iss_tracking_url);
+    $response = wp_remote_get('http://api.open-notify.org/iss-now.json');
     return self::validate_response($response);
   }
 
   public static function send_to_kodi($api_query_name): string {
-    ApiKodiVariables::init();
-    self::$kodi_api_url = ApiKodiVariables::$kodi_api_url;
+    ApiKodiVariables::check_kodi_variables();
     //https://kodi.wiki/view/JSON-RPC_API/Examples
     $response = wp_remote_post(
-      self::$kodi_api_url,
+      ApiKodiVariables::$kodi_api_url,
       array(
-        'body' => AntraktorApiQueryLoader::get_query('kodi', $api_query_name),
+        'body' => AntraktorApiQueryLoader::get_query(QueryKodi::class, $api_query_name),
         'headers' => array(
           'Content-Type' => 'application/json',
           'Authorization' => 'Basic ' . ApiKodiVariables::$kodi_basic_auth,
@@ -63,11 +55,10 @@ class ApiCommunicator {
     return self::validate_response($response);
   }
   public static function send_to_tmdb($api_query_name, $atts): string {
-    self::$tmdb_api_url = 'https://api.themoviedb.org/3';
     // https://developer.themoviedb.org/reference/intro/getting-started
     ApiTmdbVariables::init();
     $response = wp_remote_get(
-      self::$tmdb_api_url . '/' . AntraktorApiQueryLoader::get_query('tmdb', $api_query_name, $atts),
+      'https://api.themoviedb.org/3' . '/' . AntraktorApiQueryLoader::get_query(QueryTmdb::class, $api_query_name, $atts),
       array(
         'headers' => array(
           'Authorization' => 'Bearer ' . ApiTmdbVariables::$access_token,
@@ -78,12 +69,11 @@ class ApiCommunicator {
   }
 
   public static function send_to_anilist($api_query_name, $atts): string {
-    self::$anilist_api_url = 'https://graphql.anilist.co';
     // https://anilist.gitbook.io/anilist-apiv2-docs/
     $response = wp_remote_post(
-      self::$anilist_api_url,
+      'https://graphql.anilist.co',
       array(
-        'body' =>  AntraktorApiQueryLoader::get_query('anilist', $api_query_name, $atts),
+        'body' =>  AntraktorApiQueryLoader::get_query(QueryAnilist::class, $api_query_name, $atts),
         'headers' => array(
           'Content-Type' => 'application/json',
           'Accept' => 'application/json',

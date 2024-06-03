@@ -3,11 +3,11 @@
 use GuzzleHttp\Psr7\Query;
 
 class AntraktorApiQueryLoader {
-  public static function get_query(string $api_target, string $api_query_name, $atts = null) {
-    return match ($api_target) {
-      'kodi' => self::kodi_query($api_query_name),
-      'tmdb' => self::tmdb_query($api_query_name, $atts),
-      'anilist' => self::anilist_query($api_query_name, $atts),
+  public static function get_query($class, string $api_query_name, $atts = null) {
+    return match ($class) {
+      QueryKodi::class => self::kodi_query($api_query_name),
+      QueryTmdb::class => self::tmdb_query($api_query_name, $atts),
+      QueryAnilist::class => self::anilist_query($api_query_name, $atts),
       default => throw new Exception('Invalid API target'),
     };
   }

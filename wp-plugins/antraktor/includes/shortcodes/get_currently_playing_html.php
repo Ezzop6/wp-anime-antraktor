@@ -14,11 +14,11 @@ function get_currently_playing_html() {
   $now_playing = Af::get_kodi_now_playing();
   if (!$now_playing) {
     $nothing_playing_html = <<<HTML
-    <h3>Nothing is playing right now</h3>
+    <h3>Kodi is on but nothing is playing</h3>
     HTML;
     return  $nothing_playing_html;
   }
-
+  HelperScripts::print($now_playing);
   echo do_shortcode('[get_progress_bar_html timeout=1000]');
   // kodi data
   $show_type = $now_playing::$type;
@@ -49,11 +49,11 @@ function get_currently_playing_html() {
   if ($img_show) {
 
     echo '<h3>Images</h3>';
-    echo ImageDownloader::get_image_div(ImageDownloader::$direct_link, $art_banner, 'banner', $show_name);
-    echo ImageDownloader::get_image_div(ImageDownloader::$direct_link, $art_clearlogo, 'clearlogo', $show_name);
-    echo ImageDownloader::get_image_div(ImageDownloader::$direct_link, $art_fanart, 'fanart', $show_name);
-    echo ImageDownloader::get_image_div(ImageDownloader::$direct_link, $art_poster, 'poster', $show_name);
-    echo ImageDownloader::get_image_div(ImageDownloader::$direct_link, $art_thumb, 'thumb', $show_name);
+    echo ImageDownloader::get_image_div(null, $art_banner, 'banner', $show_name);
+    echo ImageDownloader::get_image_div(null, $art_clearlogo, 'clearlogo', $show_name);
+    echo ImageDownloader::get_image_div(null, $art_fanart, 'fanart', $show_name);
+    echo ImageDownloader::get_image_div(null, $art_poster, 'poster', $show_name);
+    echo ImageDownloader::get_image_div(null, $art_thumb, 'thumb', $show_name);
   }
 
   $tmdb_data = match ($show_type) {
@@ -83,6 +83,8 @@ function get_currently_playing_html() {
     echo ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_original, $backdrop_path, 'backdrop', $show_name);
     echo ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_original, $poster_path, 'poster', $show_name);
   }
+  // <p>Genre ids: $genre_ids</p> this is array
+  // <p>Origin country: $origin_country</p> this is array
 
   $html = <<<HTML
   <h3>Tmdb Data</h3>
@@ -94,9 +96,7 @@ function get_currently_playing_html() {
   <p>Plot: $plot</p>
   <p>Rating: $rating</p>
   <p>Adult: $adult</p>
-  <p>Genre ids: $genre_ids</p>
   <p>Id: $id</p>
-  <p>Origin country: $origin_country</p>
   <p>Original language: $original_language</p>
   <p>Overview: $overview</p>
   <p>Popularity: $popularity</p>
@@ -163,33 +163,34 @@ function get_currently_playing_html() {
   // <p>Last episode to air: $last_episode_to_air</p> this is object
   // <p>Next episode to air: $next_episode_to_air</p> this is object
   //  <p>Seasons: $seasons</p> this is object
+  // <p>Created by: $created_by</p> this is array
+  // <p>Genres: $genres</p> this is array
+  // <p>Episode run time: $episode_run_time</p> this is array
+  // <p>Languages: $languages</p> this is array
+  // <p>Origin country: $origin_country</p> this is array
+  // <p>Production companies: $production_companies</p> this is array
+  // <p>Networks: $networks</p> this is array
+  // <p>Production countries: $production_countries</p> this is array
+  // <p>Spoken languages: $spoken_languages</p> this is array
+
   $html = <<<HTML
   <h3>Tmdb Details Data</h3>
   <h3>Currently playing</h3>
   <p>Adult: $adult</p>
   <p>Backdrop path: $backdrop_path</p>
-  <p>Created by: $created_by</p>
-  <p>Episode run time: $episode_run_time</p>
   <p>First air date: $first_air_date</p>
-  <p>Genres: $genres</p>
   <p>Homepage: $homepage</p>
   <p>Id: $id</p>
   <p>In production: $in_production</p>
-  <p>Languages: $languages</p>
   <p>Last air date: $last_air_date</p>
   <p>Name: $name</p>
-  <p>Networks: $networks</p>
   <p>Number of episodes: $number_of_episodes</p>
   <p>Number of seasons: $number_of_seasons</p>
-  <p>Origin country: $origin_country</p>
   <p>Original language: $original_language</p>
   <p>Original name: $original_name</p>
   <p>Overview: $overview</p>
   <p>Popularity: $popularity</p>
   <p>Poster path: $poster_path</p>
-  <p>Production companies: $production_companies</p>
-  <p>Production countries: $production_countries</p>
-  <p>Spoken languages: $spoken_languages</p>
   <p>Status: $status</p>
   <p>Tagline: $tagline</p>
   <p>Type: $type</p>

@@ -15,9 +15,11 @@
 
 <?php
 
+use GuzzleHttp\Psr7\Query;
+
 if (isset($_POST['movie_name']) && !empty($_POST['movie_name'])) {
   $movie_name = htmlspecialchars($_POST['movie_name']);
-  $get_movie = ApiCommunicator::send(ApiCommunicator::$target_tmdb, QueryTmdb::$get_movie_by_name, array('get_movie' => $movie_name));
+  $get_movie = ApiCommunicator::send(QueryTmdb::class, QueryTmdb::$get_movie_by_name, array('get_movie_by_name' => $movie_name));
   $get_movie = ApiDataParser::parse(QueryTmdb::class, $get_movie, QueryTmdb::$get_movie_by_name);
 
   $overview = $get_movie::$overview ?? 'No overview available';
@@ -49,7 +51,7 @@ if (isset($_POST['movie_name']) && !empty($_POST['movie_name'])) {
 
 if (isset($_POST['series_name']) && !empty($_POST['series_name'])) {
   $series_name = htmlspecialchars($_POST['series_name']);
-  $get_series = ApiCommunicator::send(ApiCommunicator::$target_tmdb, QueryTmdb::$get_series_by_name, array('get_series_by_name' => $series_name));
+  $get_series = ApiCommunicator::send(QueryTmdb::class, QueryTmdb::$get_series_by_name, array('get_series_by_name' => $series_name));
   $get_series = ApiDataParser::parse(QueryTmdb::class, $get_series, QueryTmdb::$get_series_by_name);
   // HelperScripts::print_all_object_attributes($get_series);
 

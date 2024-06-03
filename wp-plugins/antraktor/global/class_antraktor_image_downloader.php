@@ -4,7 +4,7 @@
 class ImageDownloader {
   public static $target_tmdb_original = 'https://image.tmdb.org/t/p/original';
   public static $target_tmdb_thumbnail = 'https://image.tmdb.org/t/p/w';
-  public static $direct_link;
+  public static $direct_link = null;
 
   public static function get_url($target, $path, $size = 500) {
     return match ($target) {
