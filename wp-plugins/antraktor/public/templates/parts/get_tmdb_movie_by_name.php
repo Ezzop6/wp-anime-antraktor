@@ -1,12 +1,11 @@
 <?php
 echo '<h3>Movie</h3>';
-echo '<h3>Movie count: ' . $movie_data->page . '</h3>';
+echo '<h3>page count: ' . $movie_data->page . '</h3>';
 
 for ($i = 0; $i < count($movie_data->movies); $i++) {
   $movie = $movie_data->movies[$i];
   $adult = $movie->adult;
   $backdrop_path = $movie->backdrop_path;
-  $genre_ids = $movie->genre_ids; // this is array
   $id = $movie->id;
   $original_language = $movie->original_language;
   $original_title = $movie->original_title;
@@ -18,13 +17,17 @@ for ($i = 0; $i < count($movie_data->movies); $i++) {
   $video = $movie->video;
   $vote_average = $movie->vote_average;
   $vote_count = $movie->vote_count;
-  $similar_movies = $movie->similar_movies; // this is array
-  // <p>Similar movies: $similar_movies</p>
+  $genre_ids = '';
+  foreach ($movie->genre_ids as $genre_id) {
+    $genre_ids .= $genre_id . ' ';
+  };
+
 
   $tmdb_detail_data = <<<HTML
   <h3>Tmdb Data</h3>
   <p>Adult: $adult</p>
   <p>Id: $id</p>
+  <p>Genre ids: $genre_ids</p>
   <p>Original language: $original_language</p>
   <p>Original title: $original_title</p>
   <p>Overview: $overview</p>
@@ -36,6 +39,6 @@ for ($i = 0; $i < count($movie_data->movies); $i++) {
   <p>Vote count: $vote_count</p>
   HTML;
   echo $tmdb_detail_data;
-  echo ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_original, $backdrop_path, 'backdrop', $title);
-  echo ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_original, $poster_path, 'poster', $title);
+  echo ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $poster_path, 'poster', $title, 300);
+  echo ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $backdrop_path, 'backdrop', $title, 300);
 }

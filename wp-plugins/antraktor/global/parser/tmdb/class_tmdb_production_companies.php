@@ -1,12 +1,11 @@
 <?php
 
 class ProductionCompanies {
-  public static $production_companies;
 
+  public $production_companies = [];
   public function __construct($data) {
-    self::$production_companies = array();
     foreach ($data as $production_company) {
-      array_push(self::$production_companies, ProductionCompany::init($production_company));
+      $this->production_companies[] = new ProductionCompany($production_company);
     }
   }
 
@@ -16,16 +15,16 @@ class ProductionCompanies {
 }
 
 class ProductionCompany {
-  public static $id;
-  public static $logo_path;
-  public static $name;
-  public static $origin_country;
+  public $id;
+  public $logo_path;
+  public $name;
+  public $origin_country;
 
   public function __construct($data) {
-    self::$id = $data->id;
-    self::$logo_path = $data->logo_path;
-    self::$name = $data->name;
-    self::$origin_country = $data->origin_country;
+    $this->id = $data->id;
+    $this->logo_path = $data->logo_path;
+    $this->name = $data->name;
+    $this->origin_country = $data->origin_country;
   }
 
   public static function init($data) {

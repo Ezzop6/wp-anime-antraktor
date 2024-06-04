@@ -6,7 +6,7 @@ class ImageDownloader {
   public static $target_tmdb_thumbnail = 'https://image.tmdb.org/t/p/w';
   public static $direct_link = null;
 
-  public static function get_url($target, $path, $size = 500) {
+  public static function get_url(string $target, string $path, int $size = 500) {
     return match ($target) {
       self::$target_tmdb_original => self::$target_tmdb_original . $path,
       self::$target_tmdb_thumbnail => self::$target_tmdb_thumbnail . $size . $path,
@@ -15,12 +15,17 @@ class ImageDownloader {
     };
   }
 
-  public static function get_image_div($target, $path,  $class, $alt, $size = 500) {
-    if (empty($path)) {
+  public static function get_image_div(string $target, null | string $path, string  $class, string $alt, int $size = 500) {
+    if (!$path) {
       return;
     }
-    $url = self::get_url($target, $path, $size);
-    $img = "<img src='$url' alt='$alt image'>";
+    if ($target === self::$target_tmdb_thumbnail) {
+      $class .= ' thumbnail';
+      $url = self::get_url(self::$target_tmdb_original, $path, $size);
+    } else {
+      $url = self::get_url($target, $path);
+    }
+    $img = "<img src=" . self::get_url($target, $path, $size) . " alt='$alt'>";
     return <<<HTML
       <div class='$class'>
         <a href='$url'>

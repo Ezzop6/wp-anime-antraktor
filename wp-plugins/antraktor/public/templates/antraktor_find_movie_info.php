@@ -52,7 +52,6 @@ if (isset($_POST['series_name']) && !empty($_POST['series_name'])) {
   $series_name = htmlspecialchars($_POST['series_name']);
   $get_series = ApiCommunicator::send(QueryTmdb::class, QueryTmdb::$get_series_by_name, array('get_series_by_name' => $series_name));
   $get_series = ApiDataParser::parse(QueryTmdb::class, $get_series, QueryTmdb::$get_series_by_name);
-  // HelperScripts::print_all_object_attributes($get_series);
 
   $overview = $get_series::$overview ?? 'No overview available';
   $vote_average = $get_series::$vote_average ?? 'No rating available';
@@ -63,7 +62,6 @@ if (isset($_POST['series_name']) && !empty($_POST['series_name'])) {
 
   $full_backdrop_image = ImageDownloader::get_url(ImageDownloader::$target_tmdb_original, $get_series::$backdrop_path);
   $full_poster_image = ImageDownloader::get_url(ImageDownloader::$target_tmdb_original, $get_series::$poster_path);
-  // HelperScripts::print_all_object_attributes($details);
 
   echo <<<HTML
   <section class="antrakt-find-series">

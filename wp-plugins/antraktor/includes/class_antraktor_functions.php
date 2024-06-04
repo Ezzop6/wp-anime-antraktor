@@ -6,7 +6,7 @@ class AF {
       QueryTmdb::$get_movie_details_by_id,
       array('get_movie_details_by_id' => $movie_id)
     );
-    if ($$json_print) {
+    if ($json_print) {
       HelperScripts::print($tmdb_details_data);
     }
     if (!$parsed_object) {
@@ -26,7 +26,7 @@ class AF {
       QueryTmdb::$get_series_details_by_id,
       array('get_series_details_by_id' => $series_id)
     );
-    if ($$json_print) {
+    if ($json_print) {
       HelperScripts::print($tmdb_details_data);
     }
     if (!$parsed_object) {
@@ -67,8 +67,8 @@ class AF {
       QueryTmdb::$get_movie_by_name,
       array('get_movie_by_name' => $name)
     );
-    if ($$json_print) {
-      HelperScripts::print($tmdb_details_data);
+    if ($json_print) {
+      HelperScripts::print($tmdb_data);
     }
     if (!$parsed_object) {
       return $tmdb_data;
@@ -86,8 +86,8 @@ class AF {
         QueryKodi::class,
         QueryKodi::$player_get_active_players
       );
-      if ($$json_print) {
-        HelperScripts::print($tmdb_details_data);
+      if ($json_print) {
+        HelperScripts::print($kodi_status_data);
       }
       if (!$parsed_object) {
         return $kodi_status_data;
@@ -108,8 +108,8 @@ class AF {
         QueryKodi::class,
         QueryKodi::$player_get_item
       );
-      if ($$json_print) {
-        HelperScripts::print($tmdb_details_data);
+      if ($json_print) {
+        HelperScripts::print($kodi_now_playing_data);
       }
       if (strlen($kodi_now_playing_data) < ANTRAKTOR_KODI_BLANK_RESPONSE_LENGTH) {
         return '';

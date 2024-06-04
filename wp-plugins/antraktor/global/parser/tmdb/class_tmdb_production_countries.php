@@ -1,12 +1,11 @@
 <?php
 
 class ProductionCountries {
-  public static $production_countries;
+  public $production_countries = [];
 
   public function __construct($data) {
-    self::$production_countries = array();
     foreach ($data as $production_country) {
-      array_push(self::$production_countries, ProductionCountry::init($production_country));
+      $this->production_countries[] = new ProductionCountry($production_country);
     }
   }
 
@@ -16,12 +15,12 @@ class ProductionCountries {
 }
 
 class ProductionCountry {
-  public static $iso_3166_1;
-  public static $name;
+  public $iso_3166_1;
+  public $name;
 
   public function __construct($data) {
-    self::$iso_3166_1 = $data->iso_3166_1;
-    self::$name = $data->name;
+    $this->iso_3166_1 = $data->iso_3166_1;
+    $this->name = $data->name;
   }
 
   public static function init($data) {

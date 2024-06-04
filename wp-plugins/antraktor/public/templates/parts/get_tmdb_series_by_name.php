@@ -18,8 +18,13 @@ for ($i = 0; $i < count($series_data->seasons); $i++) {
   $name = $series_data->seasons[$i]->name;
   $vote_average = $series_data->seasons[$i]->vote_average;
   $vote_count = $series_data->seasons[$i]->vote_count;
-  // <p>Genre ids $genre_ids</p> // this is array
   // <p>Origin country: $origin_country</p> // this is array
+  foreach ($genre_ids as $genre_id) {
+    echo '<p>Genre id: ' . $genre_id . '</p>';
+  }
+  foreach ($origin_country as $country) {
+    echo '<p>Origin country: ' . $country . '</p>';
+  }
 
   $tmdb_detail_data = <<<HTML
   <p>Adult: $adult</p>
@@ -35,6 +40,6 @@ for ($i = 0; $i < count($series_data->seasons); $i++) {
 
   HTML;
   echo $tmdb_detail_data;
-  echo ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_original, $poster_path, 'poster', $name);
-  echo ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_original, $backdrop_path, 'backdrop', $name);
+  echo ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $poster_path, 'poster', $name);
+  echo ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $backdrop_path, 'backdrop', $name);
 }

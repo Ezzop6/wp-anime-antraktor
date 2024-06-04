@@ -26,7 +26,6 @@ class Movie {
   public $video;
   public $vote_average;
   public $vote_count;
-  public $similar_movies;
 
   public function __construct($data) {
     $this->adult = $data->adult ? true : false;
@@ -43,6 +42,5 @@ class Movie {
     $this->video = $data->video;
     $this->vote_average = $data->vote_average;
     $this->vote_count = $data->vote_count;
-    $this->similar_movies = count($data->results ?? []);
   }
 }

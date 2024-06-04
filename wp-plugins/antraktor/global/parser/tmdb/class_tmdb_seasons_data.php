@@ -1,11 +1,10 @@
 <?php
 class SeasonsData {
-  public static $seasons = [];
+  public $seasons = [];
 
   public function __construct($data) {
     foreach ($data as $season) {
-      $new_season = new Season($season);
-      array_push(self::$seasons, $new_season);
+      $this->seasons[] = Season::init($season);
     }
   }
 
@@ -33,5 +32,9 @@ class Season {
     $this->poster_path = $data->poster_path;
     $this->season_number = $data->season_number;
     $this->vote_average = $data->vote_average;
+  }
+
+  public static function init($data) {
+    return new self($data);
   }
 }
