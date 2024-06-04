@@ -108,4 +108,8 @@ class AF {
       return '';
     }
   }
+  public static function get_testing_data($array_id) {
+    $file = file_get_contents(ABSPATH . 'wp-content/plugins/antraktor/antraktor_testing_data.json');
+    return json_encode(json_decode($file, true)[$array_id]);
+  }
 }

@@ -34,7 +34,7 @@ class GetMovie {
     self::$video = $result->video; // ??
     self::$vote_average = $result->vote_average; // float
     self::$vote_count = $result->vote_count; // int
-    self::$similar_movies = count($data->results) > 1 ? $data->results : null;
+    self::$similar_movies = count($data->results ?? []);
   }
 
   public static function init($data) {

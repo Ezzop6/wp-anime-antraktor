@@ -1,6 +1,11 @@
 <?php
-// require_once ABSPATH . 'wp-content/plugins/antraktor/antraktor_testing_data.php';
 
+$data = AF::get_testing_data(7);
+HelperScripts::print($data);
+// echo '<br>';
+// echo json_encode(json_decode($file, true)[3]);
+// echo '<br>';
+// HelperScripts::print($first_in_array, false);
 
 
 // $client_id = ApiAnilistVariables::$client_id;
