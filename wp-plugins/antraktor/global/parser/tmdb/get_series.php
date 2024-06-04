@@ -1,41 +1,49 @@
 <?php
 class GetSeries {
-  public static $pages;
-  public static $adult;
-  public static $backdrop_path;
-  public static $genre_ids;
-  public static $id;
-  public static $origin_country;
-  public static $original_language;
-  public static $overview;
-  public static $original_name;
-  public static $popularity;
-  public static $poster_path;
-  public static $first_air_date;
-  public static $name;
-  public static $vote_average;
-  public static $vote_count;
+  public $pages;
+  public $seasons = [];
 
-  public function __construct($data, $index = 0) {
-    self::$pages = $data->total_pages;
-    $result = $data->results[$index];
-    self::$adult = $result->adult ? 'true' : 'false';
-    self::$backdrop_path = $result->backdrop_path;
-    self::$genre_ids = $result->genre_ids;
-    self::$id = $result->id;
-    self::$origin_country = $result->origin_country;
-    self::$original_language = $result->original_language;
-    self::$overview = $result->overview;
-    self::$original_name = $result->original_name;
-    self::$popularity = $result->popularity;
-    self::$poster_path = $result->poster_path;
-    self::$first_air_date = $result->first_air_date;
-    self::$name = $result->name;
-    self::$vote_average = $result->vote_average;
-    self::$vote_count = $result->vote_count;
+  public function __construct($data) {
+    $this->pages = $data->total_pages;
+    foreach ($data->results as $season) {
+      $this->seasons[] = new Serie($season);
+    }
   }
 
   public static function init($data) {
     return new self($data);
+  }
+}
+
+class Serie {
+  public $adult;
+  public $backdrop_path;
+  public $genre_ids;
+  public $id;
+  public $origin_country;
+  public $original_language;
+  public $overview;
+  public $original_name;
+  public $popularity;
+  public $poster_path;
+  public $first_air_date;
+  public $name;
+  public $vote_average;
+  public $vote_count;
+  public function __construct($data) {
+    $this->adult = $data->adult;
+    $this->backdrop_path = $data->backdrop_path;
+    $this->genre_ids = $data->genre_ids;
+    $this->id = $data->id;
+    $this->origin_country = $data->origin_country;
+    $this->original_language = $data->original_language;
+    $this->overview = $data->overview;
+    $this->original_name = $data->original_name;
+    $this->popularity = $data->popularity;
+    $this->poster_path = $data->poster_path;
+    $this->first_air_date = $data->first_air_date;
+    $this->name = $data->name;
+    $this->vote_average = $data->vote_average;
+    $this->vote_count = $data->vote_count;
   }
 }

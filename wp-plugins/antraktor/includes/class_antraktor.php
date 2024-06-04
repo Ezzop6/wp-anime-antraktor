@@ -110,6 +110,8 @@ class Antraktor {
 		AntraktorRewriteRule::add_new_redirection('index', 'templates/antraktor_index.php');
 		AntraktorRewriteRule::add_new_redirection('now-playing', 'templates/antraktor_now_playing.php');
 		AntraktorRewriteRule::add_new_redirection('find-movie', 'templates/antraktor_find_movie_info.php');
+		AntraktorRewriteRule::add_new_redirection('movie', 'templates/antraktor_tmdb_movie_info.php');
+		AntraktorRewriteRule::add_new_redirection('series', 'templates/antraktor_tmdb_series_info.php');
 	}
 
 	public function run() {

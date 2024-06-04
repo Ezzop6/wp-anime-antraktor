@@ -1,16 +1,16 @@
 <?php
 
 class BelongsToCollection {
-  public static $id;
-  public static $name;
-  public static $poster_path;
-  public static $backdrop_path;
+  public  $id;
+  public  $name;
+  public  $poster_path;
+  public  $backdrop_path;
 
   public function __construct($api_data) {
-    self::$id = $api_data->id;
-    self::$name = $api_data->name;
-    self::$poster_path = $api_data->poster_path;
-    self::$backdrop_path = $api_data->backdrop_path;
+    $this->id = $api_data->id ?? null;
+    $this->name = $api_data->name ?? null;
+    $this->poster_path = $api_data->poster_path ?? null;
+    $this->backdrop_path = $api_data->backdrop_path ?? null;
   }
 
   public static function init($api_data) {
