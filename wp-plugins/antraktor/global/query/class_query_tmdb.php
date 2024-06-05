@@ -4,6 +4,9 @@ class QueryTmdb {
   public static $get_movie_details_by_id = 'get_movie_details_by_id';
   public static $get_series_by_name = 'get_series_by_name';
   public static $get_series_details_by_id = 'get_series_details_by_id';
+  public static $get_series_season_details_by_id = 'get_series_season_details_by_id';
+  public static $get_series_episode_details_by_id = 'get_series_episode_details_by_id';
+  public static $get_series_images_by_id = 'get_series_images_by_id';
 
   public static function get_movie_by_name($atts) {
     $movie = $atts['get_movie_by_name'];
@@ -35,5 +38,41 @@ class QueryTmdb {
       throw new Exception('Series id not set');
     }
     return 'tv/' . $series_id;
+  }
+
+  public static function get_series_season_details_by_id($atts) {
+    $series_id = $atts['get_series_season_details_by_id'];
+    $season_number = $atts['season_number'];
+    if (!isset($series_id)) {
+      throw new Exception('Series id not set');
+    }
+    if (!isset($season_number)) {
+      throw new Exception('Season number not set');
+    }
+    return 'tv/' . $series_id . '/season/' . $season_number;
+  }
+
+  public static function get_series_episode_details_by_id($atts) {
+    $series_id = $atts['get_series_episode_details_by_id'];
+    $season_number = $atts['season_number'];
+    $episode_number = $atts['episode_number'];
+    if (!isset($series_id)) {
+      throw new Exception('Series id not set');
+    }
+    if (!isset($season_number)) {
+      throw new Exception('Season number not set');
+    }
+    if (!isset($episode_number)) {
+      throw new Exception('Episode number not set');
+    }
+    return 'tv/' . $series_id . '/season/' . $season_number . '/episode/' . $episode_number;
+  }
+
+  public static function get_series_images_by_id($atts) {
+    $series_id = $atts['get_series_images_by_id'];
+    if (!isset($series_id)) {
+      throw new Exception('Series id not set');
+    }
+    return 'tv/' . $series_id . '/images';
   }
 }

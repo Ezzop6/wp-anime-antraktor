@@ -79,4 +79,14 @@ class AntraktorVariableManager {
     }
     return $result;
   }
+  public static function set_default_variable_pairs(array $variables) {
+    self::init();
+    $values = [];
+    foreach ($variables as $key => $value) {
+      $values[] = "('$key', '$value')";
+    }
+    $values = implode(',', $values);
+    $sql = "INSERT INTO " . self::$table_name . " (var_name, var_value) VALUES $values";
+    self::$DB->query($sql);
+  }
 }

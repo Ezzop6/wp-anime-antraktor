@@ -1,5 +1,6 @@
 .antraktor-page-content {
   @import "components/now_playing_progress_bar";
+  @import "components/series_progress_bar.scss";
 }
 .tmdb-movies-section {
   display: flex;

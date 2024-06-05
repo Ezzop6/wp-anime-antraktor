@@ -127,6 +127,72 @@ class AF {
       return '';
     }
   }
+  public static function get_series_images_by_id($series_id, $parsed_object = true, $json_print = false): GestSeriesImages|string {
+    $tmdb_images_data = ApiCommunicator::send(
+      QueryTmdb::class,
+      QueryTmdb::$get_series_images_by_id,
+      array('get_series_images_by_id' => $series_id)
+    );
+    if ($json_print) {
+      HelperScripts::print($tmdb_images_data);
+    }
+    if (!$parsed_object) {
+      return $tmdb_images_data;
+    }
+    $parsed_data = ApiDataParser::parse(
+      QueryTmdb::class,
+      $tmdb_images_data,
+      QueryTmdb::$get_series_images_by_id
+    );
+    return $parsed_data;
+  }
+
+  public static function get_series_season_details_by_id($series_id, $season_number, $parsed_object = true, $json_print = false): GetSeriesSeasonDetails|string {
+    $tmdb_season_data = ApiCommunicator::send(
+      QueryTmdb::class,
+      QueryTmdb::$get_series_season_details_by_id,
+      array(
+        'get_series_season_details_by_id' => $series_id,
+        'season_number' => $season_number
+      )
+    );
+    if ($json_print) {
+      HelperScripts::print($tmdb_season_data);
+    }
+    if (!$parsed_object) {
+      return $tmdb_season_data;
+    }
+    $parsed_data = ApiDataParser::parse(
+      QueryTmdb::class,
+      $tmdb_season_data,
+      QueryTmdb::$get_series_season_details_by_id
+    );
+    return $parsed_data;
+  }
+
+  public static function get_series_episode_details_by_id($series_id, $season_number, $episode_number, $parsed_object = true, $json_print = false): GetSeriesEpisodeDetails|string {
+    $tmdb_episode_data = ApiCommunicator::send(
+      QueryTmdb::class,
+      QueryTmdb::$get_series_episode_details_by_id,
+      array(
+        'get_series_episode_details_by_id' => $series_id,
+        'season_number' => $season_number,
+        'episode_number' => $episode_number
+      )
+    );
+    if ($json_print) {
+      HelperScripts::print($tmdb_episode_data);
+    }
+    if (!$parsed_object) {
+      return $tmdb_episode_data;
+    }
+    $parsed_data = ApiDataParser::parse(
+      QueryTmdb::class,
+      $tmdb_episode_data,
+      QueryTmdb::$get_series_episode_details_by_id
+    );
+    return $parsed_data;
+  }
   public static function get_testing_data($array_id) {
     $file = file_get_contents(ABSPATH . 'wp-content/plugins/antraktor/antraktor_testing_data.json');
     return json_encode(json_decode($file, true)[$array_id]);

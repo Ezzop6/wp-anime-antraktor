@@ -74,6 +74,7 @@ class Antraktor {
 
 	private function define_api_hooks() {
 		AntraktorApi::register_readable_endpoint('/now-playing', [AntraktorApi::class, 'get_now_playing']);
+		AntraktorApi::register_secure_readable_endpoint('/refresh', [AntraktorApi::class, 'refresh']);
 	}
 
 	private function set_locale() {
@@ -112,6 +113,7 @@ class Antraktor {
 		AntraktorRewriteRule::add_new_redirection('find-movie', 'templates/antraktor_find_movie_info.php');
 		AntraktorRewriteRule::add_new_redirection('movie', 'templates/antraktor_tmdb_movie_info.php');
 		AntraktorRewriteRule::add_new_redirection('series', 'templates/antraktor_tmdb_series_info.php');
+		AntraktorRewriteRule::add_new_redirection('testing', 'templates/components/series_progress_bar.php');
 	}
 
 	public function run() {
