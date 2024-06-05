@@ -1,7 +1,5 @@
 <?php
-echo '<h3>Movie</h3>';
-echo '<h3>page count: ' . $movie_data->page . '</h3>';
-
+echo "<section class='tmdb-movies-section'>";
 for ($i = 0; $i < count($movie_data->movies); $i++) {
   $movie = $movie_data->movies[$i];
   $adult = $movie->adult;
@@ -21,24 +19,34 @@ for ($i = 0; $i < count($movie_data->movies); $i++) {
   foreach ($movie->genre_ids as $genre_id) {
     $genre_ids .= $genre_id . ' ';
   };
+  $img_poster = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $poster_path, 'poster', $title, 200);
+  $img_backdrop = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $backdrop_path, 'backdrop', $title, 200);
 
-
+  $overview = substr($overview, 0, 100) . '<a href="/antraktor/movie/?movie_id=' . $id . '"> ...</a>';
   $tmdb_detail_data = <<<HTML
-  <h3>Tmdb Data</h3>
-  <p>Adult: $adult</p>
-  <p>Id: $id</p>
-  <p>Genre ids: $genre_ids</p>
-  <p>Original language: $original_language</p>
-  <p>Original title: $original_title</p>
-  <p>Overview: $overview</p>
-  <p>Popularity: $popularity</p>
-  <p>Release date: $release_date</p>
-  <p>Title: $title</p>
-  <p>Video: $video</p>
-  <p>Vote average: $vote_average</p>
-  <p>Vote count: $vote_count</p>
+  <section class="tmdb-movie">
+    <div class="tmdb-images">
+      $img_poster
+      $img_backdrop
+    </div>
+    <div class="tmdb-details">
+      <div class="movie-details-link">
+        <a href="/antraktor/movie/?movie_id=$id">$title</a>
+      </div>
+      <p>Adult: $adult</p>
+      <p>Genre ids: $genre_ids</p>
+      <p>Original language: $original_language</p>
+      <p>Original title: $original_title</p>
+      <p>Overview: $overview</p>
+      <p>Popularity: $popularity</p>
+      <p>Release date: $release_date</p>
+      <p>Title: $title</p>
+      <p>Video: $video</p>
+      <p>Vote average: $vote_average</p>
+      <p>Vote count: $vote_count</p>
+    </div>
+  </section>
   HTML;
   echo $tmdb_detail_data;
-  echo ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $poster_path, 'poster', $title, 300);
-  echo ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $backdrop_path, 'backdrop', $title, 300);
 }
+echo "</section>";

@@ -6,7 +6,7 @@ class ImageDownloader {
   public static $target_tmdb_thumbnail = 'https://image.tmdb.org/t/p/w';
   public static $direct_link = null;
 
-  public static function get_url(string $target, string $path, int $size = 500) {
+  public static function get_url(string $target, string $path, int $size = 200) {
     return match ($target) {
       self::$target_tmdb_original => self::$target_tmdb_original . $path,
       self::$target_tmdb_thumbnail => self::$target_tmdb_thumbnail . $size . $path,

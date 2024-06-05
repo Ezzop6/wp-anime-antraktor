@@ -1,3 +1,33 @@
 .antraktor-page-content {
   @import "components/now_playing_progress_bar";
 }
+.tmdb-movies-section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.tmdb-movie {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #ccc;
+  margin: 10px;
+  padding: 10px;
+  max-width: 500px;
+  p {
+    margin: 0;
+    padding: 0;
+    padding-left: 10px;
+  }
+  .movie-details-link {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 1.2em;
+    text-decoration: none;
+    color: #666;
+    &:hover {
+      text-decoration: underline;
+      color: #333;
+    }
+  }
+}

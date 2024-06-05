@@ -14,68 +14,24 @@
 </div>
 
 <?php
-
-
 if (isset($_POST['movie_name']) && !empty($_POST['movie_name'])) {
-  $movie_name = htmlspecialchars($_POST['movie_name']);
-  $get_movie = ApiCommunicator::send(QueryTmdb::class, QueryTmdb::$get_movie_by_name, array('get_movie_by_name' => $movie_name));
-  $get_movie = ApiDataParser::parse(QueryTmdb::class, $get_movie, QueryTmdb::$get_movie_by_name);
+  $movie_name = sanitize_text_field($_POST['movie_name']);
 
-  $overview = $get_movie::$overview ?? 'No overview available';
-  $vote_average = $get_movie::$vote_average ?? 'No rating available';
-  $vote_count = $get_movie::$vote_count ?? 'No rating available';
+  if (is_numeric($movie_name)) {
+    $movie_data = AF::get_tmdb_movie_details_by_id($movie_name);
+    require_once 'parts/get_tmdb_movie_by_id.php';
+  } else {
+    $movie_data = AF::get_tmdb_movie_by_name($movie_name);
+    require_once 'parts/get_tmdb_movie_by_name.php';
+  }
+} else if (isset($_POST['series_name']) && !empty($_POST['series_name'])) {
+  $series_name = sanitize_text_field($_POST['series_name']);
 
-  $backdrop_image = ImageDownloader::get_url(ImageDownloader::$target_tmdb_thumbnail, $get_movie::$backdrop_path, 500);
-  $poster_image = ImageDownloader::get_url(ImageDownloader::$target_tmdb_thumbnail, $get_movie::$poster_path, 500);
-
-  $full_backdrop_image = ImageDownloader::get_url(ImageDownloader::$target_tmdb_original, $get_movie::$backdrop_path);
-  $full_poster_image = ImageDownloader::get_url(ImageDownloader::$target_tmdb_original, $get_movie::$poster_path);
-
-  echo <<<HTML
-  <section class="antrakt-find-movie">
-      <h3>Movie: $movie_name </h3>
-      <p>$overview</p>
-      <p>Rating: $vote_average ($vote_count votes)</p>
-      <div>
-        <a href="$full_backdrop_image">
-          <img src="$backdrop_image" alt="backdrop">
-        </a>
-        <a href="$full_poster_image">
-          <img src="$poster_image" alt="poster">
-        </a>
-      </div>
-  </section>
-  HTML;
-}
-
-if (isset($_POST['series_name']) && !empty($_POST['series_name'])) {
-  $series_name = htmlspecialchars($_POST['series_name']);
-  $get_series = ApiCommunicator::send(QueryTmdb::class, QueryTmdb::$get_series_by_name, array('get_series_by_name' => $series_name));
-  $get_series = ApiDataParser::parse(QueryTmdb::class, $get_series, QueryTmdb::$get_series_by_name);
-
-  $overview = $get_series::$overview ?? 'No overview available';
-  $vote_average = $get_series::$vote_average ?? 'No rating available';
-  $vote_count = $get_series::$vote_count ?? 'No rating available';
-
-  $backdrop_image = ImageDownloader::get_url(ImageDownloader::$target_tmdb_thumbnail, $get_series::$backdrop_path, 500);
-  $poster_image = ImageDownloader::get_url(ImageDownloader::$target_tmdb_thumbnail, $get_series::$poster_path, 500);
-
-  $full_backdrop_image = ImageDownloader::get_url(ImageDownloader::$target_tmdb_original, $get_series::$backdrop_path);
-  $full_poster_image = ImageDownloader::get_url(ImageDownloader::$target_tmdb_original, $get_series::$poster_path);
-
-  echo <<<HTML
-  <section class="antrakt-find-series">
-      <h3>Series: $series_name </h3>
-      <p>$overview</p>
-      <p>Rating: $vote_average ($vote_count votes)</p>
-      <div>
-        <a href="$full_backdrop_image">
-          <img src="$backdrop_image" alt="backdrop">
-        </a>
-        <a href="$full_poster_image">
-          <img src="$poster_image" alt="poster">
-        </a>
-      </div>
-  </section>
-  HTML;
+  if (is_numeric($series_name)) {
+    $series_data = AF::get_tmdb_series_details_by_id($series_name);
+    require_once 'parts/get_tmdb_series_details_by_id.php';
+  } else {
+    $series_data = AF::get_tmdb_series_by_name($series_name);
+    require_once 'parts/get_tmdb_series_by_name.php';
+  }
 }

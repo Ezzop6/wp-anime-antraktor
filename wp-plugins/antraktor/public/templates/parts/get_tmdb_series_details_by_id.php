@@ -31,8 +31,6 @@ $tagline = $series_data->tagline;
 $type = $series_data->type;
 $vote_average = $series_data->vote_average;
 $vote_count = $series_data->vote_count;
-
-echo '<h3>Images</h3>';
 echo ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $backdrop_path, 'backdrop', $name);
 echo ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $poster_path, 'poster', $name);
 
