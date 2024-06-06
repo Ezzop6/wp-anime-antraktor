@@ -17,6 +17,8 @@ class ParserTmdb {
       QueryTmdb::$get_series_details_by_id => self::get_series_details_by_id($api_data, $debug_print),
       QueryTmdb::$get_series_episode_details_by_id => self::get_series_episode_details_by_id($api_data, $debug_print),
       QueryTmdb::$get_series_images_by_id => self::get_series_images_by_id($api_data, $debug_print),
+      QueryTmdb::$get_series_season_details_by_id => self::get_series_season_details_by_id($api_data, $debug_print),
+      QueryTmdb::$get_by_unique_id => self::get_by_unique_id($api_data, $debug_print),
       default => throw new Exception('Query name not found : ' . $query_name . ' in ParserTmdb::parse() method'),
     };
   }
@@ -43,5 +45,13 @@ class ParserTmdb {
   public static function get_series_images_by_id($api_data, $debug_print): GestSeriesImages {
     require_once 'tmdb/get_series_images.php';
     return new GestSeriesImages($api_data);
+  }
+  public static function get_series_season_details_by_id($api_data, $debug_print): GetSeriesSeasonDetails {
+    require_once 'tmdb/get_series_season_details.php';
+    return new GetSeriesSeasonDetails($api_data);
+  }
+  public static function get_by_unique_id($api_data, $debug_print): GetByUniqueId {
+    require_once 'tmdb/get_by_unique_id.php';
+    return new GetByUniqueId($api_data);
   }
 }

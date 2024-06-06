@@ -7,6 +7,7 @@ class QueryTmdb {
   public static $get_series_season_details_by_id = 'get_series_season_details_by_id';
   public static $get_series_episode_details_by_id = 'get_series_episode_details_by_id';
   public static $get_series_images_by_id = 'get_series_images_by_id';
+  public static $get_by_unique_id = 'get_by_unique_id';
 
   public static function get_movie_by_name($atts) {
     $movie = $atts['get_movie_by_name'];
@@ -50,6 +51,18 @@ class QueryTmdb {
       throw new Exception('Season number not set');
     }
     return 'tv/' . $series_id . '/season/' . $season_number;
+  }
+
+  public static function get_by_unique_id($atts) {
+    $unique_id = $atts['get_by_unique_id'];
+    $external_source = $atts['external_source'];
+    if (!isset($unique_id)) {
+      throw new Exception('Unique id not set');
+    }
+    if (!isset($external_source)) {
+      throw new Exception('External source not set');
+    }
+    return 'find/' . $unique_id . '?external_source=' . $external_source;
   }
 
   public static function get_series_episode_details_by_id($atts) {

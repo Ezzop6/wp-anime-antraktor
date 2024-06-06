@@ -43,12 +43,12 @@ class AntraktorDatabase {
     $all_tables = [
       ANTRAKTOR_DB_PREFIX . 'registered_pages',
       ANTRAKTOR_DB_PREFIX . 'variables',
+      ANTRAKTOR_DB_PREFIX . 'kodi_watched',
       // ANTRAKTOR_DB_PREFIX . 'movies',
       // ANTRAKTOR_DB_PREFIX . 'movies_parts',
       // ANTRAKTOR_DB_PREFIX . 'series_seasons_episodes',
       // ANTRAKTOR_DB_PREFIX . 'series_seasons',
       // ANTRAKTOR_DB_PREFIX . 'series',
-      ANTRAKTOR_DB_PREFIX . 'kodi_watched',
     ];
 
     foreach ($all_tables as $table) {

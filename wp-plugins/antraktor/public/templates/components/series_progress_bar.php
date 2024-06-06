@@ -1,6 +1,8 @@
 <?php
+$data = AF::get_tmdb_series_details_by_id(127532, 1, 1);
+$series_status = [];
 
-$html = "";
+
 $series_status  = [
   [10, 15, 55, 65, 0, 100],
   [15, 35, 1, 8, 87, 1, 25, 554, 15, 35, 1, 8, 87, 1, 25, 554, 15, 35, 1, 8, 87, 1, 25, 554],
@@ -8,6 +10,7 @@ $series_status  = [
 
 
 
+$html = "";
 $series_number = 0;
 foreach ($series_status as $status) {
   $episode_number = 0;

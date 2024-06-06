@@ -1,3 +1,6 @@
 <?php
 
-require_once plugin_dir_path(dirname(__FILE__)) . '../public/templates/parts/tmdb_series_season_details.php';
+
+$data = AF::get_kodi_now_playing();
+HelperScripts::print($data);
+$result = AntraktorKodiManager::add_record($data);

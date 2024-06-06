@@ -36,6 +36,9 @@ class Antraktor {
 		require_once plugin_dir_path(dirname(__FILE__)) . 'antraktor_db/database_parts/class_antraktor_page_manager.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'antraktor_db/database_parts/class_antraktor_movie_manager.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'antraktor_db/database_parts/class_antraktor_kodi_manager.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'antraktor_db/database_parts/class_antraktor_series_manager.php';
+		require_once plugin_dir_path(dirname(__FILE__)) . 'antraktor_db/database_parts/class_antraktor_episode_manager.php';
+
 
 		// Page creator
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_page_creator.php';

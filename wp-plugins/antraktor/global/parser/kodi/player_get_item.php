@@ -1,130 +1,138 @@
 <?php
 class PlayerGetItem {
-  public static $album;
-  public static $art;
-  public static $art_banner;
-  public static $art_clearlogo;
-  public static $art_fanart;
-  public static $art_icon;
-  public static $art_poster;
-  public static $art_thumb;
-  public static $artist;
-  public static $cast;
-  public static $country;
-  public static $customproperties;
-  public static $dateadded;
-  public static $director;
-  public static $dynpath;
-  public static $episode;
-  public static $episodeguide;
-  public static $fanart;
-  public static $file;
-  public static $firstaired;
-  public static $genre;
-  public static $imdbnumber;
-  public static $label;
-  public static $lastplayed;
-  public static $mediapath;
-  public static $mpaa;
-  public static $originaltitle;
-  public static $playcount;
-  public static $plot;
-  public static $plotoutline;
-  public static $premiered;
-  public static $productioncode;
-  public static $rating;
-  public static $resume;
-  public static $runtime;
-  public static $season;
-  public static $set;
-  public static $setid;
-  public static $showlink;
-  public static $showtitle;
-  public static $sorttitle;
-  public static $specialsortepisode;
-  public static $specialsortseason;
-  public static $streamdetails;
-  public static $studio;
-  public static $tag;
-  public static $tagline;
-  public static $thumbnail;
-  public static $title;
-  public static $top250;
-  public static $track;
-  public static $trailer;
-  public static $tvshowid;
-  public static $type;
-  public static $uniqueid;
-  public static $userrating;
-  public static $votes;
-  public static $writer;
-  public static $year;
-  public static $movie_name;
+  public $album;
+  public $art;
+  public $art_banner;
+  public $art_clearlogo;
+  public $art_fanart;
+  public $art_icon;
+  public $art_poster;
+  public $art_thumb;
+  public $artist;
+  public $cast;
+  public $country;
+  public $customproperties;
+  public $dateadded;
+  public $director;
+  public $dynpath;
+  public $episode;
+  public $episodeguide;
+  public $fanart;
+  public $file;
+  public $firstaired;
+  public $genre;
+  public $imdbnumber;
+  public $label;
+  public $lastplayed;
+  public $mediapath;
+  public $mpaa;
+  public $originaltitle;
+  public $playcount;
+  public $plot;
+  public $plotoutline;
+  public $premiered;
+  public $productioncode;
+  public $rating;
+  public $resume;
+  public $runtime;
+  public $season;
+  public $set;
+  public $setid;
+  public $showlink;
+  public $showtitle;
+  public $sorttitle;
+  public $specialsortepisode;
+  public $specialsortseason;
+  public $streamdetails;
+  public $studio;
+  public $tag;
+  public $tagline;
+  public $thumbnail;
+  public $title;
+  public $top250;
+  public $track;
+  public $trailer;
+  public $tvshowid;
+  public $type;
+  public $uniqueid;
+  public $userrating;
+  public $votes;
+  public $writer;
+  public $year;
+  public $movie_name;
 
-  public function __construct($data) {
-    self::$album = $data->result->item->album;
-    self::$art =  $data->result->item->art; // object
-    self::$art_banner = self::parse_url($data->result->item->art->banner); // string
-    self::$art_clearlogo = self::parse_url($data->result->item->art->clearlogo); // string
-    self::$art_fanart = self::parse_url($data->result->item->art->fanart); // string
-    self::$art_icon = self::parse_url($data->result->item->art->icon); // string
-    self::$art_poster = self::parse_url($data->result->item->art->poster); // string
-    self::$art_thumb = self::parse_url($data->result->item->art->thumb); // string
-    self::$artist = $data->result->item->artist; // array
-    self::$cast = $data->result->item->cast; // array
-    self::$country = $data->result->item->country; // array
-    self::$customproperties = $data->result->item->customproperties; // object
-    self::$dateadded = $data->result->item->dateadded; // string / date
-    self::$director = $data->result->item->director; // array
-    self::$dynpath = $data->result->item->dynpath; // string
-    self::$episode = self::parse_integer($data->result->item->episode); // int
-    self::$episodeguide = $data->result->item->episodeguide; // ??
-    self::$fanart = self::parse_url($data->result->item->fanart); // string
-    self::$file = $data->result->item->file; // string
-    self::$firstaired = $data->result->item->firstaired; // string / date
-    self::$genre = $data->result->item->genre; // array
-    self::$imdbnumber = $data->result->item->imdbnumber; // ??
-    self::$label = $data->result->item->label; // string
-    self::$lastplayed = $data->result->item->lastplayed; // ??
-    self::$mediapath = $data->result->item->mediapath; // string
-    self::$mpaa = $data->result->item->mpaa; // ??
-    self::$originaltitle = $data->result->item->originaltitle; // string
-    self::$playcount = (int)$data->result->item->playcount; // int
-    self::$plot = $data->result->item->plot; // string
-    self::$plotoutline = $data->result->item->plotoutline; // ??
-    self::$premiered = $data->result->item->premiered; // string / date
-    self::$productioncode = $data->result->item->productioncode; // ??
-    self::$rating = (float)$data->result->item->rating; // float
-    self::$resume = Resume::init($data->result->item->resume); // object
-    self::$runtime = (int)$data->result->item->runtime; // int
-    self::$season = self::parse_integer($data->result->item->season); // int
-    self::$set = $data->result->item->set; // ??
-    self::$setid = $data->result->item->setid; // ??
-    self::$showlink = $data->result->item->showlink; // array
-    self::$showtitle = $data->result->item->showtitle; // string
-    self::$sorttitle = $data->result->item->sorttitle; // string
-    self::$specialsortepisode = $data->result->item->specialsortepisode; // ??
-    self::$specialsortseason = $data->result->item->specialsortseason; // ??
-    self::$streamdetails = $data->result->item->streamdetails; // stdClass[audio, video, subtitle]
-    self::$studio = $data->result->item->studio; // array
-    self::$tag = $data->result->item->tag; // array
-    self::$tagline = $data->result->item->tagline; // ??
-    self::$thumbnail = self::parse_url($data->result->item->thumbnail); // string
-    self::$title = $data->result->item->title; // string
-    self::$top250 = (bool)$data->result->item->top250; // bool
-    self::$track = (int)$data->result->item->track; // int
-    self::$trailer = $data->result->item->trailer; // ??
-    self::$tvshowid = (int)$data->result->item->tvshowid; // int
-    self::$type = self::get_show_type($data->result->item->type); // string
-    self::$uniqueid = new UniqueId($data->result->item->uniqueid ?? ['', '', '']); // object
-    self::$userrating = $data->result->item->userrating; // ??
-    self::$votes = (int)$data->result->item->votes; // int
-    self::$writer = $data->result->item->writer; // array
-    self::$year = (int)$data->result->item->year; // int
-    self::$movie_name = self::get_movie_name();
+  public function __construct($data, $method = 0) {
+    if (!$method == 0) {
+      $data = array(
+        'result' => array(
+          'item' => $data
+        )
+      );
+      var_dump($data);
+    }
+    $this->album = $data->result->item->album;
+    $this->art =  $data->result->item->art;
+    $this->art_banner = $this->parse_url($data->result->item->art->banner ?? '');
+    $this->art_clearlogo = $this->parse_url($data->result->item->art->clearlogo ?? '');
+    $this->art_fanart = $this->parse_url($data->result->item->art->fanart ?? '');
+    $this->art_icon = $this->parse_url($data->result->item->art->icon ?? '');
+    $this->art_poster = $this->parse_url($data->result->item->art->poster ?? '');
+    $this->art_thumb = $this->parse_url($data->result->item->art->thumb ?? '');
+    $this->artist = $data->result->item->artist;
+    $this->cast = $data->result->item->cast;
+    $this->country = $data->result->item->country;
+    $this->customproperties = $data->result->item->customproperties;
+    $this->dateadded = $data->result->item->dateadded;
+    $this->director = $data->result->item->director;
+    $this->dynpath = $data->result->item->dynpath;
+    $this->episode = $this->parse_integer($data->result->item->episode);
+    $this->episodeguide = $data->result->item->episodeguide;
+    $this->fanart = $this->parse_url($data->result->item->fanart);
+    $this->file = $data->result->item->file;
+    $this->firstaired = $data->result->item->firstaired;
+    $this->genre = $data->result->item->genre;
+    $this->imdbnumber = $data->result->item->imdbnumber;
+    $this->label = $data->result->item->label;
+    $this->lastplayed = $data->result->item->lastplayed;
+    $this->mediapath = $data->result->item->mediapath;
+    $this->mpaa = $data->result->item->mpaa;
+    $this->originaltitle = $data->result->item->originaltitle;
+    $this->playcount = (int)$data->result->item->playcount;
+    $this->plot = $data->result->item->plot;
+    $this->plotoutline = $data->result->item->plotoutline;
+    $this->premiered = $data->result->item->premiered;
+    $this->productioncode = $data->result->item->productioncode;
+    $this->rating = (float)$data->result->item->rating;
+    $this->resume = Resume::init($data->result->item->resume);
+    $this->runtime = (int)$data->result->item->runtime;
+    $this->season = $this->parse_integer($data->result->item->season);
+    $this->set = $data->result->item->set;
+    $this->setid = $data->result->item->setid;
+    $this->showlink = $data->result->item->showlink;
+    $this->showtitle = $data->result->item->showtitle;
+    $this->sorttitle = $data->result->item->sorttitle;
+    $this->specialsortepisode = $data->result->item->specialsortepisode;
+    $this->specialsortseason = $data->result->item->specialsortseason;
+    $this->streamdetails = $data->result->item->streamdetails;
+    $this->studio = $data->result->item->studio;
+    $this->tag = $data->result->item->tag;
+    $this->tagline = $data->result->item->tagline;
+    $this->thumbnail = $this->parse_url($data->result->item->thumbnail);
+    $this->title = $data->result->item->title;
+    $this->top250 = (bool)$data->result->item->top250;
+    $this->track = (int)$data->result->item->track;
+    $this->trailer = $data->result->item->trailer;
+    $this->tvshowid = (int)$data->result->item->tvshowid;
+    $this->type = $this->get_show_type($data->result->item->type);
+    $this->uniqueid = new UniqueId($data->result->item->uniqueid ?? ['', '', '']);
+    $this->userrating = $data->result->item->userrating;
+    $this->votes = (int)$data->result->item->votes;
+    $this->writer = $data->result->item->writer;
+    $this->year = (int)$data->result->item->year;
+    $this->movie_name = $this->get_movie_name();
   }
 
-  private static function parse_url($url) {
+  private function parse_url($url) {
     return urldecode(substr($url, 8, -1));
   }
 
@@ -132,31 +140,32 @@ class PlayerGetItem {
     return new self($data);
   }
 
-  public static function parse_integer($data) {
+  private function parse_integer($data) {
     return empty($data) || $data < 0 ? 0 : (int)$data;
   }
 
-  public static function get_movie_name() {
-    if (self::$showtitle != null) {
-      return self::$showtitle;
+  private function get_movie_name() {
+    if ($this->showtitle != null) {
+      return $this->showtitle;
     }
-    if (self::$title != null) {
-      return self::$title;
+    if ($this->title != null) {
+      return $this->title;
     }
-    if (self::$label != null) {
-      return self::$label;
+    if ($this->label != null) {
+      return $this->label;
     }
     return 'Unknown';
   }
-  private static function get_show_type($type) {
+
+  private function get_show_type($type) {
     if ($type !== 'unknown') {
       return $type;
     }
     $haystack = '';
-    $haystack .= self::$customproperties->{"contextmenuaction(0)"} ?? '';
-    $haystack .= self::$customproperties->{"contextmenuaction(1)"} ?? '';
-    $haystack .= self::$art->{"clearart"} ?? '';
-    $haystack .= self::$art->{"poster"} ?? '';
+    $haystack .= $this->customproperties->{"contextmenuaction(0)"} ?? '';
+    $haystack .= $this->customproperties->{"contextmenuaction(1)"} ?? '';
+    $haystack .= $this->art->{"clearart"} ?? '';
+    $haystack .= $this->art->{"poster"} ?? '';
 
     if (strpos($haystack, 'episode') !== false) {
       return 'episode';
@@ -169,28 +178,30 @@ class PlayerGetItem {
 }
 
 class UniqueId {
-  public static $imdb;
-  public static $tvdb;
-  public static $tmdb;
+  public $imdb;
+  public $tvdb;
+  public $tmdb;
 
   public function __construct($data) {
-    self::$imdb = $data->imdb ?? '';
-    self::$tvdb = $data->tvdb ?? '';
-    self::$tmdb = $data->tmdb ?? '';
+    $this->imdb = $data->imdb ?? '';
+    $this->tvdb = $data->tvdb ?? '';
+    $this->tmdb = $data->tmdb ?? '';
   }
+
   public static function init($data) {
     return new self($data);
   }
 }
 
 class Resume {
-  public static $position;
-  public static $total;
+  public $position;
+  public $total;
 
   public function __construct($data) {
-    self::$position = (int)$data->position;
-    self::$total = (int)$data->total;
+    $this->position = (int)$data->position;
+    $this->total = (int)$data->total;
   }
+
   public static function init($data) {
     return new self($data);
   }

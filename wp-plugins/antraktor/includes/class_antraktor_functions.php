@@ -102,7 +102,7 @@ class AF {
       return '';
     }
   }
-  public static function get_kodi_now_playing($parsed_object = true, $json_print = false): PlayerGetItem|string {
+  public static function get_kodi_now_playing($parsed_object = true, $json_print = false): PlayerGetItem| null {
     try {
       $kodi_now_playing_data = ApiCommunicator::send(
         QueryKodi::class,
@@ -112,7 +112,7 @@ class AF {
         HelperScripts::print($kodi_now_playing_data);
       }
       if (strlen($kodi_now_playing_data) < ANTRAKTOR_KODI_BLANK_RESPONSE_LENGTH) {
-        return '';
+        return null;
       }
       if (!$parsed_object) {
         return $kodi_now_playing_data;
@@ -193,6 +193,30 @@ class AF {
     );
     return $parsed_data;
   }
+
+  public static function get_by_unique_id($unique_id, $external_source = 'tvdb_id', $parsed_object = true, $json_print = false): GetByUniqueId|string {
+    $tmdb_data = ApiCommunicator::send(
+      QueryTmdb::class,
+      QueryTmdb::$get_by_unique_id,
+      array(
+        'get_by_unique_id' => $unique_id,
+        'external_source' => $external_source
+      )
+    );
+    if ($json_print) {
+      HelperScripts::print($tmdb_data);
+    }
+    if (!$parsed_object) {
+      return $tmdb_data;
+    }
+    $parsed_data = ApiDataParser::parse(
+      QueryTmdb::class,
+      $tmdb_data,
+      QueryTmdb::$get_by_unique_id
+    );
+    return $parsed_data;
+  }
+
   public static function get_testing_data($array_id) {
     $file = file_get_contents(ABSPATH . 'wp-content/plugins/antraktor/antraktor_testing_data.json');
     return json_encode(json_decode($file, true)[$array_id]);

@@ -84,13 +84,34 @@ class GetSeriesDetails {
 }
 
 class CreatedBy {
+  public $authors = [];
 
   public function __construct($data) {
-    if (!empty($data)) {
-      throw new Exception('Please implement me in CreatedBy');
+    foreach ($data as $item) {
+      $this->authors[] = Author::init($item);
     }
   }
 
+  public static function init($data) {
+    return new self($data);
+  }
+}
+
+class Author {
+  public $id;
+  public $credit_id;
+  public $name;
+  public $original_name;
+  public $gender;
+  public $profile_path;
+
+  public function __construct($data) {
+    $this->id = $data->id;
+    $this->credit_id = $data->credit_id;
+    $this->name = $data->name;
+    $this->original_name = $data->original;
+    $this->profile_path = $data->profile_path;
+  }
   public static function init($data) {
     return new self($data);
   }

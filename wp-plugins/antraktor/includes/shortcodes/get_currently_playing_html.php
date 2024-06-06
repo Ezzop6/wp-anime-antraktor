@@ -20,13 +20,13 @@ function get_currently_playing_html() {
   }
   echo do_shortcode('[get_progress_bar_html timeout=1000]');
   // kodi data
-  $show_type = $now_playing::$type;
-  $season = $now_playing::$season;
-  $episode = $now_playing::$episode;
-  $plot = $now_playing::$plot;
-  $show_title = $now_playing::$originaltitle ??  $now_playing::$sorttitle;
-  $rating = $now_playing::$rating;
-  $show_name = $now_playing::$movie_name;
+  $show_type = $now_playing->type;
+  $season = $now_playing->season;
+  $episode = $now_playing->episode;
+  $plot = $now_playing->plot;
+  $show_title = $now_playing->originaltitle ??  $now_playing->sorttitle;
+  $rating = $now_playing->rating;
+  $show_name = $now_playing->movie_name;
   echo '<h3>Kodi Data</h3>';
   echo '<h3>Currently playing</h3>';
   echo '<h3>Show type : ' . $show_type . '</h3>';
@@ -38,11 +38,11 @@ function get_currently_playing_html() {
   echo '<p>S' . $season  . 'E' . $episode . '</p>';
 
   // Images
-  $art_banner = $now_playing::$art_banner;
-  $art_clearlogo  = $now_playing::$art_clearlogo;
-  $art_fanart  = $now_playing::$art_fanart;
-  $art_poster  = $now_playing::$art_poster;
-  $art_thumb = $now_playing::$art_thumb;
+  $art_banner = $now_playing->art_banner;
+  $art_clearlogo  = $now_playing->art_clearlogo;
+  $art_fanart  = $now_playing->art_fanart;
+  $art_poster  = $now_playing->art_poster;
+  $art_thumb = $now_playing->art_thumb;
 
   $img_show = false;
   if ($img_show) {
@@ -62,22 +62,22 @@ function get_currently_playing_html() {
   };
   if ($show_type === 'movie') {
     echo '<h3>Movie</h3>';
-    $page = $tmdb_data::$page;
-    $adult = $tmdb_data::$adult;
-    $backdrop_path = $tmdb_data::$backdrop_path;
-    $genre_ids = $tmdb_data::$genre_ids; // this is array
-    $id = $tmdb_data::$id;
-    $original_language = $tmdb_data::$original_language;
-    $original_title = $tmdb_data::$original_title;
-    $overview = $tmdb_data::$overview;
-    $popularity = $tmdb_data::$popularity;
-    $poster_path = $tmdb_data::$poster_path;
-    $release_date = $tmdb_data::$release_date;
-    $title = $tmdb_data::$title;
-    $video = $tmdb_data::$video;
-    $vote_average = $tmdb_data::$vote_average;
-    $vote_count = $tmdb_data::$vote_count;
-    $similar_movies = $tmdb_data::$similar_movies; // this is array
+    $page = $tmdb_data->page;
+    $adult = $tmdb_data->adult;
+    $backdrop_path = $tmdb_data->backdrop_path;
+    $genre_ids = $tmdb_data->genre_ids; // this is array
+    $id = $tmdb_data->id;
+    $original_language = $tmdb_data->original_language;
+    $original_title = $tmdb_data->original_title;
+    $overview = $tmdb_data->overview;
+    $popularity = $tmdb_data->popularity;
+    $poster_path = $tmdb_data->poster_path;
+    $release_date = $tmdb_data->release_date;
+    $title = $tmdb_data->title;
+    $video = $tmdb_data->video;
+    $vote_average = $tmdb_data->vote_average;
+    $vote_count = $tmdb_data->vote_count;
+    $similar_movies = $tmdb_data->similar_movies; // this is array
     // <p>Similar movies: $similar_movies</p>
 
 
@@ -170,20 +170,20 @@ function get_currently_playing_html() {
   HTML;
     echo $tmdb_detail_data;
   } else {
-    $pages = $tmdb_data::$pages;
-    $adult = $tmdb_data::$adult;
-    $backdrop_path = $tmdb_data::$backdrop_path;
-    $genre_ids = $tmdb_data::$genre_ids;
-    $id = $tmdb_data::$id;
-    $origin_country = $tmdb_data::$origin_country;
-    $original_language = $tmdb_data::$original_language;
-    $overview = $tmdb_data::$overview;
-    $popularity = $tmdb_data::$popularity;
-    $original_name = $tmdb_data::$original_name;
-    $poster_path = $tmdb_data::$poster_path;
-    $first_air_date = $tmdb_data::$first_air_date;
-    $vote_average = $tmdb_data::$vote_average;
-    $vote_count = $tmdb_data::$vote_count;
+    $pages = $tmdb_data->pages;
+    $adult = $tmdb_data->adult;
+    $backdrop_path = $tmdb_data->backdrop_path;
+    $genre_ids = $tmdb_data->genre_ids;
+    $id = $tmdb_data->id;
+    $origin_country = $tmdb_data->origin_country;
+    $original_language = $tmdb_data->original_language;
+    $overview = $tmdb_data->overview;
+    $popularity = $tmdb_data->popularity;
+    $original_name = $tmdb_data->original_name;
+    $poster_path = $tmdb_data->poster_path;
+    $first_air_date = $tmdb_data->first_air_date;
+    $vote_average = $tmdb_data->vote_average;
+    $vote_count = $tmdb_data->vote_count;
 
     $img_show = false;
     if ($img_show) {

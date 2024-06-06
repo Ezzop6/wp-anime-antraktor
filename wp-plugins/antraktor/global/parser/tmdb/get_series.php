@@ -6,7 +6,7 @@ class GetSeries {
   public function __construct($data) {
     $this->pages = $data->total_pages;
     foreach ($data->results as $season) {
-      $this->seasons[] = new Serie($season);
+      $this->seasons[] = new Series($season);
     }
   }
 
@@ -15,7 +15,7 @@ class GetSeries {
   }
 }
 
-class Serie {
+class Series {
   public $adult;
   public $backdrop_path;
   public $genre_ids;
