@@ -23,11 +23,15 @@ class AntraktorKodiManager {
     return self::$DB->get_results("SELECT * FROM " . self::$table_name);
   }
 
+  public static function get_all_valid(): array {
+    return self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE tvdb_show_id");
+  }
+
   public static function get_records_count(int $limit = 10): array {
     return self::$DB->get_results("SELECT * FROM " . self::$table_name . " LIMIT $limit");
   }
 
-  public static function isItemExist($name, $type, $id_tvdb, $id_imdb, $id_tmdb): bool {
+  public static function is_item_exist($name, $type, $id_tvdb, $id_imdb, $id_tmdb): bool {
     $name = esc_sql($name);
     $result = self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE name = '$name' AND show_type = '$type'");
     foreach ($result as $row) {
@@ -61,7 +65,7 @@ class AntraktorKodiManager {
     $id_imdb = $kodi_item->uniqueid->imdb;
     $id_tmdb = $kodi_item->uniqueid->tmdb;
     $tvdb_show_id = null;
-    if (!self::isItemExist($name, $show_type, $id_tvdb, $id_imdb, $id_tmdb)) {
+    if (!self::is_item_exist($name, $show_type, $id_tvdb, $id_imdb, $id_tmdb)) {
       if ($id_tvdb) {
         $result = AF::get_by_unique_id($id_tvdb, 'tvdb_id');
         $tvdb_show_id = $result->tv_episode_results[0]->show_id;

@@ -77,7 +77,7 @@ class Antraktor {
 
 	private function define_api_hooks() {
 		AntraktorApi::register_readable_endpoint('/now-playing', [AntraktorApi::class, 'get_now_playing']);
-		AntraktorApi::register_secure_readable_endpoint('/refresh', [AntraktorApi::class, 'refresh']);
+		AntraktorApi::register_readable_endpoint('/refresh', [AntraktorApi::class, 'refresh']);
 	}
 
 	private function set_locale() {

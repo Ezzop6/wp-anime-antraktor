@@ -49,8 +49,14 @@ class AntraktorApi {
     return $data;
   }
   public static function refresh(WP_REST_Request $request) {
+    $data = AF::get_kodi_now_playing();
+    $result = AntraktorKodiManager::add_record($data);
+    if ($result) {
+      return new WP_REST_Response('New show added', 200);
+    } else {
+      return new WP_REST_Response('Show already exists', 200);
+    }
 
-    $result = 'ok';
     if ($result instanceof WP_Error) {
       throw new Exception($result->get_error_message());
     }
