@@ -1,0 +1,8 @@
+/*!**************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./admin/src/sass/style.scss ***!
+  \**************************************************************************************************************************************************************/
+#antraktor-admin-react-div {
+  font-family: "Open Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
