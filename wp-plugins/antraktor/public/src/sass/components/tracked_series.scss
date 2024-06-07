@@ -1,0 +1,22 @@
+.tracked_series {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+  .seasons_container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .season_container {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      width: 100%;
+    }
+  }
+}
+
+// dalssi call pokud se neco prehrava zjistit co pokud je
+// to registrovano jako watching episoda zacit nahravat data tzn
+// existuje zaznam z menem serialu a z kodi se vrati cislo episody a a serie
+// pokud je to film resit jinak

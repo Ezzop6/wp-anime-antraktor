@@ -7,3 +7,4 @@ define('ANTRAKTOR_ADMIN_REACT_DIV', 'antraktor-admin-react-div');
 define('ANTRAKTOR_PUBLIC_REACT_DIV', 'antraktor-public-react-div');
 define('ANTRAKTOR_BODY_CLASS', 'antraktor-page-content');
 define('ANTRAKTOR_KODI_BLANK_RESPONSE_LENGTH', 800);
+define('ANTRAKTOR_KODI_WATCH_STATUSES', ['finished',  'watched',  'not_started',  'watching', 'no_index',]);

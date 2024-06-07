@@ -1,6 +1,12 @@
 /*!***************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./public/src/sass/style.scss ***!
   \***************************************************************************************************************************************************************/
+.antraktor-page-content {
+  display: flex;
+  flex-direction: column;
+  --tw-bg-opacity: 1;
+  background-color: rgb(71 85 105 / var(--tw-bg-opacity));
+}
 .antraktor-page-content .antrakt-currently-playing-progress {
   display: flex;
   flex-direction: column;
@@ -18,75 +24,106 @@
 .antraktor-page-content .antrakt-currently-playing-progress .current-time {
   text-align: center;
 }
-.antraktor-page-content .series_progress_bar {
-  width: -moz-max-content;
-  width: max-content;
-  margin: 10px;
+.antraktor-page-content .series_season_progress_bar {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  background-color: rgba(31, 9, 193, 0.0666666667);
   width: 100%;
 }
-.antraktor-page-content .series_progress_bar .season_container {
+.antraktor-page-content .series_season_progress_bar .episode_progress_bar_bg {
   display: flex;
+  flex-direction: column;
   margin: 5px;
   width: 100%;
   height: 20px;
   gap: 5px;
-  background-color: rgba(31, 9, 193, 0.0666666667);
+  background-color: rgba(30, 0, 255, 0.137254902);
   border: 1px solid #ccc;
   position: relative;
 }
-.antraktor-page-content .series_progress_bar .episode_wrapper {
-  width: 100%;
-  height: 100%;
-  display: flex;
-}
-.antraktor-page-content .series_progress_bar .season_episode_container {
-  display: flex;
-  flex-direction: row;
-  align-self: center;
-  justify-content: center;
-  width: 100%;
-  height: 10px;
-  opacity: 0.5;
-  background-color: rgba(17, 45, 255, 0.4431372549);
-  border: 1px solid #ccc;
-}
-.antraktor-page-content .series_progress_bar .season_episode_number {
+.antraktor-page-content .series_season_progress_bar .episode_progress_bar_inner {
   position: absolute;
-  transform: translate(50%);
-  font-size: 0.8em;
-  color: #000;
+  background-color: #f00;
+  height: 100%;
 }
-
-.tmdb-movies-section {
+.antraktor-page-content .series_season_progress_bar span {
+  z-index: 1;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   justify-content: center;
+  transition: width 0.5s;
+  align-items: center;
+  font-size: 12px;
+  height: 100%;
 }
-
-.tmdb-movie {
+.antraktor-page-content .tracked_series {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+}
+.antraktor-page-content .tracked_series .seasons_container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.antraktor-page-content .tracked_series .seasons_container .season_container {
   display: flex;
   flex-direction: row;
-  border: 1px solid #ccc;
-  margin: 10px;
-  padding: 10px;
-  max-width: 500px;
+  gap: 10px;
+  width: 100%;
 }
-.tmdb-movie p {
+.antraktor-page-content .watched_series {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.antraktor-page-content .watched_series .watched_serie {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  gap: 1.25rem;
+  overflow: hidden;
+  border-radius: 0.25rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+}
+.antraktor-page-content .watched_series img {
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+}
+.antraktor-page-content .watched_series .right {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+.antraktor-page-content .watched_series .right > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+}
+.antraktor-page-content .watched_series .right h3 {
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+.antraktor-page-content *,
+.antraktor-page-content *::before,
+.antraktor-page-content *::after {
   margin: 0;
   padding: 0;
-  padding-left: 10px;
+  box-sizing: border-box;
 }
-.tmdb-movie .movie-details-link {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 1.2em;
-  text-decoration: none;
-  color: #666;
+.antraktor-page-content ul,
+.antraktor-page-content ol,
+.antraktor-page-content li {
+  list-style: none;
 }
-.tmdb-movie .movie-details-link:hover {
-  text-decoration: underline;
-  color: #333;
+.antraktor-page-content section {
+  display: flex;
+  max-width: 1536px;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-self: center;
+  min-width: 1280px;
 }

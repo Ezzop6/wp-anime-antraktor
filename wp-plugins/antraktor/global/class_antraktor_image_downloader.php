@@ -27,7 +27,7 @@ class ImageDownloader {
     }
     $img = "<img src=" . self::get_url($target, $path, $size) . " alt='$alt'>";
     return <<<HTML
-      <div class='$class'>
+      <div class='$class' style="line-height: 0;">
         <a href='$url'>
           $img
         </a>

@@ -1,6 +1,5 @@
 <?php
 
-use GuzzleHttp\Promise\Create;
 
 require_once 'class_tmdb_last_episode_to_air.php';
 require_once 'class_tmdb_next_episode_to_air.php';
@@ -80,6 +79,14 @@ class GetSeriesDetails {
 
   public static function init($data) {
     return new self($data);
+  }
+  public function __toString() {
+    return <<<HTML
+    <h3>Hello</h3>
+    <p>Adult: $this->adult</p>
+    <p>Backdrop path: $this->backdrop_path</p>
+
+    HTML;
   }
 }
 

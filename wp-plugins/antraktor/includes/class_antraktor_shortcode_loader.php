@@ -27,4 +27,9 @@ class ShortcodeLoader {
     require_once plugin_dir_path(__DIR__) . self::$folder . 'debug_currently_played_info.php';
     return debug_currently_played_info($atts);
   }
+
+  public static function draw_series_progress_container($atts = array()) {
+    require_once plugin_dir_path(__DIR__) . self::$folder . 'draw_series_progress_container.php';
+    return draw_series_progress_container($atts);
+  }
 }

@@ -106,6 +106,7 @@ class Antraktor {
 		ShortcodeLoader::register_shortcodes('get_progress_bar_html', [ShortcodeLoader::class, 'get_progress_bar_html']);
 		ShortcodeLoader::register_shortcodes('get_currently_playing_html', [ShortcodeLoader::class, 'get_currently_playing_html']);
 		ShortcodeLoader::register_shortcodes('debug_currently_played_info', [ShortcodeLoader::class, 'debug_currently_played_info']);
+		ShortcodeLoader::register_shortcodes('draw_series_progress_container', [ShortcodeLoader::class, 'draw_series_progress_container']);
 	}
 
 	// Add rewrite rules for the public paths /antraktor/...
@@ -117,6 +118,7 @@ class Antraktor {
 		AntraktorRewriteRule::add_new_redirection('movie', 'templates/antraktor_tmdb_movie_info.php');
 		AntraktorRewriteRule::add_new_redirection('series', 'templates/antraktor_tmdb_series_info.php');
 		AntraktorRewriteRule::add_new_redirection('testing', 'templates/components/series_progress_bar.php');
+		AntraktorRewriteRule::add_new_redirection('watched-series', 'templates/watched_series.php');
 	}
 
 	public function run() {

@@ -1,0 +1,17 @@
+.watched_series {
+  @apply flex flex-col gap-5;
+
+  .watched_serie {
+    @apply flex flex-row w-full gap-5;
+    @apply bg-gray-200 rounded overflow-hidden;
+  }
+  img {
+    @apply rounded p-2;
+  }
+  .right {
+    @apply flex flex-grow flex-col space-y-2;
+    h3 {
+      @apply text-4xl text-center mt-4;
+    }
+  }
+}

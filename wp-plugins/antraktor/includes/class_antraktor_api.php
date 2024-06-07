@@ -48,18 +48,23 @@ class AntraktorApi {
     }
     return $data;
   }
-  public static function refresh(WP_REST_Request $request) {
-    $data = AF::get_kodi_now_playing();
-    $result = AntraktorKodiManager::add_record($data);
-    if ($result) {
-      return new WP_REST_Response('New show added', 200);
-    } else {
-      return new WP_REST_Response('Show already exists', 200);
-    }
 
-    if ($result instanceof WP_Error) {
-      throw new Exception($result->get_error_message());
+  public static function refresh(WP_REST_Request $request) {
+    try {
+      $data = AF::get_kodi_now_playing();
+      $result = AntraktorKodiManager::add_record($data);
+      if ($result) {
+        return new WP_REST_Response('New show added', 200);
+      } else {
+        $show_status = AF::get_kodi_now_playing();
+        $show_progress = AF::player_get_properties();
+        $name = $show_status->movie_name;
+        $current_time = $show_progress->time;
+        return new WP_REST_Response('Show : ' . $name . ' time : ' . $current_time, 200);
+      }
+      return new WP_REST_Response($result, 200);
+    } catch (Exception $e) {
+      return new WP_Error('error', $e->getMessage(), ['status' => 500]);
     }
-    return new WP_REST_Response($result, 200);
   }
 }

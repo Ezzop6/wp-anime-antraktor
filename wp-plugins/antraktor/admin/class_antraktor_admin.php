@@ -30,9 +30,14 @@ class AntraktorAdmin {
 		add_submenu_page('antraktor', 'Antraktor Settings', 'Settings', 'manage_options', 'antraktor', array($this, 'antraktor_admin_display_page'));
 		add_submenu_page('antraktor', 'Antraktor Variables', 'Variables', 'manage_options', 'antraktor-variables-page', array($this, 'antraktor_variables_page'));
 		add_submenu_page('antraktor', 'Antraktor DB Setings', 'DB Setings', 'manage_options', 'antraktor-db-page', array($this, 'antraktor_db_page'));
+		add_submenu_page('antraktor', 'Antraktor Managing Shows', 'Managing Shows', 'manage_options', 'antraktor-managing-shows', array($this, 'antraktor_admin_managing_show_page'));
 		if (ANTRAKTOR_DEBUG) {
 			add_submenu_page('antraktor', 'Antraktor Testing playground', 'Testing playground', 'manage_options', 'antraktor-testing-playground', array($this, 'antraktor_testing_playground_page'));
 		}
+	}
+
+	public function antraktor_admin_managing_show_page() {
+		HelperScripts::admin_react_wrapper('partials/antraktor_admin_managing_shows.php');
 	}
 
 	public function antraktor_admin_display_page() {

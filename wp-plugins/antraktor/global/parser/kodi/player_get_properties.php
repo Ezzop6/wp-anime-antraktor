@@ -1,17 +1,17 @@
 <?php
 class PlayerGetProperties {
-  public static $percentage;
-  public static $time;
-  public static $totaltime;
+  public $percentage;
+  public $time;
+  public $totaltime;
   public function __construct($data) {
-    self::$percentage = floatval($data->result->percentage);
-    self::$time = self::format_time($data->result->time);
-    self::$totaltime = self::format_time($data->result->totaltime);
+    $this->percentage = floatval($data->result->percentage);
+    $this->time = $this->format_time($data->result->time);
+    $this->totaltime = $this->format_time($data->result->totaltime);
   }
-  public static function init($data) {
+  public  function init($data) {
     return new self($data);
   }
-  private static function format_time($atts) {
+  private  function format_time($atts) {
     return sprintf('%02d:%02d:%02d', $atts->hours, $atts->minutes, $atts->seconds);
   }
 }

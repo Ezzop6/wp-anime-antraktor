@@ -1,34 +1,25 @@
 .antraktor-page-content {
   @import "components/now_playing_progress_bar";
-  @import "components/series_progress_bar.scss";
-}
-.tmdb-movies-section {
+  @import "components/series_progress_bar";
+  @import "components/tracked_series";
+  @import "components/watched_series";
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.tmdb-movie {
-  display: flex;
-  flex-direction: row;
-  border: 1px solid #ccc;
-  margin: 10px;
-  padding: 10px;
-  max-width: 500px;
-  p {
+  flex-direction: column;
+  *,
+  *::before,
+  *::after {
     margin: 0;
     padding: 0;
-    padding-left: 10px;
+    box-sizing: border-box;
   }
-  .movie-details-link {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 1.2em;
-    text-decoration: none;
-    color: #666;
-    &:hover {
-      text-decoration: underline;
-      color: #333;
-    }
+  ul,
+  ol,
+  li {
+    list-style: none;
+  }
+  @apply bg-slate-600;
+  & section {
+    @apply flex flex-col gap-5 max-w-screen-2xl self-center;
+    min-width: 1280px;
   }
 }

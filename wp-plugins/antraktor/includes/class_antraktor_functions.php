@@ -80,6 +80,20 @@ class AF {
     );
     return $parsed_data;
   }
+
+  public static function player_get_properties(): PlayerGetProperties {
+    $kodi_properties_data = ApiCommunicator::send(
+      QueryKodi::class,
+      QueryKodi::$player_get_properties
+    );
+    $parsed_data = ApiDataParser::parse(
+      QueryKodi::class,
+      $kodi_properties_data,
+      QueryKodi::$player_get_properties
+    );
+    return $parsed_data;
+  }
+
   public static function get_kodi_status($parsed_object = true, $json_print = false): PlayerGetActivePlayers|string {
     try {
       $kodi_status_data = ApiCommunicator::send(
@@ -124,7 +138,7 @@ class AF {
       );
       return $parsed_data;
     } catch (Exception) {
-      return '';
+      throw new Exception('Kodi is not running');
     }
   }
   public static function get_series_images_by_id($series_id, $parsed_object = true, $json_print = false): GestSeriesImages|string {
