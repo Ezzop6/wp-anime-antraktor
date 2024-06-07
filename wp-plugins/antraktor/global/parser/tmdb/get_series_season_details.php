@@ -24,7 +24,7 @@ class GetSeriesSeasonDetails {
     $this->vote_average = $data->vote_average;
 
     foreach ($data->episodes as $episode) {
-      $this->episodes[] = new Season($episode);
+      $this->episodes[] = new SeasonDetails($episode);
     }
   }
 }

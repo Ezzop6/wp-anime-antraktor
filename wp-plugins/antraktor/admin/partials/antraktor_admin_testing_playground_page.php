@@ -2,42 +2,36 @@
 <?php
 
 
-$data = AntraktorKodiManager::get_tmdb_data('92e7747fd3d09930669f50849c753244-8140');
+$show_data = AntraktorKodiManager::get_record('fc014330280023dd36d9562a8f05b8f8-8176');
+$decoded_data = base64_decode($show_data->tmdb_data);
+$encoded_data = json_decode($decoded_data);
+
 $parsed_data = ApiDataParser::parse(
   QueryTmdb::class,
-  $data,
+  $encoded_data,
   QueryTmdb::$get_series_details_by_id
 );
-
-
-$season_html = '';
-foreach ($parsed_data->seasons->seasons as $season) {
-  $poster = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $season->poster_path, 'season', $season->name, 300);
-  $season_html .= <<<HTML
-    <h3>Season name: $season->name</h3>
-    <p>Air date: $season->air_date</p>
-    <p>Episode count: $season->episode_count</p>
-    <p>Id: $season->id</p>
-    <p>Overview: $season->overview</p>
-    <p>Poster path: $season->poster_path</p>
-    <p>Season number: $season->season_number</p>
-    <p>Vote average: $season->vote_average</p>
-    $poster
-
-  HTML;
+$tmdb_season_id = $parsed_data->id;
+$watch_status = $show_data->watch_status;
+$season_count = $parsed_data->number_of_seasons;
+echo '<pre>';
+echo '<h1>Show: ' . $parsed_data->name . 'id: ' . $tmdb_season_id . '</h1>';
+if ($watch_status == 'watching') {
+  $record_added = AntraktorSeriesManager::add_record($tmdb_season_id);
+  $record_added = true;
+  if ($record_added) {
+    for ($season_id = 1; $season_id <= $season_count; $season_id++) {
+      AntraktorSeasonManager::add_record($tmdb_season_id, $season_id, $season_count);
+    }
+  } else {
+    echo 'Record already exists';
+  }
 }
 
-$html = <<<HTML
-<section>
-  <p>Episode count: $parsed_data->number_of_episodes</p>
-  <p>Season count: $parsed_data->number_of_seasons</p>
-  <div>
-    $season_html
-  </div>
-</section>
-HTML;
+//   foreach ($parsed_data->seasons->seasons as $season) {
+//     echo "<pre>";
+//     echo $season->id;
+//   }
+// }
 
-echo $html;
-
-HelperScripts::print($parsed_data);
-echo gettype($parsed_data);
+// HelperScripts::print($parsed_data);

@@ -58,9 +58,17 @@ class AntraktorApi {
       } else {
         $show_status = AF::get_kodi_now_playing();
         $show_progress = AF::player_get_properties();
+        $series_season = $show_status->season;
+        $series_episode = $show_status->episode;
+
         $name = $show_status->movie_name;
+        $show_id = AntraktorKodiManager::get_id_by_name($name);
+
         $current_time = $show_progress->time;
-        return new WP_REST_Response('Show : ' . $name . ' time : ' . $current_time, 200);
+        return new WP_REST_Response(
+          'Show : ' . $name . ' time : ' . $current_time . '  ' . $show_id . ' ' . $series_season . ' ' . $series_episode,
+          200
+        );
       }
       return new WP_REST_Response($result, 200);
     } catch (Exception $e) {

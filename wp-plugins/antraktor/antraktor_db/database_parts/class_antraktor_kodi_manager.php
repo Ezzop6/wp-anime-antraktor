@@ -29,6 +29,10 @@ class AntraktorKodiManager {
     }
     return self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE watch_status = '$watch_status' LIMIT $limit");
   }
+  public static function get_id_by_name($name): string {
+    $name = esc_sql($name);
+    return self::$DB->get_results("SELECT record_key FROM " . self::$table_name . " WHERE name = '$name'")[0]->record_key;
+  }
 
   public static function get_all_invalid(): array {
     return self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE !tvdb_show_id");
@@ -92,6 +96,9 @@ class AntraktorKodiManager {
       $decoded_data = base64_decode($result->tmdb_data);
       return json_decode($decoded_data);
     }
+  }
+  public static function get_record(string $record_key): object {
+    return self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE record_key = '$record_key'")[0];
   }
 
   public static function add_record(PlayerGetItem | null $kodi_item): bool {

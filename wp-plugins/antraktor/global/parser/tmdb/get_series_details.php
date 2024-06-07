@@ -41,6 +41,7 @@ class GetSeriesDetails {
   public $type;
   public $vote_average;
   public $vote_count;
+  public $seasons_ids = [];
 
   public function __construct($data) {
     $this->adult = $data->adult;
@@ -75,18 +76,19 @@ class GetSeriesDetails {
     $this->type = $data->type;
     $this->vote_average = $data->vote_average;
     $this->vote_count = $data->vote_count;
+    $this->seasons_ids = $this->get_series_ids();
   }
 
   public static function init($data) {
     return new self($data);
   }
-  public function __toString() {
-    return <<<HTML
-    <h3>Hello</h3>
-    <p>Adult: $this->adult</p>
-    <p>Backdrop path: $this->backdrop_path</p>
 
-    HTML;
+  public  function get_series_ids() {
+    $seasons_ids = [];
+    foreach ($this->seasons->seasons as $season) {
+      $seasons_ids[] = $season->id;
+    }
+    return $seasons_ids;
   }
 }
 
