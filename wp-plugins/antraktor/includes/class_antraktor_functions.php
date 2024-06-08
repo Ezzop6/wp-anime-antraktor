@@ -116,7 +116,7 @@ class AF {
       return '';
     }
   }
-  public static function get_kodi_now_playing($parsed_object = true, $json_print = false): PlayerGetItem| string {
+  public static function get_kodi_now_playing($parsed_object = true, $json_print = false): PlayerGetItem | string | null {
     try {
       $kodi_now_playing_data = ApiCommunicator::send(
         QueryKodi::class,

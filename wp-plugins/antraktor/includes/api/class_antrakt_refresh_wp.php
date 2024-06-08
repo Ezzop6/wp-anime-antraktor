@@ -19,22 +19,24 @@ class AntraktRefresh {
       if ($show_data->watch_status == 'not_started') {
         return new WP_REST_Response('Show is not in the watching list', 200);
       }
-
       $tvdb_show_id = $show_data->tvdb_show_id;
       $kodi_playing_now = AF::player_get_properties();
       if ($record_key && $series_season && $series_episode && $show_data->watch_status == 'watching') {
-        $record_added = AntraktorEpisodeManager::add_record($tvdb_show_id, $series_season, $series_episode);
-        if ($record_added) {
-          return new WP_REST_Response('Show Added: ' . $name . ' time : ' . $kodi_playing_now->percentage . '  ' . $record_key . ' ' . $series_season . ' ' . $series_episode . ' ' . $tvdb_show_id, 200);
+        $episode = AntraktorEpisodeManager::get_record($tvdb_show_id, $series_season, $series_episode);
+        if (!$episode) {
+          AntraktorEpisodeManager::add_record($tvdb_show_id, $series_season, $series_episode);
         }
-      }
-      if ($show_data->watch_status == 'watching' && $kodi_playing_now->percentage < 85) {
-        $record_updated = AntraktorEpisodeManager::update_progress($tvdb_show_id, $series_season, $series_episode, $kodi_playing_now->percentage);
-        return new WP_REST_Response('Show Updated: ' . $name . ' time : ' . $kodi_playing_now->percentage . '  ' . $record_key . ' ' . $series_season . ' ' . $series_episode . ' ' . $tvdb_show_id . ' ' . $record_updated, 200);
-      }
-      if ($record_key && $series_season && $series_episode && $show_data->watch_status == 'watching' && $kodi_playing_now->percentage > 85) {
-        AntraktorEpisodeManager::mark_as_complete($tvdb_show_id, $series_season, $series_episode);
-        return new WP_REST_Response('Show Marked as complete: ' . $name . ' time : ' . $kodi_playing_now->percentage . '  ' . $record_key . ' ' . $series_season . ' ' . $series_episode . ' ' . $tvdb_show_id, 200);
+        if ($episode && $episode->watch_status == 'watching' && $kodi_playing_now->percentage < 85) {
+          AntraktorEpisodeManager::update_progress($tvdb_show_id, $series_season, $series_episode, $kodi_playing_now->percentage);
+          return new WP_REST_Response('Show Updated: ' . $name . ' time : ' . $kodi_playing_now->percentage . '  ' . $record_key . ' ' . $series_season . ' ' . $series_episode . ' ' . $tvdb_show_id, 200);
+        }
+        if ($episode && $episode->watch_status == 'watching' && $kodi_playing_now->percentage > 85) {
+          AntraktorEpisodeManager::mark_as_complete($tvdb_show_id, $series_season, $series_episode);
+          return new WP_REST_Response('Show Marked as complete: ' . $name . ' time : ' . $kodi_playing_now->percentage . '  ' . $record_key . ' ' . $series_season . ' ' . $series_episode . ' ' . $tvdb_show_id, 200);
+        }
+        if ($episode && $episode->watch_status == 'watched') {
+          return new WP_REST_Response('Show already watched: ' . $name . ' time : ' . $kodi_playing_now->percentage . '  ' . $record_key . ' ' . $series_season . ' ' . $series_episode . ' ' . $tvdb_show_id, 200);
+        }
       }
     }
   }

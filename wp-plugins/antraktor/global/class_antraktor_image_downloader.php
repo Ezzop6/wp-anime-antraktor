@@ -16,7 +16,7 @@ class ImageDownloader {
   }
 
   public static function get_image_div(string $target, null | string $path, string  $class, string $alt, int $size = 500) {
-    if (!$path) {
+    if (!$path || !$path) {
       return;
     }
     if ($target === self::$target_tmdb_thumbnail) {

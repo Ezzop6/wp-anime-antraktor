@@ -1,4 +1,6 @@
 <?php
+
+
 class AntraktorKodiManager {
   public static $table_name;
   public static $DB;
@@ -9,6 +11,17 @@ class AntraktorKodiManager {
       self::$table_name = ANTRAKTOR_DB_PREFIX . 'kodi_watched';
       self::$DB = $wpdb;
     }
+  }
+
+  public static function delete_all_invalid() {
+    $sql = "DELETE FROM " . self::$table_name . " WHERE !tvdb_show_id";
+    if (self::$DB->query($sql)) {
+      if (self::$DB->last_error) {
+        throw new Exception(self::$DB->last_error);
+      }
+      return true;
+    }
+    return false;
   }
 
   public static function get_rows_names(): array {
@@ -81,7 +94,7 @@ class AntraktorKodiManager {
     foreach ($result as $row) {
       if (
         ($row->tvdb_show_id != null) ||
-        ($row->name == $name && !$id_imdb && !$id_tmdb && !$$id_tvdb) ||
+        ($row->name == $name && !$id_imdb && !$id_tmdb && !$id_tvdb) ||
         ($row->id_tvdb == $id_tvdb && $id_tvdb != null) ||
         ($row->id_imdb == $id_imdb && $id_imdb != null) ||
         ($row->id_tmdb == $id_tmdb && $id_tmdb != null)
@@ -99,6 +112,7 @@ class AntraktorKodiManager {
       return json_decode($decoded_data);
     }
   }
+
   public static function get_tmdb_data($record_key) {
     $result = self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE record_key = '$record_key'")[0];
     if ($result) {
@@ -106,6 +120,17 @@ class AntraktorKodiManager {
       return json_decode($decoded_data);
     }
   }
+
+  public static function get_series_details($record_key): GetSeriesDetails | null {
+    require_once ANTRAKTOR_GLOBAL_DIR . 'parser/tmdb/get_series_details.php';
+    $tmdb_data = self::get_tmdb_data($record_key);
+    if (!$tmdb_data) {
+      return null;
+    }
+    return GetSeriesDetails::init(json_decode($tmdb_data));
+  }
+
+
   public static function get_record(string $record_key): object {
     return self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE record_key = '$record_key'")[0];
   }

@@ -4,13 +4,12 @@ $watched_series = AntraktorKodiManager::get_all_valid_with_status();
 
 $html = '';
 foreach ($watched_series as $object) {
-  $data = AntraktorKodiManager::get_tmdb_data($object->record_key);
-  $series_data = ApiDataParser::parse(
-    QueryTmdb::class,
-    $data,
-    QueryTmdb::$get_series_details_by_id
-  );
+  if (!$object->tmdb_data) {
+    continue;
+  }
+  $series_data = AntraktorKodiManager::get_series_details($object->record_key);
   $poster = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $series_data->poster_path, 'series', $series_data->name, 300);
+  $progress_bar = do_shortcode("[draw_series_progress_container series_id='$series_data->id']");
   $next_episode_data = $series_data->next_episode_to_air;
   $next_episode_to_air = <<<HTML
     <div>
@@ -40,11 +39,9 @@ foreach ($watched_series as $object) {
         <a href="$series_data->homepage">Homepage</a>
         <p>Votes: $series_data->vote_average ($series_data->vote_count)</p>
         $next_episode_to_air
-        <div>
-          <button>Remove</button>
+        $progress_bar
         </div>
       </div>
-    </div>
     HTML;
 }
 ?>

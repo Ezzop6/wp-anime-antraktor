@@ -18,9 +18,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['record_key']) && isset
 
   $watch_status = htmlspecialchars($_POST['change_selection']);
   $results = AntraktorKodiManager::get_all_valid_with_status($watch_status);
+} elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_all_invalid'])) {
+  AntraktorKodiManager::delete_all_invalid();
+  $results = AntraktorKodiManager::get_all_valid_with_status();
 } else {
   $results = AntraktorKodiManager::get_all_valid_with_status();
 }
+
+$form_delete_all_invalid = <<<HTML
+  <form method="post">
+    <input type="hidden" name="delete_all_invalid" value="true">
+    <button type="submit">Delete all invalid</button>
+  </form>
+HTML;
 
 $section_change_selection = '<section>';
 foreach (ANTRAKTOR_KODI_WATCH_STATUSES as $status) {
@@ -31,12 +41,21 @@ foreach (ANTRAKTOR_KODI_WATCH_STATUSES as $status) {
     </form>
   HTML;
 }
+
+
+$section_change_selection .= $form_delete_all_invalid;
+
+
 $section_change_selection .= '</section>';
 echo $section_change_selection;
 
 $section_shows_html = '<section>';
 foreach ($results as $result) {
+  $tmdb_data = AntraktorKodiManager::get_series_details($result->record_key);
   $tmdb_data_length = strlen($result->tmdb_data);
+  if ($tmdb_data) {
+    // $poster_img = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $tmdb_data->poster_path, 'test', 'tmdb_poster', 250);
+  }
   $section_shows_html .= <<<HTML
     <div class="antraktor-show">
       <h3>$result->name</h3>
