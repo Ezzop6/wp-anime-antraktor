@@ -41,17 +41,14 @@ foreach ($results as $result) {
     <div class="antraktor-show">
       <h3>$result->name</h3>
       <h4>Status: $result->watch_status</h4>
-      <p>KEY : $result->record_key</p>
-      <p>TmDB data : $tmdb_data_length chars</p>
-      <button onclick="copyToClipboard('$result->record_key')">
-        Copy KEY
-      </button>
+      <b>TmDB data : $tmdb_data_length chars</b>
       <div>
+        <button onclick="copyToClipboard('$result->record_key')">DB record $result->record_key</button>
         <p>$result->show_type</p>
-        <p>TvDB Show ID: $result->tvdb_show_id</p>
-        <p>Unique ID imdb : $result->id_imdb</p>
-        <p>Unique ID tmdb : $result->id_tmdb</p>
-        <p>Unique ID tvdb : $result->id_tvdb</p>
+        <button onclick="copyToClipboard('$result->tvdb_show_id')">TVDB show ID $result->tvdb_show_id</button>
+        <button onclick="copyToClipboard('$result->id_imdb')">IMDB UNI KEY $result->id_imdb</button>
+        <button onclick="copyToClipboard('$result->id_tmdb')">TMDB UNI KEY $result->id_tmdb</button>
+        <button onclick="copyToClipboard('$result->id_tvdb')">TVDB UNI KEY $result->id_tvdb</button>
       </div>
     </div>
     
@@ -61,11 +58,8 @@ foreach ($results as $result) {
       <input type="hidden" name="change_selection" value="$status">
       <label for="watch_status">Change status</label>
       <select name="new_watch_status">
-        <option value="watched">watched</option>
-        <option value="finished">finished</option>
-        <option value="watching">watching</option>
         <option value="not_started">not_started</option>
-        <option value="no_index">no index</option>
+        <option value="watching">watching</option>
       </select>
       <button type="submit">Change status</button>
     </form>

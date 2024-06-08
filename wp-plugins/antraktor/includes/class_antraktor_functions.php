@@ -184,10 +184,10 @@ class AF {
     return $parsed_data;
   }
 
-  public static function get_series_episode_details_by_id($series_id, $season_number, $episode_number, $parsed_object = true, $json_print = false): GetSeriesEpisodeDetails|string {
+  public static function get_series_episode_details_by_id($series_id, $season_number, $episode_number, $parsed_object = true, $json_print = false): EpisodeDetailsID|string {
     $tmdb_episode_data = ApiCommunicator::send(
       QueryTmdb::class,
-      QueryTmdb::$get_series_episode_details_by_id,
+      QueryTmdb::$get_episode_details_by_id,
       array(
         'get_series_episode_details_by_id' => $series_id,
         'season_number' => $season_number,
@@ -203,7 +203,7 @@ class AF {
     $parsed_data = ApiDataParser::parse(
       QueryTmdb::class,
       $tmdb_episode_data,
-      QueryTmdb::$get_series_episode_details_by_id
+      QueryTmdb::$get_episode_details_by_id
     );
     return $parsed_data;
   }

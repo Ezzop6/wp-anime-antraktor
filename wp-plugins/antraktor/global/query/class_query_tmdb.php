@@ -5,7 +5,7 @@ class QueryTmdb {
   public static $get_series_by_name = 'get_series_by_name';
   public static $get_series_details_by_id = 'get_series_details_by_id';
   public static $get_series_season_details_by_id = 'get_series_season_details_by_id';
-  public static $get_series_episode_details_by_id = 'get_series_episode_details_by_id';
+  public static $get_episode_details_by_id = 'get_episode_details_by_id';
   public static $get_series_images_by_id = 'get_series_images_by_id';
   public static $get_by_unique_id = 'get_by_unique_id';
 

@@ -24,12 +24,16 @@ class AntraktorKodiManager {
   }
 
   public static function get_all_valid_with_status($watch_status = null, $limit = 10): array {
+    if ($watch_status == 'all') {
+      $watch_status = null;
+    }
     if (!$watch_status) {
       return self::$DB->get_results("SELECT * FROM " . self::$table_name . " LIMIT $limit");
     }
     return self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE watch_status = '$watch_status' LIMIT $limit");
   }
-  public static function get_id_by_name($name): string {
+
+  public static function get_id_by_name(string $name): string {
     $name = esc_sql($name);
     return self::$DB->get_results("SELECT record_key FROM " . self::$table_name . " WHERE name = '$name'")[0]->record_key;
   }

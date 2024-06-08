@@ -18,7 +18,7 @@ class GetSeriesEpisodeDetails {
     $this->poster_path = $data->poster_path;
     $this->season_number = $data->season_number;
     $this->vote_average = $data->vote_average;
-    foreach ($data->episodes as $episode) {
+    foreach ($data->episode_number as $episode) {
       $this->episodes[] = new Episode($episode);
     }
   }

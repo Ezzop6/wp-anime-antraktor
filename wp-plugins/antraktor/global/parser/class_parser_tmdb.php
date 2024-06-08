@@ -15,7 +15,7 @@ class ParserTmdb {
       QueryTmdb::$get_movie_details_by_id => self::get_movie_details($api_data, $debug_print),
       QueryTmdb::$get_series_by_name => self::get_series_by_name($api_data, $debug_print),
       QueryTmdb::$get_series_details_by_id => self::get_series_details_by_id($api_data, $debug_print),
-      QueryTmdb::$get_series_episode_details_by_id => self::get_series_episode_details_by_id($api_data, $debug_print),
+      QueryTmdb::$get_episode_details_by_id => self::get_episode_details_by_id($api_data, $debug_print),
       QueryTmdb::$get_series_images_by_id => self::get_series_images_by_id($api_data, $debug_print),
       QueryTmdb::$get_series_season_details_by_id => self::get_series_season_details_by_id($api_data, $debug_print),
       QueryTmdb::$get_by_unique_id => self::get_by_unique_id($api_data, $debug_print),
@@ -38,9 +38,9 @@ class ParserTmdb {
     require_once 'tmdb/get_series_details.php';
     return new GetSeriesDetails($api_data);
   }
-  public static function get_series_episode_details_by_id($api_data, $debug_print): GetSeriesEpisodeDetails {
-    require_once 'tmdb/get_series_episode_details.php';
-    return new GetSeriesEpisodeDetails($api_data);
+  public static function get_episode_details_by_id($api_data, $debug_print): EpisodeDetailsID {
+    require_once 'tmdb/class_tmdb_episode_details_id.php';
+    return new EpisodeDetailsID($api_data);
   }
   public static function get_series_images_by_id($api_data, $debug_print): GestSeriesImages {
     require_once 'tmdb/get_series_images.php';

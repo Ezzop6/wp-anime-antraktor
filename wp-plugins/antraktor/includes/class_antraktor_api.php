@@ -57,6 +57,9 @@ class AntraktorApi {
         return new WP_REST_Response('New show added', 200);
       } else {
         $show_status = AF::get_kodi_now_playing();
+        if (!$show_status) {
+          return new WP_REST_Response('No show playing', 200);
+        }
         $show_progress = AF::player_get_properties();
         $series_season = $show_status->season;
         $series_episode = $show_status->episode;
