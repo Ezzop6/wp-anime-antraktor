@@ -62,4 +62,8 @@ class GetMovieDetails {
     $this->vote_average = $api_data->vote_average; // float
     $this->vote_count = $api_data->vote_count; // int$this-> public static function init($api_data) {
   }
+
+  public static function init($api_data) {
+    return new self($api_data);
+  }
 }

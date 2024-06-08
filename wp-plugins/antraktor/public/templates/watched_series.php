@@ -1,6 +1,6 @@
 <?php
 
-$watched_series = AntraktorKodiManager::get_all_valid_with_status();
+$watched_series = AntraktorKodiManager::get_all_valid_with_status('episode');
 
 $html = '';
 foreach ($watched_series as $object) {

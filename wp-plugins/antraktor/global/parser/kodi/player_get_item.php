@@ -124,7 +124,7 @@ class PlayerGetItem {
     $this->trailer = $data->result->item->trailer;
     $this->tvshowid = (int)$data->result->item->tvshowid;
     $this->type = $this->get_show_type($data->result->item->type);
-    $this->uniqueid = new UniqueId($data->result->item->uniqueid ?? ['', '', '']);
+    $this->uniqueid = new UniqueId($data->result->item->uniqueid);
     $this->userrating = $data->result->item->userrating;
     $this->votes = (int)$data->result->item->votes;
     $this->writer = $data->result->item->writer;
@@ -183,9 +183,9 @@ class UniqueId {
   public $tmdb;
 
   public function __construct($data) {
-    $this->imdb = $data->imdb ?? '';
-    $this->tvdb = $data->tvdb ?? '';
-    $this->tmdb = $data->tmdb ?? '';
+    $this->imdb = isset($data->imdb) ? $data->imdb : '';
+    $this->tvdb = isset($data->tvdb) ? (int)$data->tvdb : 0;
+    $this->tmdb = isset($data->tmdb) ? (int)$data->tmdb : 0;
   }
 
   public static function init($data) {

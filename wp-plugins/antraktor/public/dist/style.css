@@ -57,7 +57,7 @@
   position: absolute;
   width: 100%;
   --tw-bg-opacity: 1;
-  background-color: rgb(74 222 128 / var(--tw-bg-opacity));
+  background-color: rgb(147 197 253 / var(--tw-bg-opacity));
   height: 100%;
   top: 50%;
   transform: translateY(-50%);
@@ -122,6 +122,16 @@
   text-align: center;
   font-size: 2.25rem;
   line-height: 2.5rem;
+}
+.antraktor-page-content .episode-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 .antraktor-page-content *,
 .antraktor-page-content *::before,

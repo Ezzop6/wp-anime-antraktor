@@ -118,6 +118,7 @@ class Antraktor {
 		AntraktorRewriteRule::add_new_redirection('find-movie', 'templates/antraktor_find_movie_info.php');
 		AntraktorRewriteRule::add_new_redirection('movie', 'templates/antraktor_tmdb_movie_info.php');
 		AntraktorRewriteRule::add_new_redirection('series', 'templates/antraktor_tmdb_series_info.php');
+		AntraktorRewriteRule::add_new_redirection('episode-info', 'templates/antraktor_episode_info.php');
 		AntraktorRewriteRule::add_new_redirection('testing', 'templates/components/series_progress_bar.php');
 		AntraktorRewriteRule::add_new_redirection('watched-series', 'templates/watched_series.php');
 	}

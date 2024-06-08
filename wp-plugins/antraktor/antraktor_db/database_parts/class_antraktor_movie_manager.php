@@ -11,15 +11,33 @@ class AntraktorMovieManager {
     }
   }
 
-  public static function find_movie($movie_name) {
-    $result = self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE movie_name = '$movie_name'");
-    return $result;
+  public static function get_record($id_tmdb) {
+    return self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE imdb_number = $id_tmdb");
   }
-  public static function get_column_names() {
-    $tables = self::$DB->get_results("SHOW COLUMNS FROM " . self::$table_name);
-    echo '<pre>';
-    print_r($tables);
-    echo '</pre>';
+
+  public static function is_item_exists($id_tmdb): bool {
+    $result = self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE imdb_number = $id_tmdb");
+    return count($result) > 0;
+  }
+
+  public static function add_record($id_tmdb) {
+    throw new Exception('Not implemented');
+    // database must colum names
+    if (!self::is_item_exists($id_tmdb)) {
+      $id_tmdb = esc_sql($id_tmdb);
+      $movie_data = AF::get_tmdb_movie_details_by_id($id_tmdb);
+      $sql = "INSERT INTO " . self::$table_name . " (imdb_number,) VALUES ($id_tmdb)";
+      $prepared_sql = self::$DB->prepare(
+        $sql
+      );
+      if (self::$DB->query($prepared_sql)) {
+        if (self::$DB->last_error) {
+          throw new Exception(self::$DB->last_error);
+        }
+        return true;
+      }
+      return false;
+    }
   }
 }
 

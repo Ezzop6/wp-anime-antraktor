@@ -7,24 +7,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['record_key']) && isset
   AntraktorKodiManager::change_status($record_key, $new_status);
 
   $watch_status = htmlspecialchars($_POST['change_selection']);
-  $results = AntraktorKodiManager::get_all_valid_with_status('episode', $watch_status);
+  $results = AntraktorKodiManager::get_all_valid_with_status('movie', $watch_status);
 } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change_selection']) && !isset($_POST['delete'])) {
 
   $watch_status = htmlspecialchars($_POST['change_selection']);
-  $results = AntraktorKodiManager::get_all_valid_with_status('episode', $watch_status);
+  $results = AntraktorKodiManager::get_all_valid_with_status('movie', $watch_status);
 } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['record_key']) && isset($_POST['delete'])) {
 
   $record_key = htmlspecialchars($_POST['record_key']);
   AntraktorKodiManager::delete_record($record_key);
 
   $watch_status = htmlspecialchars($_POST['change_selection']);
-  $results = AntraktorKodiManager::get_all_valid_with_status('episode', $watch_status);
+  $results = AntraktorKodiManager::get_all_valid_with_status('movie', $watch_status);
 } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_all_invalid'])) {
 
   AntraktorKodiManager::delete_all_invalid();
-  $results = AntraktorKodiManager::get_all_valid_with_status('episode');
+  $results = AntraktorKodiManager::get_all_valid_with_status('movie');
 } else {
-  $results = AntraktorKodiManager::get_all_valid_with_status('episode');
+  $results = AntraktorKodiManager::get_all_valid_with_status('movie');
 }
 
 $form_delete_all_invalid = <<<HTML
@@ -57,9 +57,6 @@ foreach ($results as $result) {
   $tmdb_data_length = strlen($result->tmdb_data);
   $keys = $result->id_imdb || $result->id_tmdb || $result->id_tvdb;
   $is_valid = '<h3 style=' . ($keys ? '"color: green;"' : '"color: red;"') . '>' . $result->name . ' is ' . ($keys ? 'VALID' : 'INVALID') . '</h3>';
-  if ($tmdb_data) {
-    // $poster_img = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $tmdb_data->poster_path, 'test', 'tmdb_poster', 250);
-  }
   $section_shows_html .= <<<HTML
     <div class="antraktor-show">
       $is_valid
@@ -73,6 +70,7 @@ foreach ($results as $result) {
         <button onclick="copyToClipboard('$result->id_tmdb')">TMDB UNI KEY $result->id_tmdb</button>
         <button onclick="copyToClipboard('$result->id_tvdb')">TVDB UNI KEY $result->id_tvdb</button>
       </div>
+      
     </div>
     
     <form method="post">
