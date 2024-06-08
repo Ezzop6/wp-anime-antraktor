@@ -50,32 +50,12 @@ class AntraktorApi {
   }
 
   public static function refresh(WP_REST_Request $request) {
+    require_once 'api/class_antrakt_refresh_wp.php';
     try {
-      $data = AF::get_kodi_now_playing();
-      $result = AntraktorKodiManager::add_record($data);
-      if ($result) {
-        return new WP_REST_Response('New show added', 200);
-      } else {
-        $show_status = AF::get_kodi_now_playing();
-        if (!$show_status) {
-          return new WP_REST_Response('No show playing', 200);
-        }
-        $show_progress = AF::player_get_properties();
-        $series_season = $show_status->season;
-        $series_episode = $show_status->episode;
-
-        $name = $show_status->movie_name;
-        $show_id = AntraktorKodiManager::get_id_by_name($name);
-
-        $current_time = $show_progress->time;
-        return new WP_REST_Response(
-          'Show : ' . $name . ' time : ' . $current_time . '  ' . $show_id . ' ' . $series_season . ' ' . $series_episode,
-          200
-        );
-      }
-      return new WP_REST_Response($result, 200);
+      $result = AntraktRefresh::refresh();
     } catch (Exception $e) {
       return new WP_Error('error', $e->getMessage(), ['status' => 500]);
     }
+    return $result;
   }
 }

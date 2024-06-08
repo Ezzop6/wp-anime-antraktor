@@ -4,7 +4,7 @@
 <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_type']) && $_POST['form_type'] === 'tmdb') {
   ApiTmdbVariables::$api_key = $_POST['tmdb_api_key'];
   ApiTmdbVariables::$access_token = $_POST['tmdb_access_token'];
-  AntraktorVariableManager::set_variable(ApiTmdbVariables::$db_key_api_key, ApiTmdbVariables::$api_key);
+  // AntraktorVariableManager::set_variable(ApiTmdbVariables::$db_key_api_key, ApiTmdbVariables::$api_key);
   AntraktorVariableManager::set_variable(ApiTmdbVariables::$db_key_access_token, ApiTmdbVariables::$access_token);
 } else {
   ApiTmdbVariables::init();

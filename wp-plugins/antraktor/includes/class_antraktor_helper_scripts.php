@@ -84,8 +84,7 @@ class HelperScripts {
     echo "<br><br>";
   }
   public static function log($data) {
-    $log_file = fopen(self::$log_file, 'a');
-    fwrite($log_file, $data);
-    fclose($log_file);
+    $data = date('Y-m-d H:i:s') . ' ' . $data . PHP_EOL;
+    file_put_contents(self::$log_file, $data, FILE_APPEND);
   }
 }

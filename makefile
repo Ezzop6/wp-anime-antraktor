@@ -27,6 +27,9 @@ logs-mysql:
 clean:
 	@docker compose down --rmi all --volumes --remove-orphans
 
+recreate: .env
+	@docker compose down --rmi all --volumes --remove-orphans
+	@docker compose up --build --force-recreate -d
 
 # start local development
 antraktor-build-dev: .env antraktor.env

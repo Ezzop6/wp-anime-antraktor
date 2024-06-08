@@ -12,6 +12,60 @@ class AntraktorEpisodeManager {
     }
   }
 
+  public static function update_progress($tmdb_series_id, $season_number, $episode_number, float $progress): bool {
+    $result = self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE tmdb_series_id = '$tmdb_series_id' AND season_number = '$season_number' AND episode_number = '$episode_number'")[0];
+    if (!$result) {
+      throw new Exception("Episode not found for tmdb_series_id = $tmdb_series_id, season_number = $season_number, episode_number = $episode_number");
+    }
+    $table_name = self::$table_name;
+    $watch_status = 'watching';
+    $sql = <<<SQL
+    UPDATE $table_name
+    SET watch_progress = %f,
+        watch_last_time = NOW(),
+        watch_status = %s
+    WHERE tmdb_series_id = %s
+    AND season_number = %d
+    AND episode_number = %d
+  SQL;
+    $prepared_sql = self::$DB->prepare($sql, $progress, $watch_status, $tmdb_series_id, $season_number, $episode_number);
+    self::$DB->query($prepared_sql);
+    if (self::$DB->last_error) {
+      throw new Exception(self::$DB->last_error);
+    }
+    return true;
+  }
+  public static function mark_as_complete($tmdb_series_id, $season_number, $episode_number): bool {
+    $result = self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE tmdb_series_id = '$tmdb_series_id' AND season_number = '$season_number' AND episode_number = '$episode_number'")[0];
+    if (!$result) {
+      throw new Exception("Episode not found for tmdb_series_id = $tmdb_series_id, season_number = $season_number, episode_number = $episode_number");
+    }
+    $table_name = self::$table_name;
+    $time_diff = (strtotime($result->watch_last_time) - strtotime($result->watch_first_time)) / 600;
+    $watch_status = $result->watch_status;
+    if ($time_diff > 2 && $watch_status == 'watching') {
+      $watch_count = $result->watch_count + 1;
+      $watch_status = 'watched';
+    } else {
+      $watch_count = $result->watch_count;
+      $watch_status = 'watching';
+    }
+    $sql = <<<SQL
+    UPDATE $table_name
+    SET watch_status = %s,
+        watch_count = %d
+    WHERE tmdb_series_id = %s
+    AND season_number = %d
+    AND episode_number = %d
+  SQL;
+    $prepared_sql = self::$DB->prepare($sql, $watch_status, $watch_count, $tmdb_series_id, $season_number, $episode_number);
+    self::$DB->query($prepared_sql);
+    if (self::$DB->last_error) {
+      throw new Exception(self::$DB->last_error);
+    }
+    return true;
+  }
+
   public static function check_if_exists($tmdb_series_id, $season_number, $episode_number): bool {
     $results = self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE tmdb_series_id = '$tmdb_series_id' AND season_number = '$season_number' AND episode_number = '$episode_number'");
     return count($results) > 0;
@@ -36,7 +90,8 @@ class AntraktorEpisodeManager {
       $tmdb_data = AF::get_series_episode_details_by_id($tmdb_series_id, $season_number, $episode_number);
       $episode_id = $tmdb_data->id;
       $name = $tmdb_data->name;
-      $sql = "INSERT INTO " . self::$table_name . " (tmdb_episode_id, tmdb_series_id, tmdb_season_id, tmdb_data, name, season_number, episode_number) VALUES (%d, %s, %d, %s, %s, %d, %d)";
+      $watch_status = 'watching';
+      $sql = "INSERT INTO " . self::$table_name . " (tmdb_episode_id, tmdb_series_id, tmdb_season_id, tmdb_data, name, season_number, episode_number, watch_status) VALUES (%d, %d, %d, %s, %s, %d, %d, %s)";
       $prepared_sql = self::$DB->prepare(
         $sql,
         $episode_id,
@@ -45,7 +100,8 @@ class AntraktorEpisodeManager {
         base64_encode(json_encode($tmdb_data)),
         $name,
         $season_number,
-        $episode_number
+        $episode_number,
+        $watch_status
       );
       self::$DB->query($prepared_sql);
       if (self::$DB->last_error) {

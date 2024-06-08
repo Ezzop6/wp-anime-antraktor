@@ -33,9 +33,14 @@ class AntraktorKodiManager {
     return self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE watch_status = '$watch_status' LIMIT $limit");
   }
 
-  public static function get_id_by_name(string $name): string {
+  public static function get_record_key_by_name(string $name): string {
     $name = esc_sql($name);
     return self::$DB->get_results("SELECT record_key FROM " . self::$table_name . " WHERE name = '$name'")[0]->record_key;
+  }
+
+  public static function get_record_key_by_tmdb_id(int $tmdb_id): string {
+    $tmdb_id = esc_sql($tmdb_id);
+    return self::$DB->get_results("SELECT record_key FROM " . self::$table_name . " WHERE tvdb_show_id = $tmdb_id")[0]->record_key;
   }
 
   public static function get_all_invalid(): array {
@@ -133,7 +138,8 @@ class AntraktorKodiManager {
       $record_hash = md5($encoded_data);
       $record_length = strlen($encoded_data);
       $record_key = $record_hash . '-' . $record_length;
-      $sql = "INSERT INTO " . self::$table_name . " ( record_key, record_hash, record_length, record_data, name, show_type, id_imdb, id_tvdb, id_tmdb, tvdb_show_id, tmdb_data ) VALUES (%s, %s, %d, %s, %s, %s, %s, %s, %s, %s, %s)";
+      $watch_status = $tvdb_show_id ? 'watching' : 'not_started';
+      $sql = "INSERT INTO " . self::$table_name . " ( record_key, record_hash, record_length, record_data, name, show_type, id_imdb, id_tvdb, id_tmdb, tvdb_show_id, tmdb_data, watch_status ) VALUES (%s, %s, %d, %s, %s, %s, %s, %s, %s, %s, %s, %s)";
       $prepared_sql = self::$DB->prepare(
         $sql,
         $record_key,
@@ -146,7 +152,8 @@ class AntraktorKodiManager {
         $id_tvdb,
         $id_tmdb,
         $tvdb_show_id ?? null,
-        $tmdb_data ?? null
+        $tmdb_data ?? null,
+        $watch_status
       );
       if (self::$DB->query($prepared_sql)) {
         if (self::$DB->last_error) {

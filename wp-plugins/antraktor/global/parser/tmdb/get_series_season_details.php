@@ -1,6 +1,6 @@
 <?php
 
-require_once plugin_dir_path(dirname(__FILE__)) . 'tmdb/class_tmdb_season.php';
+require_once plugin_dir_path(dirname(__FILE__)) . 'tmdb/class_tmdb_episode_details_id.php';
 
 class GetSeriesSeasonDetails {
   public $_id;
