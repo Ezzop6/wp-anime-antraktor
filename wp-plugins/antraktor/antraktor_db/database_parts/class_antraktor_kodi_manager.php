@@ -1,6 +1,5 @@
 <?php
 
-use ParagonIE\Sodium\Core\Curve25519\H;
 
 class AntraktorKodiManager {
   public static $table_name;

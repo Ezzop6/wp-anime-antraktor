@@ -21,7 +21,6 @@ class AntraktorDatabase {
     $sql_registered_pages = self::load_table_file('registered_pages', $charset_collate);
     $sql_variables =  self::load_table_file('variables', $charset_collate);
     $sql_movies =  self::load_table_file('movies', $charset_collate);
-    $sql_movies =  self::load_table_file('movies', $charset_collate);
     $sql_series =  self::load_table_file('series', $charset_collate);
     $sql_seasons =  self::load_table_file('seasons', $charset_collate);
     $sql_episodes =  self::load_table_file('episodes', $charset_collate);
