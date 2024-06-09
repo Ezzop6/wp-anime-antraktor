@@ -6,4 +6,10 @@
   .belongs_to_collection {
     @apply text-gray-600;
   }
+  .movie_details {
+    @apply mx-4 mt-4;
+  }
+  .title {
+    @apply flex flex-row justify-between;
+  }
 }

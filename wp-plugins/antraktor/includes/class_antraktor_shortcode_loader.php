@@ -32,4 +32,9 @@ class ShortcodeLoader {
     require_once plugin_dir_path(__DIR__) . self::$folder . 'draw_series_progress_container.php';
     return draw_series_progress_container($atts);
   }
+
+  public static function draw_movies_progress_container($atts = array()) {
+    require_once plugin_dir_path(__DIR__) . self::$folder . 'draw_movies_progress_container.php';
+    return draw_movies_progress_container($atts);
+  }
 }

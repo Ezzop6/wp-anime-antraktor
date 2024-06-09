@@ -31,11 +31,20 @@ $tagline = $series_data->tagline;
 $type = $series_data->type;
 $vote_average = $series_data->vote_average;
 $vote_count = $series_data->vote_count;
-echo ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $backdrop_path, 'backdrop', $name);
-echo ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $poster_path, 'poster', $name);
 
 
-$last_episode_still_path = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $last_episode_to_air->still_path, 'last_episode', $name);
+$poster_img = '';
+$backdrop_img = '';
+$last_episode_img = '';
+if ($poster_path !== null && $name) {
+  $poster_img = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $poster_path, 'poster', $name);
+}
+if ($backdrop_path !== null && $name) {
+  $backdrop_img = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $backdrop_path, 'backdrop', $name);
+}
+if ($last_episode_to_air->still_path !== null && $name) {
+  $last_episode_img = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $last_episode_to_air->still_path, 'last_episode', $name);
+}
 $last_episode_htl = <<<HTML
   <h3>Last episode name: $last_episode_to_air->name</h3>
   <p>Id: $last_episode_to_air->id</p>
@@ -49,11 +58,14 @@ $last_episode_htl = <<<HTML
   <p>Runtime: $last_episode_to_air->runtime</p>
   <p>Season number: $last_episode_to_air->season_number</p>
   <p>Show id: $last_episode_to_air->show_id</p>
-  $last_episode_still_path
+  $last_episode_img
   HTML;
 echo $last_episode_htl;
 
-$next_episode_still_path = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $next_episode_to_air->still_path, 'next_episode', $name);
+$next_episode_img = '';
+if ($next_episode_to_air->still_path !== null && $name) {
+  $next_episode_img = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $next_episode_to_air->still_path, 'next_episode', $name);
+}
 $next_episode_htl = <<<HTML
   <h3>Next episode name: $next_episode_to_air->name</h3>
   <p>Id: $next_episode_to_air->id</p>
@@ -67,19 +79,10 @@ $next_episode_htl = <<<HTML
   <p>Runtime: $next_episode_to_air->runtime</p>
   <p>Season number: $next_episode_to_air->season_number</p>
   <p>Show id: $next_episode_to_air->show_id</p>
-  $next_episode_still_path
+  $next_episode_img
   HTML;
 echo $next_episode_htl;
 
-echo '<h3>Created By</h3>';
-$created_by_html = '';
-foreach ($created_by as $creator) {
-  $created_by_html .= <<<HTML
-    <h3>Creator name: $creator->name</h3>
-    <p>Id: $creator
-    HTML;
-}
-echo $created_by_html;
 
 $seasons_html = '';
 echo '<h3>Seasons</h3>';

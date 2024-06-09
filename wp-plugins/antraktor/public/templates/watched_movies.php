@@ -14,21 +14,8 @@ foreach ($watched_movies as $object) {
   $title = $movie_data->title;
   $homepage = $movie_data->homepage;
   $poster = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $movie_data->poster_path, 'movie', $movie_data->title, 300);
+  $progress_bar = do_shortcode("[draw_movies_progress_container movie_id='$movie_data->id']");
 
-  $similar_movies = AF::get_similar_movies($movie_data->id);
-  $similar_movies_html = '';
-  foreach ($similar_movies->results as $similar_movie) {
-    $title = $similar_movie->title;
-    // $poster_path = $similar_movie->poster_path;
-    // if ($poster_path) {
-    //   $poster = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $poster_path, 'movie', $title, 200);
-    // }
-    $similar_movies_html .= <<<HTML
-      <div class="similar_movie">
-        <h6>$title</h6>
-      </div>
-    HTML;
-  }
   $html .= <<<HTML
   <div class="watched_movie">
 
@@ -39,7 +26,10 @@ foreach ($watched_movies as $object) {
     <div class="right">
     
       <div class="movie_details">
-        <h3>$movie_data->title</h3>
+        <div class="title">
+          <h3>$movie_data->title</h3>
+          $progress_bar
+        </div>
         <p>Release date: $movie_data->release_date</p>
         <p>Overview: $movie_data->overview</p>
         <p>Popularity: $movie_data->popularity</p>
@@ -47,7 +37,7 @@ foreach ($watched_movies as $object) {
       </div>
       
       <div class="similar_movies">
-        $similar_movies_html
+        
       </div>
       
     </div>

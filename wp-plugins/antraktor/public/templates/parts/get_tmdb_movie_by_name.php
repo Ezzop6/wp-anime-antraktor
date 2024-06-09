@@ -19,8 +19,14 @@ for ($i = 0; $i < count($movie_data->movies); $i++) {
   foreach ($movie->genre_ids as $genre_id) {
     $genre_ids .= $genre_id . ' ';
   };
-  $img_poster = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $poster_path, 'poster', $title, 200);
-  $img_backdrop = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $backdrop_path, 'backdrop', $title, 200);
+  $img_poster = '';
+  $img_backdrop = '';
+  if ($poster_path !== null && $title) {
+    $img_poster = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $poster_path, 'poster', $title, 200);
+  }
+  if ($backdrop_path !== null && $title) {
+    $img_backdrop = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $backdrop_path, 'backdrop', $title, 200);
+  }
 
   $overview = substr($overview, 0, 100) . '<a href="/antraktor/movie/?movie_id=' . $id . '"> ...</a>';
   $tmdb_detail_data = <<<HTML
@@ -34,6 +40,7 @@ for ($i = 0; $i < count($movie_data->movies); $i++) {
         <a href="/antraktor/movie/?movie_id=$id">$title</a>
       </div>
       <p>Adult: $adult</p>
+      <p>ID: $id</p>
       <p>Genre ids: $genre_ids</p>
       <p>Original language: $original_language</p>
       <p>Original title: $original_title</p>

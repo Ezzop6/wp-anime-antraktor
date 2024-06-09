@@ -111,6 +111,41 @@
   font-size: 0.75rem;
   line-height: 1rem;
 }
+.antraktor-page-content .movie_progress_container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  --tw-bg-opacity: 1;
+  background-color: rgb(203 213 225 / var(--tw-bg-opacity));
+  height: 2.75rem;
+  width: 7rem;
+  border-radius: 0.5rem;
+}
+.antraktor-page-content .movie_progress_container .progress {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  border-radius: 0.25rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(21 128 61 / var(--tw-bg-opacity));
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.antraktor-page-content .status {
+  position: absolute;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  --tw-text-opacity: 1;
+  color: rgb(30 41 59 / var(--tw-text-opacity));
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .antraktor-page-content .watched_series {
   display: flex;
   flex-direction: column;
@@ -170,6 +205,16 @@
 .antraktor-page-content .watched_movies .belongs_to_collection {
   --tw-text-opacity: 1;
   color: rgb(75 85 99 / var(--tw-text-opacity));
+}
+.antraktor-page-content .watched_movies .movie_details {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 1rem;
+}
+.antraktor-page-content .watched_movies .title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .antraktor-page-content .episode_info_wrapper {
   display: flex;

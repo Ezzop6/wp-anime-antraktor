@@ -108,6 +108,7 @@ class Antraktor {
 		ShortcodeLoader::register_shortcodes('get_currently_playing_html', [ShortcodeLoader::class, 'get_currently_playing_html']);
 		ShortcodeLoader::register_shortcodes('debug_currently_played_info', [ShortcodeLoader::class, 'debug_currently_played_info']);
 		ShortcodeLoader::register_shortcodes('draw_series_progress_container', [ShortcodeLoader::class, 'draw_series_progress_container']);
+		ShortcodeLoader::register_shortcodes('draw_movies_progress_container', [ShortcodeLoader::class, 'draw_movies_progress_container']);
 	}
 
 	// Add rewrite rules for the public paths /antraktor/...

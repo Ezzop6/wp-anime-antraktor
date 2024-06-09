@@ -1,0 +1,18 @@
+.movie_progress_container {
+  @apply flex flex-row relative justify-center items-center bg-slate-300;
+  @apply rounded-lg w-28 h-11;
+
+  .progress {
+    @apply absolute bg-green-700 w-full h-full top-0 left-0 rounded;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.status {
+  @apply absolute text-slate-800 text-xl;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
