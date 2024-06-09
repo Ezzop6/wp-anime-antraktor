@@ -29,7 +29,24 @@ class AntraktorRefresh {
     if ($show_data->watch_status == 'watching') {
       $movie = AntraktorMovieManager::get_record($show_data->id_tmdb);
       if (!$movie) {
-        AntraktorMovieManager::add_record($show_data->id_tmdb);
+        $result = AntraktorMovieManager::add_record($show_data->id_tmdb);
+        if ($result) {
+          return new WP_REST_Response('Movie added to the database', 200);
+        } else {
+          return new WP_REST_Response('Movie not added to the database', 200);
+        }
+      } else {
+        $kodi_playing_now = AF::player_get_properties();
+        if ($kodi_playing_now->percentage < 85) {
+          $result = AntraktorMovieManager::update_progress($show_data->id_tmdb, $kodi_playing_now->percentage);
+          return new WP_REST_Response('Movie ' . $show_data->name . ' updated', 200);
+        }
+        if ($kodi_playing_now->percentage > 85 && $movie->watch_status == 'watching') {
+          $result = AntraktorMovieManager::mark_as_complete($show_data->id_tmdb);
+          return new WP_REST_Response('Movie ' . $show_data->name . ' marked as complete', 200);
+        } else {
+          return new WP_REST_Response('Movie ' . $show_data->name . ' already watched', 200);
+        }
       }
     }
     return new WP_REST_Response('Movie logic', 200);

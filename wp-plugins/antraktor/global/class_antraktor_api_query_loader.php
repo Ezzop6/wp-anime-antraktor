@@ -31,6 +31,8 @@ class AntraktorApiQueryLoader {
       QueryTmdb::$get_episode_details_by_id => QueryTmdb::get_series_episode_details_by_id($atts),
       QueryTmdb::$get_series_images_by_id => QueryTmdb::get_series_images_by_id($atts),
       QueryTmdb::$get_by_unique_id => QueryTmdb::get_by_unique_id($atts),
+      QueryTmdb::$get_similar_movies => QueryTmdb::get_similar_movies($atts),
+      QueryTmdb::$get_similar_series => QueryTmdb::get_similar_series($atts),
       default => throw new Exception('Invalid Tmdb query name: ' . $api_query_name . ' ' . $atts),
     };
   }

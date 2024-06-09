@@ -1,0 +1,9 @@
+.watched_movies {
+  @apply bg-white rounded overflow-hidden;
+  .watched_movie {
+    @apply flex;
+  }
+  .belongs_to_collection {
+    @apply text-gray-600;
+  }
+}

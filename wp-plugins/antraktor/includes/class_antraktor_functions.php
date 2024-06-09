@@ -230,6 +230,45 @@ class AF {
     );
     return $parsed_data;
   }
+  public static function get_similar_movies($movie_id, $parsed_object = true, $json_print = false): GetSimilarMovies|string {
+    $tmdb_data = ApiCommunicator::send(
+      QueryTmdb::class,
+      QueryTmdb::$get_similar_movies,
+      array('get_similar_movies' => $movie_id)
+    );
+    if ($json_print) {
+      HelperScripts::print($tmdb_data);
+    }
+    if (!$parsed_object) {
+      return $tmdb_data;
+    }
+    $parsed_data = ApiDataParser::parse(
+      QueryTmdb::class,
+      $tmdb_data,
+      QueryTmdb::$get_similar_movies
+    );
+    return $parsed_data;
+  }
+
+  public static function get_similar_series($series_id, $parsed_object = true, $json_print = false): GetSimilarSeries|string {
+    $tmdb_data = ApiCommunicator::send(
+      QueryTmdb::class,
+      QueryTmdb::$get_similar_series,
+      array('get_similar_series' => $series_id)
+    );
+    if ($json_print) {
+      HelperScripts::print($tmdb_data);
+    }
+    if (!$parsed_object) {
+      return $tmdb_data;
+    }
+    $parsed_data = ApiDataParser::parse(
+      QueryTmdb::class,
+      $tmdb_data,
+      QueryTmdb::$get_similar_series
+    );
+    return $parsed_data;
+  }
 
   public static function get_testing_data($array_id) {
     $file = file_get_contents(ABSPATH . 'wp-content/plugins/antraktor/antraktor_testing_data.json');

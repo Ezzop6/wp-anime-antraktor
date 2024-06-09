@@ -19,6 +19,8 @@ class ParserTmdb {
       QueryTmdb::$get_series_images_by_id => self::get_series_images_by_id($api_data, $debug_print),
       QueryTmdb::$get_series_season_details_by_id => self::get_series_season_details_by_id($api_data, $debug_print),
       QueryTmdb::$get_by_unique_id => self::get_by_unique_id($api_data, $debug_print),
+      QueryTmdb::$get_similar_movies => self::get_similar_movies($api_data, $debug_print),
+      QueryTmdb::$get_similar_series => self::get_similar_series($api_data, $debug_print),
       default => throw new Exception('Query name not found : ' . $query_name . ' in ParserTmdb::parse() method'),
     };
   }
@@ -53,5 +55,13 @@ class ParserTmdb {
   public static function get_by_unique_id($api_data, $debug_print): GetByUniqueId {
     require_once 'tmdb/get_by_unique_id.php';
     return new GetByUniqueId($api_data);
+  }
+  public static function get_similar_movies($api_data, $debug_print): GetSimilarMovies {
+    require_once 'tmdb/class_tmdb_get_similar_movies.php';
+    return new GetSimilarMovies($api_data);
+  }
+  public static function get_similar_series($api_data, $debug_print): GetSimilarSeries {
+    require_once 'tmdb/class_tmdb_get_similar_movies.php';
+    return new GetSimilarSeries($api_data);
   }
 }

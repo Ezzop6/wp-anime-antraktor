@@ -8,6 +8,24 @@ class QueryTmdb {
   public static $get_episode_details_by_id = 'get_episode_details_by_id';
   public static $get_series_images_by_id = 'get_series_images_by_id';
   public static $get_by_unique_id = 'get_by_unique_id';
+  public static $get_similar_movies = 'get_similar_movies';
+  public static $get_similar_series = 'get_similar_series';
+
+  public static function get_similar_movies($atts) {
+    $movie_id = $atts['get_similar_movies'];
+    if (!isset($movie_id)) {
+      throw new Exception('Movie id not set');
+    }
+    return 'movie/' . $movie_id . '/similar';
+  }
+
+  public static function get_similar_series($atts) {
+    $series_id = $atts['get_similar_series'];
+    if (!isset($series_id)) {
+      throw new Exception('Series id not set');
+    }
+    return 'tv/' . $series_id . '/similar';
+  }
 
   public static function get_movie_by_name($atts) {
     $movie = $atts['get_movie_by_name'];

@@ -143,9 +143,11 @@ class AntraktorKodiManager {
     if (!$tmdb_data) {
       return null;
     }
-    return GetMovieDetails::init(json_decode($tmdb_data));
+    if (gettype($tmdb_data) == 'string') {
+      return GetMovieDetails::init(json_decode($tmdb_data));
+    }
+    return GetMovieDetails::init($tmdb_data);
   }
-
 
   public static function get_record(string $record_key): object {
     return self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE record_key = '$record_key'")[0];
@@ -208,16 +210,35 @@ class AntraktorKodiManager {
 
   public static function handle_movie_sql_logic(PlayerGetItem $kodi_item) {
     $name = $kodi_item->movie_name;
-    $id_tvdb = $kodi_item->uniqueid->tvdb;
-    $id_imdb = $kodi_item->uniqueid->imdb;
-    $id_tmdb = $kodi_item->uniqueid->tmdb;
+    $id_tvdb = $kodi_item->uniqueid->tvdb ?? null;
+    $id_imdb = $kodi_item->uniqueid->imdb ?? null;
+    $id_tmdb = $kodi_item->uniqueid->tmdb ?? null;
     $show_type = $kodi_item->type;
     if (!self::is_item_exist($name, $show_type, $id_tvdb, $id_imdb, $id_tmdb)) {
       $show_type = $kodi_item->type;
       if ($id_tmdb) {
         $tmdb_data = AF::get_tmdb_movie_details_by_id($id_tmdb);
-      } else {
-        $tmdb_data = 'Implementation needed';
+      }
+      if (!$tmdb_data && $name) {
+        $tmdb_data = AF::get_tmdb_movie_by_name($name);
+        if (!$tmdb_data) {
+          throw new Exception('No tmdb data found');
+        }
+        if (count($tmdb_data->movies) > 1) {
+          $found = false;
+          for ($i = 0; $i < count($tmdb_data->movies); $i++) {
+            if ($tmdb_data->movies[$i]->original_title == $name) {
+              $id_tmdb = $tmdb_data->movies[$i]->id;
+              $tmdb_data = AF::get_tmdb_movie_details_by_id($id_tmdb);
+
+              $found = true;
+              break;
+            }
+          }
+          if (!$found) {
+            throw new Exception('Multiple movies found');
+          }
+        }
       }
       $encoded_data = base64_encode(json_encode($kodi_item));
       $record_hash = md5($encoded_data);

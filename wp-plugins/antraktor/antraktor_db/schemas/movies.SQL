@@ -1,5 +1,8 @@
 CREATE TABLE |DB_PREFIX|movies (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    tmdb_show_id VARCHAR(20) NOT NULL,
+    imdb_id VARCHAR(20) NULL,
+    tmdb_data TEXT NOT NULL,
     watch_status VARCHAR(50) NOT NULL DEFAULT 'not_started',
     watch_progress TINYINT(2) NOT NULL DEFAULT 0,
     watch_count INT NOT NULL DEFAULT 0,
@@ -8,22 +11,5 @@ CREATE TABLE |DB_PREFIX|movies (
     completed BOOLEAN NOT NULL DEFAULT FALSE,
     title VARCHAR(255) NOT NULL,
     original_title VARCHAR(255) NULL,
-    imdb_number VARCHAR(20) NULL,
-    rating DOUBLE(8, 2) NULL,
-    votes INT NULL,
-    plot TEXT NULL,
-    runtime INT NULL,
-    premiered DATE NULL,
-    production_code VARCHAR(50) NULL,
-    genre VARCHAR(255) NULL,
-    art_banner VARCHAR(255) NULL,
-    art_clearlogo VARCHAR(255) NULL,
-    art_fanart VARCHAR(255) NULL,
-    art_icon VARCHAR(255) NULL,
-    art_poster VARCHAR(255) NULL,
-    art_thumb VARCHAR(255) NULL,
-    file_path VARCHAR(255) NULL,
-    trailer VARCHAR(255) NULL,
-    type VARCHAR(50) NULL,
-    collection_id INT NULL
+    type VARCHAR(50) NULL
 ) |DB_COLLATE|;

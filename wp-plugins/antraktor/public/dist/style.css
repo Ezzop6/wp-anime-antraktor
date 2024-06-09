@@ -111,23 +111,6 @@
   font-size: 0.75rem;
   line-height: 1rem;
 }
-.antraktor-page-content .tracked_series {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  gap: 10px;
-}
-.antraktor-page-content .tracked_series .seasons_container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.antraktor-page-content .tracked_series .seasons_container .season_container {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  width: 100%;
-}
 .antraktor-page-content .watched_series {
   display: flex;
   flex-direction: column;
@@ -174,6 +157,19 @@
   text-align: center;
   font-size: 2.25rem;
   line-height: 2.5rem;
+}
+.antraktor-page-content .watched_movies {
+  overflow: hidden;
+  border-radius: 0.25rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+.antraktor-page-content .watched_movies .watched_movie {
+  display: flex;
+}
+.antraktor-page-content .watched_movies .belongs_to_collection {
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
 }
 .antraktor-page-content .episode_info_wrapper {
   display: flex;

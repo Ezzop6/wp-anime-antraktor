@@ -20,9 +20,9 @@ class SpokenLanguage {
   public $english_name;
 
   public function __construct($data) {
-    $this->iso_639_1 = $data->iso_639_1;
-    $this->name = $data->name;
-    $this->english_name = $data->english_name;
+    $this->iso_639_1 = isset($data->iso_639_1) ? $data->iso_639_1 : null;
+    $this->name = isset($data->name) ? $data->name : null;
+    $this->english_name = isset($data->english_name) ? $data->english_name : null;
   }
 
   public static function init($data) {
