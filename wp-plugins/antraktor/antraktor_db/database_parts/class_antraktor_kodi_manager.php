@@ -46,9 +46,9 @@ class AntraktorKodiManager {
     return self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE watch_status = '$watch_status' AND show_type = '$type' LIMIT $limit");
   }
 
-  public static function get_record_key_by_name(string $name): string {
-    $name = esc_sql($name);
-    return self::$DB->get_results("SELECT record_key FROM " . self::$table_name . " WHERE name = '$name'")[0]->record_key;
+  public static function get_record_key_by_name(string $name): string | null {
+    $prepared_sql = self::$DB->prepare("SELECT record_key FROM " . self::$table_name . " WHERE name = %s", esc_sql($name));
+    return self::$DB->get_results($prepared_sql)[0]->record_key ?? null;
   }
 
   public static function get_record_key_by_tmdb_id(int $tmdb_id): string {
@@ -88,16 +88,11 @@ class AntraktorKodiManager {
     return false;
   }
 
-  public static function is_item_exist(string $name, string $type, int $id_tvdb, string $id_imdb, int $id_tmdb): bool {
-    error_reporting(E_ALL & ~E_DEPRECATED);
+  public static function is_item_exist($name, $show_type, $id_tvdb, $id_imdb, $id_tmdb): bool {
     $name = esc_sql($name);
-    $type = esc_sql($type);
-    $id_imdb = esc_sql($id_imdb);
-    $id_tvdb = esc_sql($id_tvdb);
-    $id_tmdb = esc_sql($id_tmdb);
-    $quary = self::$DB->prepare("SELECT * FROM " . self::$table_name . " WHERE name = %s AND show_type = %s", $name, $type);
-    $result = self::$DB->get_results($quary);
-    // TODO: Cannot modify header information - headers already sent by (output started at ????
+    $sql = "SELECT * FROM " . self::$table_name . " WHERE name = %s AND show_type = %s";
+    $prepared_sql = self::$DB->prepare($sql, $name, $show_type);
+    $result = self::$DB->get_results($prepared_sql);
     foreach ($result as $row) {
       if (
         ($row->tvdb_show_id != null) ||
@@ -154,9 +149,9 @@ class AntraktorKodiManager {
 
   public static function handle_episode_sql_logic(PlayerGetItem $kodi_item) {
     $name = $kodi_item->movie_name;
-    $id_tvdb = $kodi_item->uniqueid->tvdb;
-    $id_imdb = $kodi_item->uniqueid->imdb;
-    $id_tmdb = $kodi_item->uniqueid->tmdb;
+    $id_tvdb = $kodi_item->uniqueid->tvdb ?? null;
+    $id_imdb = $kodi_item->uniqueid->imdb ?? null;
+    $id_tmdb = $kodi_item->uniqueid->tmdb ?? null;
     $tvdb_show_id = null;
     $tmdb_data = null;
     $type = $kodi_item->type;
@@ -174,7 +169,6 @@ class AntraktorKodiManager {
         $tmdb_data = AF::get_tmdb_series_details_by_id($tvdb_show_id, 0, 0);
         $tmdb_data = base64_encode(json_encode($tmdb_data));
       }
-      error_reporting(E_ALL & ~E_NOTICE);
       $encoded_data = base64_encode(json_encode($kodi_item));
       $record_hash = md5($encoded_data);
       $record_length = strlen($encoded_data);
@@ -187,8 +181,8 @@ class AntraktorKodiManager {
         $record_hash,
         $record_length,
         $encoded_data,
-        $kodi_item->movie_name,
-        $kodi_item->type,
+        esc_sql($name),
+        esc_sql($type),
         $id_imdb,
         $id_tvdb,
         $id_tmdb,
@@ -201,7 +195,7 @@ class AntraktorKodiManager {
   }
 
   public static function handle_movie_sql_logic(PlayerGetItem $kodi_item) {
-
+    wp_die(HelperScripts::print($kodi_item));
     $name = $kodi_item->movie_name;
     $id_tvdb = $kodi_item->uniqueid->tvdb;
     $id_imdb = $kodi_item->uniqueid->imdb;
@@ -242,14 +236,14 @@ class AntraktorKodiManager {
   }
 
   public static function add_record(PlayerGetItem  $kodi_item): bool {
-    if (!$kodi_item) {
-      return false;
-    }
     $show_type = $kodi_item->type;
     if ($show_type == 'episode') {
       $prepared_sql = self::handle_episode_sql_logic($kodi_item);
-    } elseif ($show_type == 'movie') {
+    }
+    if ($show_type == 'movie') {
       $prepared_sql = self::handle_movie_sql_logic($kodi_item);
+    } else {
+      return false;
     }
 
     if (self::$DB->query($prepared_sql)) {

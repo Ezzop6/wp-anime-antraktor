@@ -27,4 +27,8 @@ class GetSeriesSeasonDetails {
       $this->episodes[] = new EpisodeDetailsID($episode);
     }
   }
+
+  public static function init($data) {
+    return new self($data);
+  }
 }

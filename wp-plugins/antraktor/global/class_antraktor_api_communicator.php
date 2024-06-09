@@ -56,6 +56,7 @@ class ApiCommunicator {
   }
   public static function send_to_tmdb($api_query_name, $atts): string {
     // https://developer.themoviedb.org/reference/intro/getting-started
+    AntraktorVariableManager::update_tmdb_total_requests();
     ApiTmdbVariables::init();
     $response = wp_remote_get(
       'https://api.themoviedb.org/3' . '/' . AntraktorApiQueryLoader::get_query(QueryTmdb::class, $api_query_name, $atts),

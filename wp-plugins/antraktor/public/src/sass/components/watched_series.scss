@@ -1,6 +1,9 @@
 .watched_series {
   @apply flex flex-col gap-5;
-
+  .next_episode_to_air {
+    @apply flex flex-row w-full gap-5;
+    @apply bg-gray-200 rounded overflow-hidden;
+  }
   .watched_serie {
     @apply flex flex-row w-full gap-5;
     @apply bg-gray-200 rounded overflow-hidden;

@@ -13,6 +13,7 @@ class AntraktorActivator {
 				'kodi_port' => $_ENV['ANTRAKT_KODI_PORT'],
 				'kodi_host' => $_ENV['ANTRAKT_KODI_HOST'],
 				'tmdb_access_token' => $_ENV['ANTRAKT_TMDB_API_KEY'],
+				'tmdb_total_requests' => 0,
 				'spotify_client_id' => $_ENV['SPOTIFY_CLIENT_ID'],
 				'spotify_client_secret' => $_ENV['SPOTIFY_CLIENT_SECRET'],
 				'spotify_token' => null,

@@ -50,9 +50,9 @@ class AntraktorApi {
   }
 
   public static function refresh(WP_REST_Request $request) {
-    require_once 'api/class_antrakt_refresh_wp.php';
+    require_once 'api/class_antraktor_refresh_wp.php';
     try {
-      $result = AntraktRefresh::refresh();
+      $result = AntraktorRefresh::refresh();
     } catch (Exception $e) {
       return new WP_Error('error', $e->getMessage(), ['status' => 500]);
     }

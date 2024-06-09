@@ -9,3 +9,4 @@ define('ANTRAKTOR_BODY_CLASS', 'antraktor-page-content');
 define('ANTRAKTOR_KODI_BLANK_RESPONSE_LENGTH', 800);
 define('ANTRAKTOR_KODI_WATCH_STATUSES', ['not_started',  'watching', 'all']);
 define('ANTRAKTOR_GLOBAL_DIR', plugin_dir_path(__FILE__) . 'global/');
+define('ANTRAKTOR_INCLUDES_DIR', plugin_dir_path(__FILE__) . 'includes/');

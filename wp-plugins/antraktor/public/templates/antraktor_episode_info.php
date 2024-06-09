@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['series_id']) && isset($_
     <section class="episode-info">
       <h1>$data->name</h1>
         <a href="/antraktor/watched-series" style="color: blue;">Back to watched series</a>
+        <a href="/antraktor/season-info?series_id=$series_id&season_number=$season_number" style="color: blue;">Back to season</a>
         <p>$data->overview</p>
         <p>Season: $season_number</p>
         <p>Episode: $episode_number</p>

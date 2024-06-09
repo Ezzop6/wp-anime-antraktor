@@ -1,11 +1,16 @@
 .series_progress_bars {
   @apply flex flex-col gap-1;
-
   .series_progress_bar {
     @apply bg-gray-200 h-2;
     @apply flex flex-row w-full h-full;
     @apply bg-gray-300;
-
+    .season_info {
+      @apply text-xs min-w-14 text-center relative;
+      background-color: #114fcc91;
+      a {
+        @apply w-full h-full block;
+      }
+    }
     a {
       @apply h-full;
       position: relative;

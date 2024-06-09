@@ -4,7 +4,7 @@
 class ImageDownloader {
   public static $target_tmdb_original = 'https://image.tmdb.org/t/p/original';
   public static $target_tmdb_thumbnail = 'https://image.tmdb.org/t/p/w';
-  public static $direct_link = null;
+  public static $direct_link = 'direct_link';
 
   public static function get_url(string $target, string $path, int $size = 200) {
     return match ($target) {
@@ -15,7 +15,7 @@ class ImageDownloader {
     };
   }
 
-  public static function get_image_div(string $target, null | string $path, string  $class, string $alt, int $size = 500) {
+  public static function get_image_div(string $target, string $path, string  $class, string $alt, int $size = 500) {
     if (!$path || !$path) {
       return;
     }

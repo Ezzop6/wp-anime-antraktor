@@ -1,14 +1,16 @@
 <?php
 function get_progress_bar_html($atts = array()) {
   $timeout = $atts['timeout'] ?? 5000;
+  $kodi_data = AF::get_kodi_now_playing();
   return <<<HTML
 
-<div class="antrakt-currently-playing-progress">
+<section class="antrakt-currently-playing-progress" style="background-image: url($kodi_data->art_banner); background-size: cover;">
+  <div class="show_name">$kodi_data->movie_name</div>
   <div class="current-time"></div>
   <div class="progress-bar-background">
     <div class="progress-bar"></div>
   </div>
-</div>
+</section>
 
 <script>
 function formatTime(time) {

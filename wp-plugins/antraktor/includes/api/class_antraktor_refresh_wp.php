@@ -1,11 +1,12 @@
 <?php
-class AntraktRefresh {
+class AntraktorRefresh {
   public static function refresh() {
 
     $kodi_playing_now = AF::get_kodi_now_playing();
     if (!$kodi_playing_now) {
       return new WP_REST_Response('No show playing', 200);
     }
+
     $record_added = AntraktorKodiManager::add_record($kodi_playing_now);
     if ($record_added) {
       return new WP_REST_Response('New show added', 200);
@@ -39,12 +40,17 @@ class AntraktRefresh {
     $series_episode = $kodi_playing_now->episode;
     $name = $kodi_playing_now->movie_name;
     $record_key = AntraktorKodiManager::get_record_key_by_name($name);
+    if (!$record_key) {
+      AntraktorKodiManager::add_record($kodi_playing_now);
+    }
     $show_data = AntraktorKodiManager::get_record($record_key);
     if ($show_data->watch_status == 'not_started') {
       return new WP_REST_Response('Show is not in the watching list', 200);
     }
     $tvdb_show_id = $show_data->tvdb_show_id;
+
     if ($record_key && $series_season && $series_episode && $show_data->watch_status == 'watching') {
+      $kodi_playing_now = AF::player_get_properties();
       $episode = AntraktorEpisodeManager::get_record($tvdb_show_id, $series_season, $series_episode);
       if (!$episode) {
         AntraktorEpisodeManager::add_record($tvdb_show_id, $series_season, $series_episode);
@@ -61,5 +67,6 @@ class AntraktRefresh {
         return new WP_REST_Response('Show already watched: ' . $name . ' time : ' . $kodi_playing_now->percentage . '  ' . $record_key . ' ' . $series_season . ' ' . $series_episode . ' ' . $tvdb_show_id, 200);
       }
     }
+    return new WP_REST_Response('Show not found', 200);
   }
 }

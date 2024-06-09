@@ -21,6 +21,12 @@ class AntraktorVariableManager {
     }
   }
 
+  public static function update_tmdb_total_requests() {
+    self::init();
+    $value = self::get_key_value('tmdb_total_requests');
+    self::set_variable('tmdb_total_requests', $value + 1);
+  }
+
   public static function update_variable($key, $value, $id) {
     self::init();
     self::$DB->update(

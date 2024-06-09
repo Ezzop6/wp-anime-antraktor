@@ -30,14 +30,19 @@ function draw_episode_box($episode_data, $season_id) {
     HTML;
 }
 
-
 function draw_series_progress_container($atts = array()) {
   $season_id = $atts['series_id'];
   $series_data = AntraktorSeasonManager::get_series_season_details($season_id);
 
   $episode_boxes = '';
-  foreach ($series_data as $progress) {
-    $episode_boxes .= "<div class='series_progress_bar'>" . draw_episode_box($progress, $season_id) . "</div>";
+  foreach ($series_data as $series_details) {
+    $url_parts = '?series_id=' . $season_id;
+    $url_parts .= '&season_number=' . $series_details->season_number;
+    $episode_number = $series_details->season_number;
+    $episode_boxes .= '<div class="series_progress_bar">';
+    $episode_boxes .= '<div class="season_info">' . "<a href='/antraktor/season-info/$url_parts'>E$episode_number</a></div>";
+    $episode_boxes .= draw_episode_box($series_details, $season_id);
+    $episode_boxes .= '</div>';
   }
   return <<<HTML
     <div class="series_progress_bars">

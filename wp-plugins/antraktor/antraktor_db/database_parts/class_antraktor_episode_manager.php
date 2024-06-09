@@ -12,7 +12,7 @@ class AntraktorEpisodeManager {
     }
   }
 
-  public static function get_record($tmdb_series_id, $season_number, $episode_number) {
+  public static function get_record(int $tmdb_series_id, int $season_number, int $episode_number) {
     return self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE tmdb_series_id = '$tmdb_series_id' AND season_number = '$season_number' AND episode_number = '$episode_number'")[0] ?? null;
   }
 
@@ -47,7 +47,7 @@ class AntraktorEpisodeManager {
     return true;
   }
 
-  public static function update_progress($tmdb_series_id, $season_number, $episode_number, float $progress): bool {
+  public static function update_progress($tmdb_series_id, $season_number, $episode_number, $progress): bool {
     $result = self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE tmdb_series_id = '$tmdb_series_id' AND season_number = '$season_number' AND episode_number = '$episode_number'")[0];
     if (!$result) {
       throw new Exception("Episode not found for tmdb_series_id = $tmdb_series_id, season_number = $season_number, episode_number = $episode_number");

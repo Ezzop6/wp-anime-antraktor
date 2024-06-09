@@ -13,9 +13,10 @@
     <nav>
       <ul>
         <li><a href="/">Back to homepage</a></li>
-        <li><a href="/antraktor/index">Antraktor</a></li>
+        <!-- <li><a href="/antraktor/index">Antraktor</a></li> -->
         <li><a href="/antraktor/now-playing">Now Playing</a></li>
-        <li><a href="/antraktor/find-movie">Find Movie</a></li>
+        <li><a href="/antraktor/watched-series">Watched Series</a></li>
+        <!-- <li><a href="/antraktor/find-movie">Find Movie</a></li> -->
       </ul>
     </nav>
   </div>

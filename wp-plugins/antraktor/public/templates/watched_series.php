@@ -12,8 +12,8 @@ foreach ($watched_series as $object) {
   $progress_bar = do_shortcode("[draw_series_progress_container series_id='$series_data->id']");
   $next_episode_data = $series_data->next_episode_to_air;
   $next_episode_to_air = <<<HTML
-    <div>
-      <p>$next_episode_data->name</p>
+    <div class="next_episode_to_air">
+      <h5>$next_episode_data->name</h5>
       <p>$next_episode_data->overview</p>
       <p>$next_episode_data->vote_average</p>
       <p>$next_episode_data->vote_count</p>

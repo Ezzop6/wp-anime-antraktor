@@ -1,0 +1,14 @@
+.kodi_currently_playing {
+  .playing_info {
+    @apply flex flex-col;
+    & h2 {
+      @apply text-4xl text-center p-5;
+    }
+  }
+  .playing_images {
+    @apply flex flex-wrap justify-center gap-24;
+    img {
+      @apply max-w-96 rounded;
+    }
+  }
+}

@@ -1,4 +1,6 @@
 <?php
+
+// TODO: customproperties ??
 class PlayerGetItem {
   public $album;
   public $art;
@@ -68,7 +70,6 @@ class PlayerGetItem {
           'item' => $data
         )
       );
-      var_dump($data);
     }
     $this->album = $data->result->item->album;
     $this->art =  $data->result->item->art;
@@ -124,7 +125,7 @@ class PlayerGetItem {
     $this->trailer = $data->result->item->trailer;
     $this->tvshowid = (int)$data->result->item->tvshowid;
     $this->type = $this->get_show_type($data->result->item->type);
-    $this->uniqueid = new UniqueId($data->result->item->uniqueid);
+    $this->uniqueid = isset($data->result->item->uniqueid) ? UniqueId::init($data->result->item->uniqueid) : null;
     $this->userrating = $data->result->item->userrating;
     $this->votes = (int)$data->result->item->votes;
     $this->writer = $data->result->item->writer;
@@ -176,16 +177,29 @@ class PlayerGetItem {
     return 'unknown';
   }
 }
+class CustomProperties {
+  public $contextmenuaction_0;
+  public $contextmenuaction_1;
 
+  public function __construct($data) {
+    wp_die(HelperScripts::print($data));
+    $this->contextmenuaction_0 = $data->{"contextmenuaction(0)"};
+    $this->contextmenuaction_1 = $data->{"contextmenuaction(1)"};
+  }
+
+  public static function init($data) {
+    return new self($data);
+  }
+}
 class UniqueId {
   public $imdb;
   public $tvdb;
   public $tmdb;
 
   public function __construct($data) {
-    $this->imdb = isset($data->imdb) ? $data->imdb : '';
-    $this->tvdb = isset($data->tvdb) ? (int)$data->tvdb : 0;
-    $this->tmdb = isset($data->tmdb) ? (int)$data->tmdb : 0;
+    $this->imdb = isset($data->imdb) ? $data->imdb : -1;
+    $this->tvdb = isset($data->tvdb) ? (int)$data->tvdb : -1;
+    $this->tmdb = isset($data->tmdb) ? (int)$data->tmdb : -1;
   }
 
   public static function init($data) {
