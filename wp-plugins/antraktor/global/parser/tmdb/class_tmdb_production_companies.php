@@ -21,10 +21,10 @@ class ProductionCompany {
   public $origin_country;
 
   public function __construct($data) {
-    $this->id = $data->id;
-    $this->logo_path = $data->logo_path;
-    $this->name = $data->name;
-    $this->origin_country = $data->origin_country;
+    $this->id = isset($data->id) ? (int)$data->id : -1;
+    $this->logo_path = isset($data->logo_path) ? $data->logo_path : '';
+    $this->name = isset($data->name) ? $data->name : '';
+    $this->origin_country = isset($data->origin_country) ? $data->origin_country : '';
   }
 
   public static function init($data) {

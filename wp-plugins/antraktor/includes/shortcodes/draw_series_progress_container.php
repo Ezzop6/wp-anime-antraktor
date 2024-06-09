@@ -40,7 +40,7 @@ function draw_series_progress_container($atts = array()) {
     $url_parts .= '&season_number=' . $series_details->season_number;
     $episode_number = $series_details->season_number;
     $episode_boxes .= '<div class="series_progress_bar">';
-    $episode_boxes .= '<div class="season_info">' . "<a href='/antraktor/season-info/$url_parts'>E$episode_number</a></div>";
+    $episode_boxes .= '<div class="season_info">' . "<a href='/antraktor/season-info/$url_parts'>S$episode_number</a></div>";
     $episode_boxes .= draw_episode_box($series_details, $season_id);
     $episode_boxes .= '</div>';
   }

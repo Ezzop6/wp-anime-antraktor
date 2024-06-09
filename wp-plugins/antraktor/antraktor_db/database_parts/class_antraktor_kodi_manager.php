@@ -1,5 +1,6 @@
 <?php
 
+use ParagonIE\Sodium\Core\Curve25519\H;
 
 class AntraktorKodiManager {
   public static $table_name;
@@ -129,7 +130,11 @@ class AntraktorKodiManager {
     if (!$tmdb_data) {
       return null;
     }
-    return GetSeriesDetails::init(json_decode($tmdb_data));
+    if (gettype($tmdb_data) == 'string') {
+      return GetSeriesDetails::init(json_decode($tmdb_data));
+    } else {
+      return GetSeriesDetails::init($tmdb_data);
+    }
   }
 
   public static function get_movie_details($record_key): GetMovieDetails | null {
@@ -155,7 +160,6 @@ class AntraktorKodiManager {
     $tvdb_show_id = null;
     $tmdb_data = null;
     $type = $kodi_item->type;
-
     if (!self::is_item_exist($name, $type, $id_tvdb, $id_imdb, $id_tmdb)) {
       if ($id_tvdb) {
         $result = AF::get_by_unique_id($id_tvdb, 'tvdb_id');
@@ -166,10 +170,18 @@ class AntraktorKodiManager {
         $tvdb_show_id = $result->tv_episode_results[0]->show_id;
       }
       if ($tvdb_show_id) {
-        $tmdb_data = AF::get_tmdb_series_details_by_id($tvdb_show_id, 0, 0);
-        $tmdb_data = base64_encode(json_encode($tmdb_data));
+        $tmdb_data = AF::get_tmdb_series_details_by_id($tvdb_show_id);
+      }
+      if (!$tmdb_data && $name) {
+        $tmdb_data = AF::get_tmdb_series_by_name($name);
+        $tvdb_show_id = $tmdb_data->seasons[0]->id;
+        $tmdb_data = AF::get_tmdb_series_details_by_id($tvdb_show_id);
+      }
+      if (!$tmdb_data) {
+        throw new Exception('No tmdb data found');
       }
       $encoded_data = base64_encode(json_encode($kodi_item));
+      $tmdb_data = base64_encode(json_encode($tmdb_data));
       $record_hash = md5($encoded_data);
       $record_length = strlen($encoded_data);
       $record_key = $record_hash . '-' . $record_length;
@@ -186,8 +198,8 @@ class AntraktorKodiManager {
         $id_imdb,
         $id_tvdb,
         $id_tmdb,
-        $tvdb_show_id ?? null,
-        $tmdb_data ?? null,
+        $tvdb_show_id,
+        $tmdb_data,
         $watch_status
       );
       return $prepared_sql;
@@ -195,7 +207,6 @@ class AntraktorKodiManager {
   }
 
   public static function handle_movie_sql_logic(PlayerGetItem $kodi_item) {
-    wp_die(HelperScripts::print($kodi_item));
     $name = $kodi_item->movie_name;
     $id_tvdb = $kodi_item->uniqueid->tvdb;
     $id_imdb = $kodi_item->uniqueid->imdb;
@@ -242,10 +253,10 @@ class AntraktorKodiManager {
     }
     if ($show_type == 'movie') {
       $prepared_sql = self::handle_movie_sql_logic($kodi_item);
-    } else {
+    }
+    if (!$prepared_sql) {
       return false;
     }
-
     if (self::$DB->query($prepared_sql)) {
       if (self::$DB->last_error) {
         throw new Exception(self::$DB->last_error);

@@ -175,7 +175,7 @@
   font-size: 2.25rem;
   line-height: 2.5rem;
 }
-.antraktor-page-content .episode-info {
+.antraktor-page-content .episode_info_wrapper {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -184,6 +184,29 @@
   border-radius: 0.5rem;
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+}
+.antraktor-page-content .episode_info_wrapper .episode_info_section {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(203 213 225 / var(--tw-bg-opacity));
+  padding: 0.75rem;
+}
+.antraktor-page-content .episode_info_wrapper .episode_info_section a {
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity));
+}
+.antraktor-page-content .episode_info_wrapper .episode_info_section img {
+  border-radius: 0.25rem;
+}
+.antraktor-page-content .episode_info_wrapper .season_info_section {
+  display: flex;
+  height: 100%;
+  flex-direction: row;
+  gap: 1rem;
 }
 .antraktor-page-content .kodi_currently_playing .playing_info {
   display: flex;
@@ -204,4 +227,53 @@
 .antraktor-page-content .kodi_currently_playing .playing_images img {
   max-width: 24rem;
   border-radius: 0.25rem;
+}
+.antraktor-page-content .antraktor_header {
+  margin-bottom: 5rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
+  padding: 1.25rem;
+  text-align: center;
+}
+.antraktor-page-content .antraktor_header .nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.antraktor-page-content .antraktor_header .nav .nav_items {
+  display: flex;
+  gap: 2rem;
+}
+.antraktor-page-content .antraktor_header .nav .nav_items .links a {
+  border-radius: 0.5rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  --tw-text-opacity: 1;
+  color: rgb(241 245 249 / var(--tw-text-opacity));
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+.antraktor-page-content .antraktor_header .nav .nav_items .links a:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(15 23 42 / var(--tw-text-opacity));
+}
+.antraktor-page-content .antraktor_footer {
+  margin-top: 5rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
+  padding: 1.25rem;
+  text-align: center;
+}
+.antraktor-page-content .antraktor_footer p {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  --tw-text-opacity: 1;
+  color: rgb(241 245 249 / var(--tw-text-opacity));
 }

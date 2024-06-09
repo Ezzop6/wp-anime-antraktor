@@ -1,4 +1,16 @@
-.episode-info {
+.episode_info_wrapper {
   @apply flex flex-col gap-1;
   @apply bg-gray-200 h-full rounded-lg overflow-hidden;
+  .episode_info_section {
+    @apply flex flex-row gap-4 p-3 bg-slate-300 my-1;
+    a {
+      @apply text-blue-600;
+    }
+    img {
+      @apply rounded;
+    }
+  }
+  .season_info_section {
+    @apply flex flex-row h-full gap-4;
+  }
 }

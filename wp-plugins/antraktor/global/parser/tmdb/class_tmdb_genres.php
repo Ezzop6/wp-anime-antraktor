@@ -18,7 +18,7 @@ class Genre {
   public $name;
 
   public function __construct($data) {
-    $this->id = $data->id;
-    $this->name = $data->name;
+    $this->id = isset($data->id) ? (int)$data->id : -1;
+    $this->name = isset($data->name) ? $data->name : '';
   }
 }

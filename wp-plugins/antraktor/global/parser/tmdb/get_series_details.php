@@ -115,11 +115,11 @@ class Author {
   public $profile_path;
 
   public function __construct($data) {
-    $this->id = $data->id;
-    $this->credit_id = $data->credit_id;
-    $this->name = $data->name;
-    $this->original_name = $data->original;
-    $this->profile_path = $data->profile_path;
+    $this->id = isset($data->id) ? $data->id : -1;
+    $this->credit_id = isset($data->credit_id) ? $data->credit_id : '';
+    $this->name = isset($data->name) ? $data->name : '';
+    $this->original_name = isset($data->original_name) ? $data->original_name : '';
+    $this->profile_path = isset($data->profile_path) ? $data->profile_path : '';
   }
   public static function init($data) {
     return new self($data);

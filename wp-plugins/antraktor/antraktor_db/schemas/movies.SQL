@@ -8,7 +8,7 @@ CREATE TABLE |DB_PREFIX|movies (
     completed BOOLEAN NOT NULL DEFAULT FALSE,
     title VARCHAR(255) NOT NULL,
     original_title VARCHAR(255) NULL,
-    tvdb_show_id VARCHAR(20) NULL,
+    imdb_number VARCHAR(20) NULL,
     rating DOUBLE(8, 2) NULL,
     votes INT NULL,
     plot TEXT NULL,

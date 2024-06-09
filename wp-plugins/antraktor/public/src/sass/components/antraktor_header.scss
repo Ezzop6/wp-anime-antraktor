@@ -1,0 +1,22 @@
+.antraktor_header {
+  @apply bg-slate-900 p-5 text-center mb-20;
+
+  .nav {
+    @apply flex justify-center items-center;
+
+    .nav_items {
+      @apply gap-8 flex;
+
+      .links {
+        a {
+          @apply px-5 py-3 rounded-lg text-slate-100 text-xl;
+          @apply transition-all duration-300;
+
+          &:hover {
+            @apply bg-gray-300 text-slate-900;
+          }
+        }
+      }
+    }
+  }
+}

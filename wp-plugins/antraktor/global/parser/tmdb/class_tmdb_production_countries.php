@@ -19,8 +19,8 @@ class ProductionCountry {
   public $name;
 
   public function __construct($data) {
-    $this->iso_3166_1 = $data->iso_3166_1;
-    $this->name = $data->name;
+    $this->iso_3166_1 = isset($data->iso_3166_1) ? $data->iso_3166_1 : '';
+    $this->name = isset($data->name) ? $data->name : '';
   }
 
   public static function init($data) {

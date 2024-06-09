@@ -182,7 +182,6 @@ class CustomProperties {
   public $contextmenuaction_1;
 
   public function __construct($data) {
-    wp_die(HelperScripts::print($data));
     $this->contextmenuaction_0 = $data->{"contextmenuaction(0)"};
     $this->contextmenuaction_1 = $data->{"contextmenuaction(1)"};
   }

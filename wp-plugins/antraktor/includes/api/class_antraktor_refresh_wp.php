@@ -42,6 +42,7 @@ class AntraktorRefresh {
     $record_key = AntraktorKodiManager::get_record_key_by_name($name);
     if (!$record_key) {
       AntraktorKodiManager::add_record($kodi_playing_now);
+      return new WP_REST_Response('Show not found', 200);
     }
     $show_data = AntraktorKodiManager::get_record($record_key);
     if ($show_data->watch_status == 'not_started') {
