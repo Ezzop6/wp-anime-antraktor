@@ -50,6 +50,11 @@ class AntraktorKodiManager {
     return self::$DB->get_results($prepared_sql)[0]->record_key ?? null;
   }
 
+  public static function get_record_by_record_key(string $record_key): object | null {
+    $prepared_sql = self::$DB->prepare("SELECT * FROM " . self::$table_name . " WHERE record_key = %s", esc_sql($record_key));
+    return self::$DB->get_results($prepared_sql)[0] ?? null;
+  }
+
   public static function get_record_key_by_tmdb_id(int $tmdb_id): string {
     $tmdb_id = esc_sql($tmdb_id);
     return self::$DB->get_results("SELECT record_key FROM " . self::$table_name . " WHERE tvdb_show_id = $tmdb_id")[0]->record_key;

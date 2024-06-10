@@ -31,11 +31,6 @@ class AntraktorEpisodeManager {
     return true;
   }
 
-  public static function update_episode_details($tmdb_series_id, $season_number, $episode_number) {
-    self::delete_episode($tmdb_series_id, $season_number, $episode_number);
-    self::add_record($tmdb_series_id, $season_number, $episode_number);
-  }
-
   public static function delete_all_episodes($tmdb_series_id) {
     $table_name = self::$table_name;
     $sql = "DELETE FROM $table_name WHERE tmdb_series_id = %s";
@@ -45,6 +40,11 @@ class AntraktorEpisodeManager {
       throw new Exception(self::$DB->last_error);
     }
     return true;
+  }
+
+  public static function update_episode_details($tmdb_series_id, $season_number, $episode_number) {
+    self::delete_episode($tmdb_series_id, $season_number, $episode_number);
+    self::add_record($tmdb_series_id, $season_number, $episode_number);
   }
 
   public static function update_progress($tmdb_series_id, $season_number, $episode_number, $progress): bool {
@@ -64,6 +64,31 @@ class AntraktorEpisodeManager {
     AND episode_number = %d
   SQL;
     $prepared_sql = self::$DB->prepare($sql, $progress, $watch_status, $tmdb_series_id, $season_number, $episode_number);
+    self::$DB->query($prepared_sql);
+    if (self::$DB->last_error) {
+      throw new Exception(self::$DB->last_error);
+    }
+    return true;
+  }
+
+  public static function mark_full_season_as_complete($tmdb_series_id, $season_number): bool {
+    $episodes = self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE tmdb_series_id = '$tmdb_series_id' AND season_number = '$season_number'");
+    if (count($episodes) == 0) {
+      return false;
+    }
+    $table_name = self::$table_name;
+    $watch_status = 'watched';
+    $watch_count = count($episodes);
+    $watch_progress = 100;
+    $sql = <<<SQL
+    UPDATE $table_name
+    SET watch_status = %s,
+        watch_count = %d,
+        watch_progress = %d
+    WHERE tmdb_series_id = %s
+    AND season_number = %d
+  SQL;
+    $prepared_sql = self::$DB->prepare($sql, $watch_status, $watch_count, $watch_progress, $tmdb_series_id, $season_number);
     self::$DB->query($prepared_sql);
     if (self::$DB->last_error) {
       throw new Exception(self::$DB->last_error);

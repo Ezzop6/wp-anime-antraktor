@@ -24,7 +24,10 @@ HTML;
 
   $episode_html = '';
   foreach ($series_data->episodes as $episode) {
-    $img = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $episode->still_path, 'test', 'tmdb_poster', 500);
+    $img = '';
+    if (!$episode->still_path == null) {
+      $img = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $episode->still_path, 'test', 'tmdb_poster', 500);
+    }
     $episode_html .= <<<HTML
       <div class="episode_info_section">
         <div class="right">

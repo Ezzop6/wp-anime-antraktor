@@ -18,7 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['record_key']) && isset
   AntraktorKodiManager::delete_record($record_key);
 
   $watch_status = htmlspecialchars($_POST['change_selection']);
+
+  $tmdb_id = AntraktorKodiManager::get_record_by_record_key($record_key)->id_tmdb;
   $results = AntraktorKodiManager::get_all_valid_with_status('episode', $watch_status);
+
+  AntraktorEpisodeManager::delete_all_episodes($tmdb_id);
+  AntraktorSeasonManager::delete_all_seasons($tmdb_id);
 } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_all_invalid'])) {
 
   AntraktorKodiManager::delete_all_invalid();
@@ -26,14 +31,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['record_key']) && isset
 } elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['get_fake_record']) && isset($_POST['fake_record'])) {
 
   $fake_record = htmlspecialchars($_POST['fake_record']);
-
   $serie = AF::get_tmdb_series_details_by_id($fake_record);
   $series_id = $serie->id;
   $series_name = $serie->name;
   $season_count = count($serie->seasons->seasons);
   $result = AntraktorKodiManager::add_fake_record($series_id, $series_name, 'episode');
-  for ($i = 1; $i <= $season_count; $i++) {
-    AntraktorSeasonManager::add_record($series_id, $i);
+  try {
+    for ($i = 0; $i <= $season_count; $i++) {
+      AntraktorSeasonManager::add_record($series_id, $i);
+    }
+  } catch (Exception $e) {
+    echo $e->getMessage();
   }
   $results = AntraktorKodiManager::get_all_valid_with_status('episode');
 } else {
