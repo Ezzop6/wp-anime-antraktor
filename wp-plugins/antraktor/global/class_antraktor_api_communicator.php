@@ -2,13 +2,13 @@
 
 class ApiCommunicator {
 
-  public static function send($class_name, $api_query_name, $atts = array()) {
-    return match ($class_name) {
+  public static function send($api_query_name, $atts = array()) {
+    return match (get_class($api_query_name)) {
       QueryIss::class => self::send_to_iss_tracking(),
-      QueryKodi::class => self::send_to_kodi($api_query_name),
-      QueryTmdb::class => self::send_to_tmdb($api_query_name, $atts),
-      QuerySpotify::class => self::send_to_spotify($api_query_name, $atts),
-      QueryAnilist::class => self::send_to_anilist($api_query_name, $atts),
+      QueryKodi::class => self::send_to_kodi($api_query_name::$query_name),
+      QueryTmdb::class => self::send_to_tmdb($api_query_name::$query_name, $atts),
+      QuerySpotify::class => self::send_to_spotify($api_query_name::$query_name, $atts),
+      QueryAnilist::class => self::send_to_anilist($api_query_name::$query_name, $atts),
       default => throw new Exception('Invalid API target'),
     };
   }

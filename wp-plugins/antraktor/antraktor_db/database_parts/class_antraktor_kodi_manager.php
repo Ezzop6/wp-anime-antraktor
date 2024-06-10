@@ -1,6 +1,5 @@
 <?php
 
-
 class AntraktorKodiManager {
   public static $table_name;
   public static $DB;
@@ -150,6 +149,44 @@ class AntraktorKodiManager {
 
   public static function get_record(string $record_key): object {
     return self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE record_key = '$record_key'")[0];
+  }
+
+  public static function add_fake_record($tmdb_id, $name, $type) {
+    $record_hash = md5($tmdb_id);
+    $record_length = strlen($tmdb_id);
+    $record_key = $record_hash . '-' . $record_length;
+    match ($type) {
+      'movie' => $record_data = Af::get_tmdb_movie_details_by_id($tmdb_id),
+      'episode' => $record_data = Af::get_tmdb_series_details_by_id($tmdb_id),
+      default => throw new Exception('Invalid type'),
+    };
+
+    $watch_status = 'watching';
+    $record_data = base64_encode(json_encode($record_data));
+    $sql = "INSERT INTO " . self::$table_name . " ( record_key, record_hash, record_length, record_data, name, show_type, id_imdb, id_tvdb, id_tmdb, tvdb_show_id, tmdb_data, watch_status, watch_progress ) VALUES (%s, %s, %d, %s, %s, %s, %s, %s, %s, %s, %s, %s, %d)";
+    $prepared_sql = self::$DB->prepare(
+      $sql,
+      $record_key,
+      $record_hash,
+      $record_length,
+      $record_data,
+      esc_sql($name),
+      esc_sql($type),
+      null,
+      null,
+      $tmdb_id,
+      $tmdb_id,
+      $record_data,
+      $watch_status,
+      0
+    );
+    if (self::$DB->query($prepared_sql)) {
+      if (self::$DB->last_error) {
+        throw new Exception(self::$DB->last_error);
+      }
+      return true;
+    }
+    return false;
   }
 
 

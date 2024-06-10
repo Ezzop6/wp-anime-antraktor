@@ -1,6 +1,6 @@
 <?php
 class ParserKodi {
-  public static function parse($api_data, $query_name, $debug_print) {
+  public static function parse($query_name, $api_data,  $debug_print) {
     if (empty($api_data)) {
       throw new Exception('No data provided in ParserKodi::parse() method');
     }

@@ -23,6 +23,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['record_key']) && isset
 
   AntraktorKodiManager::delete_all_invalid();
   $results = AntraktorKodiManager::get_all_valid_with_status('episode');
+} elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['get_fake_record']) && isset($_POST['fake_record'])) {
+
+  $fake_record = htmlspecialchars($_POST['fake_record']);
+
+  $serie = AF::get_tmdb_series_details_by_id($fake_record);
+  $series_id = $serie->id;
+  $series_name = $serie->name;
+  $season_count = count($serie->seasons->seasons);
+  $result = AntraktorKodiManager::add_fake_record($series_id, $series_name, 'episode');
+  for ($i = 1; $i <= $season_count; $i++) {
+    AntraktorSeasonManager::add_record($series_id, $i);
+  }
+  $results = AntraktorKodiManager::get_all_valid_with_status('episode');
 } else {
   $results = AntraktorKodiManager::get_all_valid_with_status('episode');
 }
@@ -43,7 +56,13 @@ foreach (ANTRAKTOR_KODI_WATCH_STATUSES as $status) {
     </form>
 HTML;
 }
-
+$fake_rekord_form = <<<HTML
+  <form method="post">
+    <input type="hidden" name="get_fake_record" value="true">
+    <input type="text" name="fake_record" placeholder="Enter fake record id">
+    <button type="submit">Add fake record</button>
+  </form>
+HTML;
 
 $section_change_selection .= $form_delete_all_invalid;
 
@@ -52,6 +71,8 @@ $section_change_selection .= '</section>';
 echo $section_change_selection;
 
 $section_shows_html = '<section>';
+$section_shows_html .= $fake_rekord_form;
+
 foreach ($results as $result) {
   $tmdb_data = AntraktorKodiManager::get_series_details($result->record_key);
   $tmdb_data_length = strlen($result->tmdb_data);

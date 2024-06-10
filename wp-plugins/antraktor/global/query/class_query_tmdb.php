@@ -1,5 +1,6 @@
 <?php
 class QueryTmdb {
+  public static $query_name;
   public static $get_movie_by_name = 'get_movie_by_name';
   public static $get_movie_details_by_id = 'get_movie_details_by_id';
   public static $get_series_by_name = 'get_series_by_name';
@@ -10,6 +11,15 @@ class QueryTmdb {
   public static $get_by_unique_id = 'get_by_unique_id';
   public static $get_similar_movies = 'get_similar_movies';
   public static $get_similar_series = 'get_similar_series';
+
+  public static function init($query_name) {
+    self::$query_name = $query_name;
+    $class_vars = get_class_vars(__CLASS__);
+    if (!in_array($query_name, $class_vars)) {
+      throw new Exception('Query name is not exist');
+    }
+    return new self;
+  }
 
   public static function get_similar_movies($atts) {
     $movie_id = $atts['get_similar_movies'];

@@ -13,7 +13,11 @@ foreach ($watched_movies as $object) {
   $release_date = $movie_data->release_date;
   $title = $movie_data->title;
   $homepage = $movie_data->homepage;
-  $poster = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $movie_data->poster_path, 'movie', $movie_data->title, 300);
+
+  $poster = '';
+  if ($movie_data->poster_path && $movie_data->poster_path != 'null') {
+    $poster = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $movie_data->poster_path, 'movie', $movie_data->title, 300);
+  }
   $progress_bar = do_shortcode("[draw_movies_progress_container movie_id='$movie_data->id']");
 
   $html .= <<<HTML

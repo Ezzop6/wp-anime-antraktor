@@ -2,8 +2,7 @@
 class AF {
   public static function get_tmdb_movie_details_by_id($movie_id, $parsed_object = true, $json_print = false): GetMovieDetails|string {
     $tmdb_details_data = ApiCommunicator::send(
-      QueryTmdb::class,
-      QueryTmdb::$get_movie_details_by_id,
+      QueryTmdb::init(QueryTmdb::$get_movie_details_by_id),
       array('get_movie_details_by_id' => $movie_id)
     );
     if ($json_print) {
@@ -13,17 +12,15 @@ class AF {
       return $tmdb_details_data;
     }
     $parsed_data = ApiDataParser::parse(
-      QueryTmdb::class,
-      $tmdb_details_data,
-      QueryTmdb::$get_movie_details_by_id
+      QueryTmdb::init(QueryTmdb::$get_movie_details_by_id),
+      $tmdb_details_data
     );
     return $parsed_data;
   }
 
   public static function get_tmdb_series_details_by_id($series_id, $parsed_object = true, $json_print = false): GetSeriesDetails|string {
     $tmdb_details_data = ApiCommunicator::send(
-      QueryTmdb::class,
-      QueryTmdb::$get_series_details_by_id,
+      QueryTmdb::init(QueryTmdb::$get_series_details_by_id),
       array('get_series_details_by_id' => $series_id)
     );
     if ($json_print) {
@@ -33,17 +30,15 @@ class AF {
       return $tmdb_details_data;
     }
     $parsed_data = ApiDataParser::parse(
-      QueryTmdb::class,
+      QueryTmdb::init(QueryTmdb::$get_series_details_by_id),
       $tmdb_details_data,
-      QueryTmdb::$get_series_details_by_id
     );
     return $parsed_data;
   }
 
   public static function get_tmdb_series_by_name($name, $parsed_object = true, $json_print = false): GetSeries|string {
     $tmdb_data = ApiCommunicator::send(
-      QueryTmdb::class,
-      QueryTmdb::$get_series_by_name,
+      QueryTmdb::init(QueryTmdb::$get_series_by_name),
       array('get_series_by_name' => $name)
     );
     if ($json_print) {
@@ -54,17 +49,15 @@ class AF {
       return $tmdb_data;
     }
     $parsed_data = ApiDataParser::parse(
-      QueryTmdb::class,
+      QueryTmdb::init(QueryTmdb::$get_series_by_name),
       $tmdb_data,
-      QueryTmdb::$get_series_by_name
     );
     return $parsed_data;
   }
 
   public static function get_tmdb_movie_by_name($name, $parsed_object = true, $json_print = false): GetMovie|string {
     $tmdb_data = ApiCommunicator::send(
-      QueryTmdb::class,
-      QueryTmdb::$get_movie_by_name,
+      QueryTmdb::init(QueryTmdb::$get_movie_by_name),
       array('get_movie_by_name' => $name)
     );
     if ($json_print) {
@@ -74,22 +67,19 @@ class AF {
       return $tmdb_data;
     }
     $parsed_data = ApiDataParser::parse(
-      QueryTmdb::class,
+      QueryTmdb::init(QueryTmdb::$get_movie_by_name),
       $tmdb_data,
-      QueryTmdb::$get_movie_by_name
     );
     return $parsed_data;
   }
 
   public static function player_get_properties(): PlayerGetProperties {
     $kodi_properties_data = ApiCommunicator::send(
-      QueryKodi::class,
-      QueryKodi::$player_get_properties
+      QueryKodi::init(QueryKodi::$player_get_properties)
     );
     $parsed_data = ApiDataParser::parse(
-      QueryKodi::class,
+      QueryKodi::init(QueryKodi::$player_get_properties),
       $kodi_properties_data,
-      QueryKodi::$player_get_properties
     );
     return $parsed_data;
   }
@@ -97,8 +87,8 @@ class AF {
   public static function get_kodi_status($parsed_object = true, $json_print = false): PlayerGetActivePlayers|string {
     try {
       $kodi_status_data = ApiCommunicator::send(
-        QueryKodi::class,
-        QueryKodi::$player_get_active_players
+        QueryKodi::init(QueryKodi::$player_get_active_players),
+
       );
       if ($json_print) {
         HelperScripts::print($kodi_status_data);
@@ -107,9 +97,8 @@ class AF {
         return $kodi_status_data;
       }
       $parsed_data = ApiDataParser::parse(
-        QueryKodi::class,
+        QueryKodi::init(QueryKodi::$player_get_active_players),
         $kodi_status_data,
-        QueryKodi::$player_get_active_players
       );
       return $parsed_data;
     } catch (Exception) {
@@ -119,8 +108,7 @@ class AF {
   public static function get_kodi_now_playing($parsed_object = true, $json_print = false): PlayerGetItem | string | null {
     try {
       $kodi_now_playing_data = ApiCommunicator::send(
-        QueryKodi::class,
-        QueryKodi::$player_get_item
+        QueryKodi::init(QueryKodi::$player_get_item)
       );
       if ($json_print) {
         HelperScripts::print($kodi_now_playing_data);
@@ -132,9 +120,8 @@ class AF {
         return $kodi_now_playing_data;
       }
       $parsed_data = ApiDataParser::parse(
-        QueryKodi::class,
+        QueryKodi::init(QueryKodi::$player_get_item),
         $kodi_now_playing_data,
-        QueryKodi::$player_get_item
       );
       return $parsed_data;
     } catch (Exception) {
@@ -143,8 +130,7 @@ class AF {
   }
   public static function get_series_images_by_id($series_id, $parsed_object = true, $json_print = false): GestSeriesImages|string {
     $tmdb_images_data = ApiCommunicator::send(
-      QueryTmdb::class,
-      QueryTmdb::$get_series_images_by_id,
+      QueryTmdb::init(QueryTmdb::$get_series_images_by_id),
       array('get_series_images_by_id' => $series_id)
     );
     if ($json_print) {
@@ -154,17 +140,15 @@ class AF {
       return $tmdb_images_data;
     }
     $parsed_data = ApiDataParser::parse(
-      QueryTmdb::class,
+      QueryTmdb::init(QueryTmdb::$get_series_images_by_id),
       $tmdb_images_data,
-      QueryTmdb::$get_series_images_by_id
     );
     return $parsed_data;
   }
 
   public static function get_series_season_details_by_id($series_id, $season_number, $parsed_object = true, $json_print = false): GetSeriesSeasonDetails|string {
     $tmdb_season_data = ApiCommunicator::send(
-      QueryTmdb::class,
-      QueryTmdb::$get_series_season_details_by_id,
+      QueryTmdb::init(QueryTmdb::$get_series_season_details_by_id),
       array(
         'get_series_season_details_by_id' => $series_id,
         'season_number' => $season_number
@@ -177,17 +161,15 @@ class AF {
       return $tmdb_season_data;
     }
     $parsed_data = ApiDataParser::parse(
-      QueryTmdb::class,
+      QueryTmdb::init(QueryTmdb::$get_series_season_details_by_id),
       $tmdb_season_data,
-      QueryTmdb::$get_series_season_details_by_id
     );
     return $parsed_data;
   }
 
   public static function get_series_episode_details_by_id($series_id, $season_number, $episode_number, $parsed_object = true, $json_print = false): EpisodeDetailsID|string {
     $tmdb_episode_data = ApiCommunicator::send(
-      QueryTmdb::class,
-      QueryTmdb::$get_episode_details_by_id,
+      QueryTmdb::init(QueryTmdb::$get_episode_details_by_id),
       array(
         'get_series_episode_details_by_id' => $series_id,
         'season_number' => $season_number,
@@ -201,17 +183,15 @@ class AF {
       return $tmdb_episode_data;
     }
     $parsed_data = ApiDataParser::parse(
-      QueryTmdb::class,
+      QueryTmdb::init(QueryTmdb::$get_episode_details_by_id),
       $tmdb_episode_data,
-      QueryTmdb::$get_episode_details_by_id
     );
     return $parsed_data;
   }
 
   public static function get_by_unique_id($unique_id, $external_source = 'tvdb_id', $parsed_object = true, $json_print = false): GetByUniqueId|string {
     $tmdb_data = ApiCommunicator::send(
-      QueryTmdb::class,
-      QueryTmdb::$get_by_unique_id,
+      QueryTmdb::init(QueryTmdb::$get_by_unique_id),
       array(
         'get_by_unique_id' => $unique_id,
         'external_source' => $external_source
@@ -224,16 +204,14 @@ class AF {
       return $tmdb_data;
     }
     $parsed_data = ApiDataParser::parse(
-      QueryTmdb::class,
+      QueryTmdb::init(QueryTmdb::$get_by_unique_id),
       $tmdb_data,
-      QueryTmdb::$get_by_unique_id
     );
     return $parsed_data;
   }
   public static function get_similar_movies($movie_id, $parsed_object = true, $json_print = false): GetSimilarMovies|string {
     $tmdb_data = ApiCommunicator::send(
-      QueryTmdb::class,
-      QueryTmdb::$get_similar_movies,
+      QueryTmdb::init(QueryTmdb::$get_similar_movies),
       array('get_similar_movies' => $movie_id)
     );
     if ($json_print) {
@@ -243,17 +221,15 @@ class AF {
       return $tmdb_data;
     }
     $parsed_data = ApiDataParser::parse(
-      QueryTmdb::class,
+      QueryTmdb::init(QueryTmdb::$get_similar_movies),
       $tmdb_data,
-      QueryTmdb::$get_similar_movies
     );
     return $parsed_data;
   }
 
   public static function get_similar_series($series_id, $parsed_object = true, $json_print = false): GetSimilarSeries|string {
     $tmdb_data = ApiCommunicator::send(
-      QueryTmdb::class,
-      QueryTmdb::$get_similar_series,
+      QueryTmdb::init(QueryTmdb::$get_similar_series),
       array('get_similar_series' => $series_id)
     );
     if ($json_print) {
@@ -263,9 +239,8 @@ class AF {
       return $tmdb_data;
     }
     $parsed_data = ApiDataParser::parse(
-      QueryTmdb::class,
+      QueryTmdb::init(QueryTmdb::$get_similar_series),
       $tmdb_data,
-      QueryTmdb::$get_similar_series
     );
     return $parsed_data;
   }

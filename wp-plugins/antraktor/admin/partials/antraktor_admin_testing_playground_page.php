@@ -1,7 +1,12 @@
-
 <?php
 
+// $test = ApiCommunicator::send(
+//   QueryTmdb::init(QueryTmdb::$get_movie_details_by_id),
+//   array('get_movie_details_by_id' => 550)
+// );
+// $test = ApiDataParser::parse(
+//   QueryTmdb::init(QueryTmdb::$get_movie_details_by_id),
+//   $test,
+// );
 
-require_once ANTRAKTOR_INCLUDES_DIR . 'api/class_antraktor_refresh_wp.php';
-$result = AntraktorRefresh::refresh();
-echo $result->data;
+// HelperScripts::print($test);

@@ -13,7 +13,8 @@ class AntraktorSeasonManager {
   }
 
   public static function get_series_season_details($tmdb_series_id) {
-    return self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE tmdb_series_id = '$tmdb_series_id'");
+    // sort by season number
+    return self::$DB->get_results("SELECT * FROM " . self::$table_name . " WHERE tmdb_series_id = '$tmdb_series_id' ORDER BY season_number ASC");
   }
 
   public static function delete_season($tmdb_series_id, $season_number) {

@@ -23,14 +23,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['record_key']) && isset
 
   AntraktorKodiManager::delete_all_invalid();
   $results = AntraktorKodiManager::get_all_valid_with_status('movie');
+} elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['get_fake_record']) && isset($_POST['fake_record'])) {
+
+  $fake_record = htmlspecialchars($_POST['fake_record']);
+
+  $movie = AF::get_tmdb_movie_details_by_id($fake_record);
+  $movie_id = $movie->id;
+  $movie_title = $movie->title;
+  $result = AntraktorKodiManager::add_fake_record($movie_id, $movie_title, 'movie');
+  AntraktorMovieManager::add_record($movie_id);
+  $results = AntraktorKodiManager::get_all_valid_with_status('movie');
 } else {
   $results = AntraktorKodiManager::get_all_valid_with_status('movie');
 }
-
 $form_delete_all_invalid = <<<HTML
   <form method="post">
     <input type="hidden" name="delete_all_invalid" value="true">
     <button type="submit">Delete all invalid</button>
+  </form>
+HTML;
+
+$section_add_fake_record = <<<HTML
+  <form method="post">
+    <input type="hidden" name="get_fake_record" value="true">
+    <input type="text" name="fake_record" placeholder="Enter fake record">
+    <button type="submit">Add fake record</button>
   </form>
 HTML;
 
@@ -52,6 +69,7 @@ $section_change_selection .= '</section>';
 echo $section_change_selection;
 
 $section_shows_html = '<section>';
+$section_shows_html .= $section_add_fake_record;
 foreach ($results as $result) {
   $tmdb_data = AntraktorKodiManager::get_series_details($result->record_key);
   $tmdb_data_length = strlen($result->tmdb_data);

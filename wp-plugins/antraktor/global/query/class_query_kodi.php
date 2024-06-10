@@ -1,10 +1,20 @@
 <?php
 // TODO: better name
 class QueryKodi {
+  public static $query_name;
   public static $player_get_active_players = 'Player.GetActivePlayers';
   public static $player_get_item = 'Player.GetItem';
   public static $player_get_properties = 'Player.GetProperties';
   public static $JSONRPC_INTROSPECT = 'JSONRPC.Introspect';
+
+  public static function init($query_name) {
+    self::$query_name = $query_name;
+    $class_vars = get_class_vars(__CLASS__);
+    if (!in_array($query_name, $class_vars)) {
+      throw new Exception('Query name is not exist');
+    }
+    return new self;
+  }
 
   public static function player_get_active_players() {
     return json_encode(array(
