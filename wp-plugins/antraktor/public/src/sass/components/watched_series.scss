@@ -11,8 +11,11 @@
   p {
     @apply text-sm text-gray-500;
   }
+  .series_progress_bars {
+    @apply pb-5 pr-5;
+  }
   .right {
-    @apply flex flex-grow flex-col space-y-2;
+    @apply flex flex-col space-y-2 justify-between;
     h3 {
       @apply text-4xl text-center mt-4;
     }

@@ -20,12 +20,15 @@
     .episode_progress_bar {
       @apply w-full h-full flex justify-center items-center;
       position: relative;
-
+      a:hover {
+        @apply bg-blue-300;
+        transition: background-color 0.5s;
+        @apply scale-150 min-w-14;
+      }
       .episode_progress {
         display: flex;
         -ms-flex-flow: row wrap;
         @apply absolute w-full;
-        @apply bg-blue-300;
         @apply h-full;
         top: 50%;
         transform: translateY(-50%);

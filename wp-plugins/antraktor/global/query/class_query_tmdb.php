@@ -11,6 +11,8 @@ class QueryTmdb {
   public static $get_by_unique_id = 'get_by_unique_id';
   public static $get_similar_movies = 'get_similar_movies';
   public static $get_similar_series = 'get_similar_series';
+  public static $get_movie_videos_by_id = 'get_movie_videos_by_id';
+  public static $get_series_videos_by_id = 'get_series_videos_by_id';
 
   public static function init($query_name) {
     self::$query_name = $query_name;
@@ -115,5 +117,21 @@ class QueryTmdb {
       throw new Exception('Series id not set');
     }
     return 'tv/' . $series_id . '/images';
+  }
+
+  public static function get_movie_videos_by_id($atts) {
+    $movie_id = $atts['get_movie_videos_by_id'];
+    if (!isset($movie_id)) {
+      throw new Exception('Movie id not set');
+    }
+    return 'movie/' . $movie_id . '/videos';
+  }
+
+  public static function get_series_videos_by_id($atts) {
+    $series_id = $atts['get_series_videos_by_id'];
+    if (!isset($series_id)) {
+      throw new Exception('Series id not set');
+    }
+    return 'tv/' . $series_id . '/videos';
   }
 }

@@ -15,6 +15,11 @@
   box-sizing: border-box;
   text-decoration: none;
 }
+.antraktor-page-content ul,
+.antraktor-page-content ol,
+.antraktor-page-content li {
+  list-style: none;
+}
 .antraktor-page-content section {
   display: flex;
   max-width: 1536px;
@@ -94,12 +99,19 @@
   justify-content: center;
   position: relative;
 }
+.antraktor-page-content .series_progress_bars .series_progress_bar .episode_progress_bar a:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(147 197 253 / var(--tw-bg-opacity));
+  transition: background-color 0.5s;
+  min-width: 3.5rem;
+  --tw-scale-x: 1.5;
+  --tw-scale-y: 1.5;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
 .antraktor-page-content .series_progress_bars .series_progress_bar .episode_progress_bar .episode_progress {
   display: flex;
   position: absolute;
   width: 100%;
-  --tw-bg-opacity: 1;
-  background-color: rgb(147 197 253 / var(--tw-bg-opacity));
   height: 100%;
   top: 50%;
   transform: translateY(-50%);
@@ -177,10 +189,14 @@
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
 }
+.antraktor-page-content .watched_series .series_progress_bars {
+  padding-bottom: 1.25rem;
+  padding-right: 1.25rem;
+}
 .antraktor-page-content .watched_series .right {
   display: flex;
-  flex-grow: 1;
   flex-direction: column;
+  justify-content: space-between;
 }
 .antraktor-page-content .watched_series .right > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;

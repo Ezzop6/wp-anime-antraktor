@@ -245,6 +245,42 @@ class AF {
     return $parsed_data;
   }
 
+  public static function get_movie_videos_by_id($movie_id, $parsed_object = true, $json_print = false): GetMovieVideos|string {
+    $tmdb_data = ApiCommunicator::send(
+      QueryTmdb::init(QueryTmdb::$get_movie_videos_by_id),
+      array('get_movie_videos_by_id' => $movie_id)
+    );
+    if ($json_print) {
+      HelperScripts::print($tmdb_data);
+    }
+    if (!$parsed_object) {
+      return $tmdb_data;
+    }
+    $parsed_data = ApiDataParser::parse(
+      QueryTmdb::init(QueryTmdb::$get_movie_videos_by_id),
+      $tmdb_data,
+    );
+    return $parsed_data;
+  }
+
+  public static function get_series_videos_by_id($series_id, $parsed_object = true, $json_print = false): GetSeriesVideos|string {
+    $tmdb_data = ApiCommunicator::send(
+      QueryTmdb::init(QueryTmdb::$get_series_videos_by_id),
+      array('get_series_videos_by_id' => $series_id)
+    );
+    if ($json_print) {
+      HelperScripts::print($tmdb_data);
+    }
+    if (!$parsed_object) {
+      return $tmdb_data;
+    }
+    $parsed_data = ApiDataParser::parse(
+      QueryTmdb::init(QueryTmdb::$get_series_videos_by_id),
+      $tmdb_data,
+    );
+    return $parsed_data;
+  }
+
   public static function get_testing_data($array_id) {
     $file = file_get_contents(ABSPATH . 'wp-content/plugins/antraktor/antraktor_testing_data.json');
     return json_encode(json_decode($file, true)[$array_id]);
