@@ -63,7 +63,7 @@ class ParserTmdb {
     return new GetSimilarMovies($api_data);
   }
   public static function get_similar_series($api_data, $debug_print): GetSimilarSeries {
-    require_once 'tmdb/class_tmdb_get_similar_movies.php';
+    require_once 'tmdb/class_tmdb_get_similar_series.php';
     return new GetSimilarSeries($api_data);
   }
 

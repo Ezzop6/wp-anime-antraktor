@@ -40,7 +40,6 @@ class Antraktor {
 		require_once plugin_dir_path(dirname(__FILE__)) . 'antraktor_db/database_parts/class_antraktor_episode_manager.php';
 		require_once plugin_dir_path(dirname(__FILE__)) . 'antraktor_db/database_parts/class_antraktor_season_manager.php';
 
-
 		// Page creator
 		require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class_antraktor_page_creator.php';
 
@@ -103,29 +102,33 @@ class Antraktor {
 	}
 
 	private function define_shortcode_hooks() {
-		ShortcodeLoader::register_shortcodes('antraktor_show_api_data', [ShortcodeLoader::class, 'antraktor_show_api_data']);
-		ShortcodeLoader::register_shortcodes('get_progress_bar_html', [ShortcodeLoader::class, 'get_progress_bar_html']);
-		ShortcodeLoader::register_shortcodes('get_currently_playing_html', [ShortcodeLoader::class, 'get_currently_playing_html']);
-		ShortcodeLoader::register_shortcodes('debug_currently_played_info', [ShortcodeLoader::class, 'debug_currently_played_info']);
-		ShortcodeLoader::register_shortcodes('draw_series_progress_container', [ShortcodeLoader::class, 'draw_series_progress_container']);
-		ShortcodeLoader::register_shortcodes('draw_movies_progress_container', [ShortcodeLoader::class, 'draw_movies_progress_container']);
+		ShortcodeLoader::register_shortcode('antraktor_show_api_data', [ShortcodeLoader::class, 'antraktor_show_api_data']);
+		ShortcodeLoader::register_shortcode('get_progress_bar_html', [ShortcodeLoader::class, 'get_progress_bar_html']);
+		ShortcodeLoader::register_shortcode('get_currently_playing_html', [ShortcodeLoader::class, 'get_currently_playing_html']);
+		ShortcodeLoader::register_shortcode('debug_currently_played_info', [ShortcodeLoader::class, 'debug_currently_played_info']);
+		ShortcodeLoader::register_shortcode('draw_series_progress_container', [ShortcodeLoader::class, 'draw_series_progress_container']);
+		ShortcodeLoader::register_shortcode('draw_movies_progress_container', [ShortcodeLoader::class, 'draw_movies_progress_container']);
 	}
 
 	// Add rewrite rules for the public paths /antraktor/...
 	private function add_rewrite_rules() {
 		AntraktorRewriteRule::add_rewrite_rules();
-		AntraktorRewriteRule::add_new_redirection('index', 'templates/antraktor_index.php');
-		AntraktorRewriteRule::add_new_redirection('now-playing', 'templates/antraktor_now_playing.php');
-		AntraktorRewriteRule::add_new_redirection('find-movie', 'templates/antraktor_find_movie_info.php');
-		AntraktorRewriteRule::add_new_redirection('movie', 'templates/antraktor_tmdb_movie_info.php');
-		AntraktorRewriteRule::add_new_redirection('series', 'templates/antraktor_tmdb_series_info.php');
-		AntraktorRewriteRule::add_new_redirection('testing', 'templates/components/series_progress_bar.php');
+		AntraktorRewriteRule::redirect('index', 'templates/antraktor_index.php');
+		AntraktorRewriteRule::redirect('now-playing', 'templates/antraktor_now_playing.php');
+		AntraktorRewriteRule::redirect('find-movie', 'templates/antraktor_find_movie_info.php');
+		AntraktorRewriteRule::redirect('movie', 'templates/antraktor_tmdb_movie_info.php');
+		AntraktorRewriteRule::redirect('series', 'templates/antraktor_tmdb_series_info.php');
+		AntraktorRewriteRule::redirect('testing', 'templates/components/series_progress_bar.php');
 
-		AntraktorRewriteRule::add_new_redirection('watched-series', 'templates/watched_series.php');
-		AntraktorRewriteRule::add_new_redirection('watched-movies', 'templates/watched_movies.php');
+		AntraktorRewriteRule::redirect('watched-series', 'templates/watched_series.php');
+		AntraktorRewriteRule::redirect('similar-series', 'templates/similar_series.php');
+		AntraktorRewriteRule::redirect('episode-info', 'templates/episode_info.php');
+		AntraktorRewriteRule::redirect('season-info', 'templates/season_info.php');
+		AntraktorRewriteRule::redirect('series-info', 'templates/series_info.php');
 
-		AntraktorRewriteRule::add_new_redirection('episode-info', 'templates/antraktor_episode_info.php');
-		AntraktorRewriteRule::add_new_redirection('season-info', 'templates/antraktor_season_info.php');
+		AntraktorRewriteRule::redirect('watched-movies', 'templates/watched_movies.php');
+		AntraktorRewriteRule::redirect('similar-movies', 'templates/similar_movies.php');
+		AntraktorRewriteRule::redirect('movie-info', 'templates/movie_info.php');
 	}
 
 	public function run() {

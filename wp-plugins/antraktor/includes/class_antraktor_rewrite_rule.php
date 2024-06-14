@@ -31,7 +31,7 @@ class AntraktorRewriteRule {
     });
   }
 
-  public static function add_new_redirection($url_path, $template, $react_wrapper = false) {
+  public static function redirect($url_path, $template, $react_wrapper = false) {
     self::$registered_paths[$url_path] = $template;
     self::$registered_paths_react_div[$url_path] = $react_wrapper;
   }

@@ -1,7 +1,7 @@
 <?php
 class ShortcodeLoader {
   public static $folder = 'includes/shortcodes/';
-  public static function register_shortcodes($tag, $callback) {
+  public static function register_shortcode($tag, $callback) {
     if (shortcode_exists($tag)) {
       throw new Exception('Shortcode already exists: ' . $tag);
     }

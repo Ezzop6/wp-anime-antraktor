@@ -4,7 +4,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['series_id']) && isset($_
   $season_number = htmlspecialchars($_GET['season_number']);
   $series_data = AF::get_series_season_details_by_id($series_id, $season_number);
 
-  $poster_img = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $series_data->poster_path, 'test', 'tmdb_poster', 500);
+  $poster_img = '';
+  if ($series_data->poster_path !== null && $series_data->name) {
+    $poster_img = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $series_data->poster_path, 'test', 'tmdb_poster', 500);
+  }
 
   $season_html = <<<HTML
   <div class="season_info_section">

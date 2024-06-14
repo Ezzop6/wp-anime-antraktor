@@ -37,6 +37,8 @@ foreach ($watched_series as $object) {
         <p>Overview: $series_data->overview</p>
         <p>First air date: $series_data->first_air_date</p>
         <a href="$series_data->homepage">Homepage</a>
+        <a href="/antraktor/similar-series?series_id=$series_data->id">Similar series</a>
+        <a href="/antraktor/series-info?series_id=$series_data->id">More info</a>
         <p>Votes: $series_data->vote_average ($series_data->vote_count)</p>
         $next_episode_to_air
         $progress_bar

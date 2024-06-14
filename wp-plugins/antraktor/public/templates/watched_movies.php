@@ -5,7 +5,6 @@ foreach ($watched_movies as $object) {
   if (!$object->tmdb_data) {
     continue;
   }
-  // var_dump($object->record_key);
   $movie_data = AntraktorKodiManager::get_movie_details($object->record_key);
   $belongs_to_collection = $movie_data->belongs_to_collection;  // array
   $original_title = $movie_data->original_title;
@@ -38,6 +37,8 @@ foreach ($watched_movies as $object) {
         <p>Overview: $movie_data->overview</p>
         <p>Popularity: $movie_data->popularity</p>
         <p>Homepage: <a href="$movie_data->homepage">Homepage</a></p>
+        <a href="/antraktor/similar-movies?movie_id=$movie_data->id">Similar movies</a>
+        <a href="/antraktor/movie-info?movie_id=$movie_data->id">More info</a>
       </div>
       
       <div class="similar_movies">

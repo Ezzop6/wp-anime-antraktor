@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['series_id']) && isset($_
   $episode_number = htmlspecialchars($_GET['episode_number']);
 
   $data = AF::get_series_episode_details_by_id($series_id, $season_number, $episode_number);
-  $still_img = '';
+  $till_img = '';
   if (!$data->still_path == null) {
     $till_img = ImageDownloader::get_image_div(ImageDownloader::$target_tmdb_thumbnail, $data->still_path, 'test', 'tmdb_poster', 500);
   }

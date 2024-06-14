@@ -22,6 +22,8 @@ class GetSimilarSeries {
 class SimilarSeries {
   public $adult;
   public $backdrop_path;
+  public $genres_ids;
+  public $id;
   public $origin_language;
   public $origin_name;
   public $overview;
@@ -35,6 +37,8 @@ class SimilarSeries {
   public function __construct($data) {
     $this->adult = isset($data->adult) ? $data->adult : null;
     $this->backdrop_path = isset($data->backdrop_path) ? $data->backdrop_path : null;
+    $this->genres_ids = isset($data->genres_ids) ? $data->genres_ids : null;
+    $this->id = isset($data->id) ? $data->id : null;
     $this->origin_language = isset($data->origin_language) ? $data->origin_language : null;
     $this->origin_name = isset($data->origin_name) ? $data->origin_name : null;
     $this->overview = isset($data->overview) ? $data->overview : null;
